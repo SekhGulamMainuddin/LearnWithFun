@@ -1,4 +1,4 @@
-package com.sekhgmainuddin.learnwithfun.ui
+package com.sekhgmainuddin.learnwithfun.ui.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
