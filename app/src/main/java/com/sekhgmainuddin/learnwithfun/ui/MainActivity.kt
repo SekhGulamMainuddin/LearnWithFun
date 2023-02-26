@@ -1,7 +1,8 @@
-package com.sekhgmainuddin.learnwithfun
+package com.sekhgmainuddin.learnwithfun.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.sekhgmainuddin.learnwithfun.R
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
