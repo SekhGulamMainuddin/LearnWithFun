@@ -32,25 +32,6 @@ class LoginSignUpRepository @Inject constructor(
     val result: LiveData<NetworkResult<FirebaseUser>>
         get() = _result
 
-    suspend fun loginEmail(email: String, password: String) {
-        try {
-            val response = firebaseAuth.signInWithEmailAndPassword(email, password).await()
-            Log.d(
-                "loginTimeShare",
-                "loginEmail: ${response.additionalUserInfo.toString()} ${response.user.toString()}"
-            )
-            _result.postValue(NetworkResult.Success(response.user!!, 200))
-        } catch (firebaseAuthException: FirebaseAuthInvalidUserException) {
-            _result.postValue(NetworkResult.Error("User Not Found", statusCode = 404))
-        } catch (invalidCredentials: FirebaseAuthInvalidCredentialsException) {
-            _result.postValue(NetworkResult.Error("Invalid Credentials", statusCode = 403))
-        } catch (e: Exception) {
-            Log.d("loginTimeShare", "loginEmail: ${e.localizedMessage} ${e.javaClass}")
-            _result.postValue(NetworkResult.Error(e.localizedMessage, statusCode = 500))
-        }
-
-    }
-
     suspend fun googleLoginOrSignUp(firebaseCredential: AuthCredential) {
         try {
             val response = firebaseAuth.signInWithCredential(firebaseCredential).await()
@@ -84,23 +65,6 @@ class LoginSignUpRepository @Inject constructor(
     private val _signUpResult = MutableLiveData<NetworkResult<FirebaseUser>>()
     val signUpResult: LiveData<NetworkResult<FirebaseUser>>
         get() = _signUpResult
-
-    suspend fun signUpEmail(email: String, password: String) {
-        try {
-            val response = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-            _signUpResult.postValue(NetworkResult.Success(response.user!!, 201))
-        } catch (e: com.google.firebase.FirebaseException){
-            _signUpResult.postValue(
-                NetworkResult.Error(
-                    "Internal Server Error Occurred",
-                    statusCode = 500
-                )
-            )
-        }
-        catch (e: Exception) {
-            Log.d("signUpEmail", "signUpEmail: $e")
-        }
-    }
 
     private val _newUserDetailUpload = MutableLiveData<NetworkResult<String>>()
     val newUserDetailUpload: LiveData<NetworkResult<String>>

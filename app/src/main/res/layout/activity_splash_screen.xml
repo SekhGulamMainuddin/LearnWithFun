@@ -4,6 +4,70 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.SplashScreenActivity">
+    tools:context=".ui.SplashScreenActivity"
+    android:background="@drawable/background">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/verticalGuideline15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/verticalGuideline85"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontalGuideline30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.30"
+        />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/horizontalGuideline70"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.70"
+        />
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/splashAnimation"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toTopOf="@id/horizontalGuideline30"
+        app:layout_constraintBottom_toBottomOf="@id/horizontalGuideline70"
+        app:layout_constraintStart_toStartOf="@id/verticalGuideline15"
+        app:layout_constraintEnd_toEndOf="@id/verticalGuideline85"
+        app:lottie_rawRes="@raw/splash_animation"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="false"
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        android:scaleType="centerCrop"
+        />
+
+    <TextView
+        android:id="@+id/learnFunTV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/splashAnimation"
+        app:layout_constraintStart_toStartOf="@id/splashAnimation"
+        app:layout_constraintEnd_toEndOf="@id/splashAnimation"
+        android:text="@string/learn_with_fun"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:layout_marginTop="-20dp"
+        android:visibility="gone"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

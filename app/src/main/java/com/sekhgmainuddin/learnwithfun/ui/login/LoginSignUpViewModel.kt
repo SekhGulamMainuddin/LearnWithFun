@@ -19,18 +19,12 @@ class LoginSignUpViewModel @Inject constructor(
     val currentUser= repository.currentUser
 
     val loginResult = repository.result
-    fun login(email: String, password: String) = viewModelScope.launch(Dispatchers.IO) {
-        repository.loginEmail(email, password)
-    }
 
     fun googleLogin(firebaseCredential: AuthCredential) = viewModelScope.launch(Dispatchers.IO) {
         repository.googleLoginOrSignUp(firebaseCredential)
     }
 
     val signUpResult = repository.signUpResult
-    fun signUpEmailPassword(email: String, password: String) = viewModelScope.launch(Dispatchers.IO){
-        repository.signUpEmail(email, password)
-    }
 
     val newUserDetailUpload = repository.newUserDetailUpload
     fun uploadNewUserDetail(email: String, phone: String,

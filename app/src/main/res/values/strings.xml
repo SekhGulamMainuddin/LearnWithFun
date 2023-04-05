@@ -1,3 +1,33 @@
 <resources>
     <string name="app_name">LearnWithFun</string>
+    <string name="learn_with_fun"><font color="#0055DF">Learn </font><font color="#FFAB00">with </font><font color="#40D471">Fun</font></string>
+    <string name="splash_screen_background_image">Splash Screen Background Image</string>
+    <string name="welcome_to_learn_with_fun"><font color="#0055DF">Welcome</font>\n<font color="#FF000000">to LearnWithFun</font></string>
+    <string name="learning_is_more_effective_when_it_is_active_rather_than_a_passive_process">Learning is MORE effective when it is ACTIVE rather than a passive process</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="continue_">Continue</string>
+    <string name="send_otp">Send OTP</string>
+    <string name="otp">OTP</string>
+    <string name="enter_the_otp">Enter the OTP</string>
+    <string name="resend">Resend OTP</string>
+    <string name="enter_six_digit_otp_send_on_your_mobile_number">Enter Six Digit OTP send on your Mobile Number</string>
+    <string name="otp_verification">OTP Verification</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="open">Open</string>
+    <string name="close">Close</string>
+    <string name="standard_learn">Standard</string>
+    <string name="smart_learn">Smart Learn</string>
+    <string name="username_learnwithfun_com">username@learnwithfun.com</string>
+    <string name="username">Username</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="home">Home</string>
+    <string name="learn">Learn</string>
+    <string name="search_course">Search Course</string>
+    <string name="keep_learning_to_make_progress">Keep Learning to make progress</string>
+    <string name="banner_image">Banner Image</string>
 </resources>

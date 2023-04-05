@@ -29,6 +29,7 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.sekhgmainuddin.learnwithfun.R
+import com.sekhgmainuddin.learnwithfun.utils.Utils.changeTextColorGradient
 import java.io.File
 import java.io.FileOutputStream
 import java.util.regex.Matcher
@@ -95,16 +96,16 @@ object Utils {
         this.isVisible = visibility
     }
 
-//    fun changeTextColorGradient(tv: TextView){
-//        val context= tv.context
-//        tv.setTextColor(context.getColor(R.color.orange))
-//        val textShader: Shader = LinearGradient(
-//            0f, 0f, tv.paint.measureText(tv.text.toString()), tv.textSize, intArrayOf(
-//                context.getColor(R.color.orange), context.getColor(R.color.orangePink)
-//            ), floatArrayOf(0f, 1f), Shader.TileMode.REPEAT
-//        )
-//        tv.paint.shader= textShader
-//    }
+    fun TextView.changeTextColorGradient(colorArray: IntArray){
+        this.apply {
+            val context= this.context
+            this.setTextColor(context.getColor(colorArray[0]))
+            val textShader: Shader = LinearGradient(
+                0f, 0f, paint.measureText(text.toString()), textSize, colorArray, floatArrayOf(0f, 1f, 2f), Shader.TileMode.REPEAT
+            )
+            paint.shader= textShader
+        }
+    }
 
     fun CharSequence?.isValidEmail() = !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
