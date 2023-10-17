@@ -18,25 +18,22 @@ import java.util.*
 import java.util.concurrent.TimeUnit
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseActivity
+import javax.inject.Inject
 
 class LoginActivity : BaseActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private lateinit var progressDialog: Dialog
     private lateinit var mVerificationId: String
     private val viewModel by viewModels<LoginSignUpViewModel>()
     private lateinit var snackBar: Snackbar
+
+    @Inject
+    lateinit var progressDialog: Dialog
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
-        progressDialog = Dialog(this)
-        progressDialog.setContentView(R.layout.progress_dialog)
-        progressDialog.setCancelable(false)
-        progressDialog.window?.setBackgroundDrawableResource(android.R.color.transparent)
 
 //        initClickListeners()
 //        bindObservers()
