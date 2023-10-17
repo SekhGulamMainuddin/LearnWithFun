@@ -2,7 +2,7 @@
     <string name="app_name">LearnWithFun</string>
     <string name="learn_with_fun"><font color="#0055DF">Learn </font><font color="#FFAB00">with </font><font color="#40D471">Fun</font></string>
     <string name="splash_screen_background_image">Splash Screen Background Image</string>
-    <string name="welcome_to_learn_with_fun"><font color="#0055DF">Welcome</font>\n<font color="#FF000000">to LearnWithFun</font></string>
+    <string name="welcome_to_learn_with_fun"><font color="#FF000000">Welcome\nto </font><font color="#0055DF">Learn </font><font color="#FFAB00">with </font><font color="#40D471">Fun</font></string>
     <string name="learning_is_more_effective_when_it_is_active_rather_than_a_passive_process">Learning is MORE effective when it is ACTIVE rather than a passive process</string>
     <string name="mobile_number">Mobile Number</string>
     <string name="continue_">Continue</string>
@@ -30,4 +30,5 @@
     <string name="search_course">Search Course</string>
     <string name="keep_learning_to_make_progress">Keep Learning to make progress</string>
     <string name="banner_image">Banner Image</string>
+    <string name="learn_with_fun_login_desc">Best Teacher | Affordable Pricing | Live Batches | Notes</string>
 </resources>

@@ -5,11 +5,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
-    <com.github.ybq.android.spinkit.SpinKitView
+    <ProgressBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        style="@style/SpinKitView.Large.WanderingCubes"
         android:layout_gravity="center"
-        app:SpinKit_Color="@color/orange"/>
+        android:indeterminateTint="@color/science_blue"/>
 
 </LinearLayout>

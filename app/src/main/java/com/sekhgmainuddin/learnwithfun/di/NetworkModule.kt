@@ -1,12 +1,14 @@
 package com.sekhgmainuddin.learnwithfun.di
 
-import com.sekhgmainuddin.learnwithfun.data.remote.RemoteApi
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
+import com.sekhgmainuddin.learnwithfun.data.remote.LearnWithFunApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -15,10 +17,12 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(): RemoteApi =
-        Retrofit.Builder().baseUrl("localhost:8000")
-            .addConverterFactory(GsonConverterFactory.create())
+    fun provideRetrofit(): LearnWithFunApi {
+        val contentType = "application/json".toMediaType()
+        return Retrofit.Builder().baseUrl("localhost:8000")
+            .addConverterFactory(Json.asConverterFactory(contentType))
             .build()
-            .create(RemoteApi::class.java)
+            .create(LearnWithFunApi::class.java)
+    }
 
 }
