@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="200dp"
+        android:layout_height="280dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="5dp"
+        app:cardCornerRadius="15dp"
+        app:contentPadding="10dp"
+        android:layout_marginStart="20dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/imageCardView"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:cardElevation="10dp"
+                app:layout_constraintBottom_toTopOf="@id/guideHorizontalLine50"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:cardCornerRadius="15dp">
+
+                <ImageView
+                    android:id="@+id/courseImage"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/splash_screen_background"
+                    android:scaleType="centerCrop"/>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideHorizontalLine50"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.48" />
+
+            <TextView
+                android:id="@+id/specialTagTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/light_science_blue"
+                android:layout_marginTop="10dp"
+                android:text="@string/new_collection"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/imageCardView"
+                android:textAllCaps="true"
+                android:maxLines="1"
+                android:paddingHorizontal="10dp"
+                android:ellipsize="end"
+                android:textAlignment="center"
+                />
+
+            <TextView
+                android:id="@+id/courseTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
+                android:layout_marginTop="8dp"
+                android:text="@string/google_ux_design"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/specialTagTV"
+                android:maxLines="1"
+                android:paddingHorizontal="10dp"
+                android:ellipsize="end"
+                android:textAlignment="center"
+                />
+
+            <ImageButton
+                android:id="@+id/openCourseDetailButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:tint="@color/white"
+                android:src="@drawable/baseline_navigate_next_24"
+                android:scaleType="centerInside"
+                android:padding="12dp"
+                android:background="@drawable/gradient_button_color_blue"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginBottom="5dp"
+                />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

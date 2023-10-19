@@ -10,6 +10,11 @@
     <color name="orange">#FFAB00</color>
     <color name="pale_aqua">#C4CCF6</color>
     <color name="science_blue">#0055DF</color>
+    <color name="mid_science_blue">#176EFB</color>
+    <color name="light_science_blue">#4E90FE</color>
     <color name="paris_green">#40D471</color>
     <color name="grey">#808080</color>
+    <color name="light_grey">#C2C1C1</color>
+    <color name="darkGrey">#434242</color>
+    <color name="progress_dialog_background">#68000000</color>
 </resources>

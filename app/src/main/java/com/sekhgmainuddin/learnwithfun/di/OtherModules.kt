@@ -2,6 +2,7 @@ package com.sekhgmainuddin.learnwithfun.di
 
 import android.app.Dialog
 import android.content.Context
+import android.view.WindowManager
 import com.sekhgmainuddin.learnwithfun.R
 import dagger.Module
 import dagger.Provides
@@ -16,11 +17,11 @@ object OtherModules {
 
     @Provides
     @ActivityScoped
-    fun providesProgressDialog(@ActivityContext context: Context) = Dialog(context).apply {
-        setContentView(R.layout.progress_dialog)
-        setCancelable(false)
-        window?.setBackgroundDrawableResource(android.R.color.transparent)
-    }
+    fun providesProgressDialog(@ActivityContext context: Context) =
+        Dialog(context, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen).apply {
+            setContentView(R.layout.progress_dialog)
+            setCancelable(false)
+        }
 
 
 }

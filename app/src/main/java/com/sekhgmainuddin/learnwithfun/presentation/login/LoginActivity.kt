@@ -3,6 +3,8 @@ package com.sekhgmainuddin.learnwithfun.presentation.login
 import android.app.Dialog
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -27,13 +29,12 @@ class LoginActivity : BaseActivity() {
     private val viewModel by viewModels<LoginSignUpViewModel>()
     private lateinit var snackBar: Snackbar
 
-    @Inject
-    lateinit var progressDialog: Dialog
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        progressDialog.show()
 
 //        initClickListeners()
 //        bindObservers()

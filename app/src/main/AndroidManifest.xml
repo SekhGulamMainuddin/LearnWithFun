@@ -27,6 +27,12 @@
         android:theme="@style/Theme.LearnWithFun"
         tools:targetApi="34">
         <activity
+            android:name=".presentation.exam.ExamActivity"
+            android:exported="false" />
+        <activity
+            android:name=".presentation.home.HomeActivity"
+            android:exported="false" />
+        <activity
             android:name=".presentation.login.LoginActivity"
             android:exported="false" />
         <activity

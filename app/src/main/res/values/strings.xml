@@ -22,8 +22,7 @@
     <string name="standard_learn">Standard</string>
     <string name="smart_learn">Smart Learn</string>
     <string name="username_learnwithfun_com">username@learnwithfun.com</string>
-    <string name="username">Username</string>
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hi_username"><font color="#FFAAFF">Hi, </font><font color="#000000">Username!</font></string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home">Home</string>
     <string name="learn">Learn</string>
@@ -31,4 +30,11 @@
     <string name="keep_learning_to_make_progress">Keep Learning to make progress</string>
     <string name="banner_image">Banner Image</string>
     <string name="learn_with_fun_login_desc">Best Teacher | Affordable Pricing | Live Batches | Notes</string>
+    <string name="find_your_favourite_course_here">Find your favourite course here!</string>
+    <string name="find_you_course_or_mentor">Find you course or mentor</string>
+    <string name="popular_courses">Popular courses</string>
+    <string name="see_all">See all</string>
+    <string name="new_collection">New Collection</string>
+    <string name="google_ux_design">Google UX Design</string>
+    <string name="courses_in_progress">Courses in Progress</string>
 </resources>
