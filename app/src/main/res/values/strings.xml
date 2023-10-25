@@ -37,4 +37,10 @@
     <string name="new_collection">New Collection</string>
     <string name="google_ux_design">Google UX Design</string>
     <string name="courses_in_progress">Courses in Progress</string>
+    <string name="enroll_now">Enroll Now</string>
+    <string name="about_this_course">About this course</string>
+    <string name="show_more">Show more</string>
+    <string name="show_less">Show less</string>
+    <string name="ellipsis">…</string>
+    <string name="by">By %s</string>
 </resources>

@@ -5,5 +5,7 @@
     <dimen name="nav_header_vertical_spacing">8dp</dimen>
     <dimen name="nav_header_height">176dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
+    <dimen name="padding_if_icon_not_present">10dp</dimen>
+    <dimen name="padding_if_icon_present">5dp</dimen>
     <dimen name="design_fab_image_size" tools:override="true">56dp</dimen>
 </resources>

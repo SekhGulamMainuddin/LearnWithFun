@@ -16,5 +16,6 @@
     <color name="grey">#808080</color>
     <color name="light_grey">#C2C1C1</color>
     <color name="darkGrey">#434242</color>
+    <color name="redColor">#FF0000</color>
     <color name="progress_dialog_background">#68000000</color>
 </resources>

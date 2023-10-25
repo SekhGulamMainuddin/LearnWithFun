@@ -62,16 +62,13 @@ object Utils {
             (diff / HOUR_MILLIS).toString() + " hours ago"
         } else if (diff < 48 * HOUR_MILLIS) {
             "yesterday"
-        } else if (diff < WEEK_MILLIS){
+        } else if (diff < WEEK_MILLIS) {
             (diff / DAY_MILLIS).toString() + " days ago"
-        }
-        else if (diff < MONTH_MILLIS){
+        } else if (diff < MONTH_MILLIS) {
             (diff / WEEK_MILLIS).toString() + " weeks ago"
-        }
-        else if (diff < 2L * YEAR_MILLIS){
+        } else if (diff < 2L * YEAR_MILLIS) {
             "1 year ago"
-        }
-        else {
+        } else {
             (diff / YEAR_MILLIS).toString() + " years ago"
         }
     }
@@ -93,21 +90,29 @@ object Utils {
         this.isVisible = visibility
     }
 
-    fun TextView.changeTextColorGradient(colorArray: IntArray){
+    fun TextView.changeTextColorGradient(colorArray: IntArray) {
         this.apply {
-            val context= this.context
+            val context = this.context
             this.setTextColor(context.getColor(colorArray[0]))
             val textShader: Shader = LinearGradient(
-                0f, 0f, paint.measureText(text.toString()), textSize, colorArray, floatArrayOf(0f, 1f, 2f), Shader.TileMode.REPEAT
+                0f,
+                0f,
+                paint.measureText(text.toString()),
+                textSize,
+                colorArray,
+                floatArrayOf(0f, 1f, 2f),
+                Shader.TileMode.REPEAT
             )
-            paint.shader= textShader
+            paint.shader = textShader
         }
     }
 
-    fun CharSequence?.isValidEmail() = !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
+    fun CharSequence?.isValidEmail() =
+        !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
-    fun String.isValidPassword() : Boolean {
-        val PASSWORD_PATTERN = "^(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!/'|*.,<>;:()_`~?])(?=\\S+$).{8,}$"
+    fun String.isValidPassword(): Boolean {
+        val PASSWORD_PATTERN =
+            "^(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!/'|*.,<>;:()_`~?])(?=\\S+$).{8,}$"
         val pattern: Pattern = Pattern.compile(PASSWORD_PATTERN)
         val matcher: Matcher? = this.let { pattern.matcher(it) }
         return matcher?.matches() == true
@@ -119,8 +124,8 @@ object Utils {
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri))
     }
 
-    fun Uri.getBitmap(contentResolver: ContentResolver) : Bitmap? = this.let {
-        if(SDK_INT < 28) {
+    fun Uri.getBitmap(contentResolver: ContentResolver): Bitmap? = this.let {
+        if (SDK_INT < 28) {
             return MediaStore.Images.Media.getBitmap(
                 contentResolver,
                 this
@@ -130,35 +135,58 @@ object Utils {
         }
     }
 
-    fun Bitmap.saveAsJPG(filename: String, applicationContext: Context) = "$filename.jpg".let { name ->
-        if (SDK_INT < Q)
-            @Suppress("DEPRECATION")
-            FileOutputStream(File(applicationContext.getExternalFilesDir(DIRECTORY_PICTURES), name))
-                .use { compress(Bitmap.CompressFormat.JPEG, 90, it) }
-        else {
-            val values = ContentValues().apply {
-                put(DISPLAY_NAME, name)
-                put(MIME_TYPE, "image/jpg")
-                put(RELATIVE_PATH, DIRECTORY_PICTURES)
-                put(IS_PENDING, 1)
+    fun Bitmap.saveAsJPG(filename: String, applicationContext: Context) =
+        "$filename.jpg".let { name ->
+            if (SDK_INT < Q)
+                @Suppress("DEPRECATION")
+                FileOutputStream(
+                    File(
+                        applicationContext.getExternalFilesDir(DIRECTORY_PICTURES),
+                        name
+                    )
+                )
+                    .use { compress(Bitmap.CompressFormat.JPEG, 90, it) }
+            else {
+                val values = ContentValues().apply {
+                    put(DISPLAY_NAME, name)
+                    put(MIME_TYPE, "image/jpg")
+                    put(RELATIVE_PATH, DIRECTORY_PICTURES)
+                    put(IS_PENDING, 1)
+                }
+
+                val resolver = applicationContext.contentResolver
+                val uri = resolver.insert(EXTERNAL_CONTENT_URI, values)
+                uri?.let { resolver.openOutputStream(it) }
+                    ?.use { compress(Bitmap.CompressFormat.JPEG, 70, it) }
+
+                values.clear()
+                values.put(IS_PENDING, 0)
+                uri?.also {
+                    resolver.update(it, values, null, null)
+                }
             }
-
-            val resolver = applicationContext.contentResolver
-            val uri = resolver.insert(EXTERNAL_CONTENT_URI, values)
-            uri?.let { resolver.openOutputStream(it) }
-                ?.use { compress(Bitmap.CompressFormat.JPEG, 70, it) }
-
-            values.clear()
-            values.put(IS_PENDING, 0)
-            uri?.also {
-                resolver.update(it, values, null, null) }
         }
-    }
 
-    private val imageExtensionList= arrayListOf("jpg", "jpeg", "jpe" ,"jif", "jfif", "jfi","gif","webp","tiff","tif","psd","bmp","svg","svgz","pdf")
-    private val videoExtensionList= arrayListOf("mp4")
+    private val imageExtensionList = arrayListOf(
+        "jpg",
+        "jpeg",
+        "jpe",
+        "jif",
+        "jfif",
+        "jfi",
+        "gif",
+        "webp",
+        "tiff",
+        "tif",
+        "psd",
+        "bmp",
+        "svg",
+        "svgz",
+        "pdf"
+    )
+    private val videoExtensionList = arrayListOf("mp4")
 
-    fun String.isImageOrVideo() :Int{
+    fun String.isImageOrVideo(): Int {
         if (this in imageExtensionList)
             return 0
         else if (this in videoExtensionList)
@@ -176,7 +204,8 @@ object Utils {
     }
 
     fun Context.hideKeyboard(view: View) {
-        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        val inputMethodManager =
+            getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
         inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 
