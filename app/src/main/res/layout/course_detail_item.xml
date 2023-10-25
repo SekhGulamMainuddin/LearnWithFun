@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.graphics.drawable.Drawable" />
+
+        <variable
+            name="stringData"
+            type="String" />
+
+        <variable
+            name="drawableResource"
+            type="Drawable" />
+
+        <variable
+            name="color"
+            type="int" />
+
+        <variable
+            name="label"
+            type="String" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="100dp"
+        app:cardElevation="0dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="8dp">
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@{color}"
+                app:cardCornerRadius="50dp"
+                app:cardElevation="0dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical"
+                    app:customLLPadding="@{drawableResource}">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_medium"
+                        android:text="@{stringData}"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        android:textAlignment="center"
+                        android:includeFontPadding="false"
+                        android:visibility="@{stringData.isEmpty() ? View.GONE : View.VISIBLE }" />
+
+                    <ImageView
+                        android:layout_width="22dp"
+                        android:layout_height="match_parent"
+                        android:src="@{drawableResource}"
+                        android:visibility="@{drawableResource==null ? View.GONE : View.VISIBLE}"
+                        app:tint="@color/white" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{label}"
+                android:textColor="@color/darkGrey"
+                android:textSize="12sp"
+                android:layout_marginStart="5dp"
+                android:visibility="@{label==null ? View.GONE : View.VISIBLE}" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

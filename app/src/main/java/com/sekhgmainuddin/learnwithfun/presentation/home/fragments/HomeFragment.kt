@@ -18,7 +18,7 @@ class HomeFragment : BaseFragment(){
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding= FragmentHomeBinding.inflate(inflater)
+        _binding= FragmentHomeBinding.inflate(inflater, container, false)
         return _binding!!.root
     }
 

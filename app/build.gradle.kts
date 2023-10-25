@@ -4,6 +4,8 @@ plugins {
     kotlin("kapt")
     id("com.google.dagger.hilt.android")
     kotlin("plugin.serialization") version "1.8.0"
+    id("kotlin-parcelize")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -12,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId = "com.sekhgmainuddin.learnwithfun"
-        minSdk = 26
+        minSdk = 28
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -61,7 +63,7 @@ dependencies {
     implementation("com.google.android.exoplayer:exoplayer-smoothstreaming:2.19.1")
 
     // Camera X
-    val cameraXVersion = "1.4.0-alpha01"
+    val cameraXVersion = "1.4.0-alpha02"
     implementation("androidx.camera:camera-camera2:$cameraXVersion")
     implementation("androidx.camera:camera-lifecycle:$cameraXVersion")
     implementation("androidx.camera:camera-view:$cameraXVersion")
@@ -80,9 +82,10 @@ dependencies {
     // Glide
     implementation("com.github.bumptech.glide:glide:4.15.1")
     annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
+    implementation("com.github.bumptech.glide:okhttp3-integration:4.15.1")
 
     // Room Database
-    val roomVersion = "2.5.2"
+    val roomVersion = "2.6.0"
     implementation("androidx.room:room-runtime:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
@@ -95,8 +98,8 @@ dependencies {
     // Dagger-Hilt
     kapt("androidx.hilt:hilt-compiler:1.0.0")
     implementation("androidx.hilt:hilt-navigation-fragment:1.0.0")
-    implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-compiler:2.48")
+    implementation("com.google.dagger:hilt-android:2.48.1")
+    kapt("com.google.dagger:hilt-compiler:2.48.1")
 
     // Country Picker
     implementation("com.hbb20:ccp:2.7.2")
@@ -105,7 +108,7 @@ dependencies {
     implementation("com.airbnb.android:lottie:5.2.0")
 
     // FCM
-    implementation("com.google.firebase:firebase-messaging-ktx:23.2.1")
+    implementation("com.google.firebase:firebase-messaging-ktx:23.3.0")
 
     // Android Layouts, Navigation and Fragments
     implementation("androidx.fragment:fragment-ktx:1.6.1")
