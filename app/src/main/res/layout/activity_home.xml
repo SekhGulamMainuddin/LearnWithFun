@@ -13,8 +13,7 @@
         tools:context=".presentation.home.HomeActivity">
 
         <include
-            android:id="@+id/fragmentEnroll"
-            layout="@layout/fragment_enroll_course"
+            layout="@layout/fragment_course_tutorial"
             android:layout_height="match_parent"
             android:layout_width="match_parent"/>
 

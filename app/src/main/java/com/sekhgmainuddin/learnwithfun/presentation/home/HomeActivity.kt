@@ -15,17 +15,5 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
 
-        binding.fragmentEnroll.courseDetail = CourseDetail(
-            "",
-            "Figma Designing for Beginners",
-            "This is a course designed for all the beginners This is a course designed for all the beginners This is a course designed for all the beginners This is a course designed for all the beginners This is a course designed for all the beginnersThis is a course designed for all the beginners",
-            "",
-            "",
-            "",
-            "Sekh Gulam Mainuddin",
-            10,
-            3.5,
-            7,
-        )
     }
 }

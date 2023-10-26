@@ -77,7 +77,7 @@
                     />
 
                 <TextView
-                    android:id="@+id/searchHeaderTitle"
+                    android:id="@+id/courseTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
@@ -86,10 +86,7 @@
                     android:textColor="@color/black"
                     android:textSize="38sp"
                     android:fontFamily="@font/shantellsans_regular"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/profileImage" />
+                    android:textStyle="bold" />
 
                 <FrameLayout
                     android:layout_width="match_parent"

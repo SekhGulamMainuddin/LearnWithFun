@@ -43,4 +43,6 @@
     <string name="show_less">Show less</string>
     <string name="ellipsis">…</string>
     <string name="by">By %s</string>
+    <string name="week_with_number">Week %s</string>
+    <string name="play_video">Play Video</string>
 </resources>

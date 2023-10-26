@@ -8,9 +8,9 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.core.view.setPadding
 import androidx.core.view.updatePadding
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.RequestOptions
 import com.sekhgmainuddin.learnwithfun.R
@@ -46,11 +46,18 @@ fun formatText(textView: TextView, fullText: String, spanText: String, spanColor
 
 @BindingAdapter("app:customLLPadding")
 fun setCustomLLPadding(view: LinearLayout, drawable: Drawable?) {
-    val paddingFiveDp = view.context.resources.getDimensionPixelOffset(R.dimen.padding_if_icon_present)
-    val paddingTenDp = view.context.resources.getDimensionPixelOffset(R.dimen.padding_if_icon_not_present)
+    val paddingFiveDp =
+        view.context.resources.getDimensionPixelOffset(R.dimen.padding_if_icon_present)
+    val paddingTenDp =
+        view.context.resources.getDimensionPixelOffset(R.dimen.padding_if_icon_not_present)
     if (drawable != null) {
         view.updatePadding(left = paddingFiveDp, right = paddingFiveDp)
     } else {
         view.updatePadding(left = paddingTenDp, right = paddingTenDp)
     }
+}
+
+@BindingAdapter("app:setImage")
+fun setImage(view: ImageView, imageUrl: String) {
+    Glide.with(view.context).load(imageUrl).placeholder(R.color.white).into(view)
 }
