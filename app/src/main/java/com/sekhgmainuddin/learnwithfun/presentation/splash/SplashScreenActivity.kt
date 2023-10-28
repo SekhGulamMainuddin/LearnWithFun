@@ -11,6 +11,7 @@ import com.sekhgmainuddin.learnwithfun.presentation.base.BaseActivity
 import com.sekhgmainuddin.learnwithfun.presentation.login.LoginActivity
 import com.sekhgmainuddin.learnwithfun.presentation.login.LoginSignUpViewModel
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.slideVisibility
+import com.sekhgmainuddin.learnwithfun.presentation.course_video.CourseVideoActivity
 import dagger.hilt.android.AndroidEntryPoint
 
 @SuppressLint("CustomSplashScreen")
@@ -33,7 +34,7 @@ class SplashScreenActivity : BaseActivity() {
 //            if (viewModel.currentUser != null)
 //                startActivity(Intent(this, MainActivity::class.java))
 //            else
-                startActivity(Intent(this, LoginActivity::class.java))
+                startActivity(Intent(this, CourseVideoActivity::class.java))
             finish()
         }, 2500)
     }

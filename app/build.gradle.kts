@@ -44,7 +44,7 @@ android {
     kapt {
         correctErrorTypes = true
     }
-    buildFeatures{
+    buildFeatures {
         dataBinding = true
     }
 }
@@ -58,9 +58,10 @@ dependencies {
     implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 
     // Exoplayer
-    implementation("com.google.android.exoplayer:exoplayer-core:2.19.1")
-    implementation("com.google.android.exoplayer:exoplayer-ui:2.19.1")
-    implementation("com.google.android.exoplayer:exoplayer-smoothstreaming:2.19.1")
+    implementation("androidx.media3:media3-exoplayer:1.1.1")
+    implementation("androidx.media3:media3-ui:1.1.1")
+    implementation("androidx.media3:media3-common:1.1.1")
+    implementation("androidx.media3:media3-session:1.1.1")
 
     // Camera X
     val cameraXVersion = "1.4.0-alpha02"
@@ -117,8 +118,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.4")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.4")
 
-    // Livedata and ViewModels
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.6.2")
+    // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
 
     // Kotlin

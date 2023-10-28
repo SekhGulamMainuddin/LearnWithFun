@@ -13,6 +13,7 @@
     <color name="mid_science_blue">#176EFB</color>
     <color name="light_science_blue">#4E90FE</color>
     <color name="paris_green">#40D471</color>
+    <color name="grey_variant">#80ffffff</color>
     <color name="grey">#808080</color>
     <color name="light_grey">#C2C1C1</color>
     <color name="darkGrey">#434242</color>

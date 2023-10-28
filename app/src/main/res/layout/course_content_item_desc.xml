@@ -19,7 +19,8 @@
         android:layout_height="wrap_content"
         app:strokeColor="@color/grey"
         app:cardCornerRadius="20dp"
-        app:contentPadding="20dp"
+        app:contentPadding="15dp"
+        app:contentPaddingBottom="10dp"
         android:layout_marginBottom="20dp"
         app:cardBackgroundColor="@color/white"
         android:elevation="10dp">
