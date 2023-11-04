@@ -3,6 +3,7 @@ package com.sekhgmainuddin.learnwithfun.presentation.home
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.navigation.fragment.NavHostFragment
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.databinding.ActivityHomeBinding
 import com.sekhgmainuddin.learnwithfun.domain.modals.CourseDetail

@@ -46,4 +46,5 @@
     <string name="week_with_number">Week %s</string>
     <string name="play_video">Play Video</string>
     <string name="player_time_separator">:</string>
+    <string name="next_question">Next Question</string>
 </resources>

@@ -31,17 +31,12 @@
             android:exported="false"
             />
         <activity
-            android:name=".presentation.exam.ExamActivity"
-            android:exported="false"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".presentation.home.HomeActivity"
             android:exported="true"
             android:screenOrientation="portrait">
-
         </activity>
         <activity
-            android:name=".presentation.login.LoginActivity"
+            android:name=".presentation.login.LoginSignUpActivity"
             android:exported="false"
             android:screenOrientation="portrait"/>
         <activity

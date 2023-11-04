@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav_graph"
+    app:startDestination="@id/quizFragment">
+
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.fragments.HomeFragment"
+        android:label="HomeFragment"
+        tools:layout="@layout/fragment_home">
+        <action
+            android:id="@+id/action_homeFragment_to_enrollCourseFragment"
+            app:destination="@id/enrollCourseFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_courseTutorialFragment"
+            app:destination="@id/courseTutorialFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/enrollCourseFragment"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.fragments.EnrollCourseFragment"
+        android:label="EnrollCourseFragment"
+        tools:layout="@layout/fragment_enroll_course" />
+    <fragment
+        android:id="@+id/courseTutorialFragment"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.fragments.CourseTutorialFragment"
+        android:label="CourseTutorialFragment"
+        tools:layout="@layout/fragment_course_tutorial" >
+        <action
+            android:id="@+id/action_courseTutorialFragment_to_quizFragment"
+            app:destination="@id/quizFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/quizFragment"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.quiz.QuizFragment"
+        android:label="QuizFragment"
+        tools:layout="@layout/fragment_quiz" />
+</navigation>

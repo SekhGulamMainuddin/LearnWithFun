@@ -2,7 +2,6 @@ package com.sekhgmainuddin.learnwithfun.di
 
 import android.app.Dialog
 import android.content.Context
-import android.view.WindowManager
 import com.sekhgmainuddin.learnwithfun.R
 import dagger.Module
 import dagger.Provides
@@ -13,7 +12,7 @@ import dagger.hilt.android.scopes.ActivityScoped
 
 @Module
 @InstallIn(ActivityComponent::class)
-object OtherModules {
+object ActivityModule {
 
     @Provides
     @ActivityScoped

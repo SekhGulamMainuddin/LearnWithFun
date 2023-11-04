@@ -1,4 +1,4 @@
-package com.sekhgmainuddin.learnwithfun.presentation.customviews
+package com.sekhgmainuddin.learnwithfun.common.customviews
 
 import android.content.Context
 import android.graphics.Canvas
