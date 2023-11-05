@@ -2,18 +2,18 @@ package com.sekhgmainuddin.learnwithfun.di
 
 import android.content.Context
 import androidx.room.Room
-import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import com.sekhgmainuddin.learnwithfun.common.helper.PrefsHelper
 import com.sekhgmainuddin.learnwithfun.data.db.LearnWithFunDb
 import com.sekhgmainuddin.learnwithfun.data.remote.LearnWithFunApi
+import com.sekhgmainuddin.learnwithfun.data.repository.LoginSignUpRepositoryImpl
+import com.sekhgmainuddin.learnwithfun.domain.repository.LoginSignUpRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kotlinx.serialization.json.Json
-import okhttp3.MediaType.Companion.toMediaType
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -23,9 +23,8 @@ object ApplicationModule {
     @Provides
     @Singleton
     fun provideRetrofit(): LearnWithFunApi {
-        val contentType = "application/json".toMediaType()
-        return Retrofit.Builder().baseUrl("localhost:8000")
-            .addConverterFactory(Json.asConverterFactory(contentType))
+        return Retrofit.Builder().baseUrl("http://10.0.129.178:8000")
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(LearnWithFunApi::class.java)
     }
@@ -45,5 +44,10 @@ object ApplicationModule {
     @Singleton
     @Provides
     fun providePrefsHelper(@ApplicationContext context: Context) = PrefsHelper(context)
+
+    @Singleton
+    @Provides
+    fun provideLoginSignUpRepository(learnWithFunApi: LearnWithFunApi) : LoginSignUpRepository =
+        LoginSignUpRepositoryImpl(learnWithFunApi)
 
 }

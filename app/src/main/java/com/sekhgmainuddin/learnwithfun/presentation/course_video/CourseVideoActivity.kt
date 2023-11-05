@@ -7,8 +7,8 @@ import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
 import com.sekhgmainuddin.learnwithfun.R
-import com.sekhgmainuddin.learnwithfun.common.CURRENT_VIDEO_START
-import com.sekhgmainuddin.learnwithfun.common.PLAY_WHEN_READY
+import com.sekhgmainuddin.learnwithfun.common.Constants.CURRENT_VIDEO_START
+import com.sekhgmainuddin.learnwithfun.common.Constants.PLAY_WHEN_READY
 import com.sekhgmainuddin.learnwithfun.databinding.ActivityCourseVideoBinding
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseActivity
 

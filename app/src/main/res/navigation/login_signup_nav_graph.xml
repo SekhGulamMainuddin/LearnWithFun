@@ -12,13 +12,27 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_loginFragment_to_signUpFragment"
-            app:destination="@id/signUpFragment" />
+            app:destination="@id/signUpFragment" >
+            <argument
+                android:name="countryCode"
+                app:argType="integer" />
+            <argument
+                android:name="phoneNumber"
+                app:argType="long" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
         android:name="com.sekhgmainuddin.learnwithfun.presentation.login.fragments.SignUpFragment"
         android:label="fragment_sign_up"
-        tools:layout="@layout/fragment_sign_up" />
+        tools:layout="@layout/fragment_sign_up" >
+        <argument
+            android:name="countryCode"
+            app:argType="integer" />
+        <argument
+            android:name="phoneNumber"
+            app:argType="long" />
+    </fragment>
     <fragment
         android:id="@+id/onBoardingSliderFragment"
         android:name="com.sekhgmainuddin.learnwithfun.presentation.login.fragments.OnBoardingSliderFragment"

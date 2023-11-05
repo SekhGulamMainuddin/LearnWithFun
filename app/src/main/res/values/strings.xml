@@ -47,4 +47,6 @@
     <string name="play_video">Play Video</string>
     <string name="player_time_separator">:</string>
     <string name="next_question">Next Question</string>
+    <string name="default_error_message">Some Error Occurred</string>
+    <string name="otp_sent_successfully">OTP sent successfully</string>
 </resources>
