@@ -7,8 +7,9 @@ import androidx.navigation.fragment.NavHostFragment
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.databinding.ActivityHomeBinding
 import com.sekhgmainuddin.learnwithfun.domain.modals.CourseDetail
+import com.sekhgmainuddin.learnwithfun.presentation.base.BaseActivity
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : BaseActivity() {
 
     private lateinit var binding: ActivityHomeBinding
 

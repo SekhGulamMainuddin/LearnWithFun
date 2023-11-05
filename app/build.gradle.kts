@@ -7,6 +7,7 @@ plugins {
     id("kotlin-parcelize")
     id("com.google.devtools.ksp")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -51,6 +52,14 @@ android {
 }
 
 dependencies {
+
+    // Firebase an ML Kit
+    implementation("com.google.firebase:firebase-messaging-ktx:23.3.1")
+    implementation("com.google.firebase:firebase-ml-vision:24.1.0")
+    implementation("com.google.firebase:firebase-ml-vision-face-model:20.0.2")
+    implementation("com.google.android.gms:play-services-vision:20.1.3")
+    implementation("com.google.android.gms:play-services-vision-common:19.1.3")
+    implementation("com.google.android.gms:play-services-vision-face-contour-internal:16.1.0")
 
     // Easy Permissions
     implementation("pub.devrel:easypermissions:3.0.0")
@@ -108,9 +117,6 @@ dependencies {
 
     // Lottie Animation
     implementation("com.airbnb.android:lottie:5.2.0")
-
-    // FCM
-    implementation("com.google.firebase:firebase-messaging-ktx:23.3.1")
 
     // Android Layouts, Navigation and Fragments
     implementation("androidx.fragment:fragment-ktx:1.6.2")

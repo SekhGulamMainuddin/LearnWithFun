@@ -33,7 +33,7 @@
     </fragment>
     <fragment
         android:id="@+id/quizFragment"
-        android:name="com.sekhgmainuddin.learnwithfun.presentation.quiz.QuizFragment"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.quiz.fragment.QuizFragment"
         android:label="QuizFragment"
         tools:layout="@layout/fragment_quiz" />
 </navigation>

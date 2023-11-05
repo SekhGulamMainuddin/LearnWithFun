@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background"
-        tools:context=".presentation.quiz.QuizFragment">
+        tools:context=".presentation.quiz.fragment.QuizFragment">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/backButton"
@@ -112,22 +112,22 @@
                 <include
                     layout="@layout/quiz_option_layout"
                     bind:answer="@{`Academy`}"
-                    bind:isCorrectAns="@{true}" />
+                    bind:isCorrectAns="@{null}" />
 
                 <include
                     layout="@layout/quiz_option_layout"
                     bind:answer="@{`Quizeasy`}"
-                    bind:isCorrectAns="@{false}" />
+                    bind:isCorrectAns="@{null}" />
 
                 <include
                     layout="@layout/quiz_option_layout"
                     bind:answer="@{`Type Error`}"
-                    bind:isCorrectAns="@{true}" />
+                    bind:isCorrectAns="@{null}" />
 
                 <include
                     layout="@layout/quiz_option_layout"
                     bind:answer="@{`Syntax Error`}"
-                    bind:isCorrectAns="@{false}" />
+                    bind:isCorrectAns="@{null}" />
 
 
 
@@ -142,6 +142,7 @@
             android:paddingHorizontal="22dp"
             android:paddingVertical="12dp"
             android:text="@string/next_question"
+            android:textColor="@color/white"
             android:textAllCaps="false"
             app:cornerRadius="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -172,15 +173,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <View
-                android:id="@+id/dragMe"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:layout_alignParentStart="true"
+            <androidx.camera.view.PreviewView
+                android:id="@+id/cameraPreview"
+                android:layout_width="120dp"
+                android:layout_height="175dp"
                 android:layout_alignParentBottom="true"
-                android:layout_margin="20dp"
-                android:background="@color/orange"
-                android:elevation="10dp" />
+                android:layout_alignParentStart="true"
+                android:layout_margin="20dp"/>
 
         </RelativeLayout>
 

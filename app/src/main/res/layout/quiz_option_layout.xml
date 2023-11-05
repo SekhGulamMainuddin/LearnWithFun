@@ -3,33 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="answer"
             type="String" />
+
         <variable
             name="isCorrectAns"
-            type="boolean" />
+            type="Boolean" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardCornerRadius="10dp"
         android:layout_marginBottom="15dp"
-        app:strokeColor="@{isCorrectAns?@color/paris_green:@color/black,default=@color/light_science_blue}"
-        app:strokeWidth="1dp"
         android:clickable="true"
-        >
+        app:cardCornerRadius="10dp"
+        app:strokeColor="@{isCorrectAns==null ?@color/light_science_blue : isCorrectAns==true ? @color/paris_green : @color/black}"
+        app:strokeWidth="1dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans_semi_bold"
             android:padding="14dp"
             android:text="@{answer, default=`Option 1`}"
-            android:textSize="16sp"
             android:textColor="@color/black"
-            android:fontFamily="@font/noto_sans_semi_bold"
-            />
+            android:textSize="16sp" />
 
     </com.google.android.material.card.MaterialCardView>
 </layout>
