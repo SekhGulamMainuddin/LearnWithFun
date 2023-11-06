@@ -1,22 +1,21 @@
 package com.sekhgmainuddin.learnwithfun.presentation.login.fragments
 
 import android.content.Intent
-import android.icu.text.SimpleDateFormat
+import android.os.Build
 import android.os.Bundle
-import android.os.CountDownTimer
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.sekhgmainuddin.learnwithfun.R
+import com.sekhgmainuddin.learnwithfun.common.utils.Utils.hideKeyboard
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.slideVisibility
 import com.sekhgmainuddin.learnwithfun.data.remote.body_params.GetOTPBodyParams
 import com.sekhgmainuddin.learnwithfun.data.remote.body_params.VerifyOTPBodyParams
@@ -26,9 +25,7 @@ import com.sekhgmainuddin.learnwithfun.presentation.home.HomeActivity
 import com.sekhgmainuddin.learnwithfun.presentation.login.GetOTPState
 import com.sekhgmainuddin.learnwithfun.presentation.login.LoginSignUpViewModel
 import com.sekhgmainuddin.learnwithfun.presentation.login.VerifyOTPState
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import java.util.Date
 
 class LoginFragment : BaseFragment() {
 
@@ -54,9 +51,10 @@ class LoginFragment : BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.lifecycleOwner = viewLifecycleOwner
+        binding.viewModel = viewModel
         initClickListeners()
         bindObservers()
-
     }
 
     private fun initClickListeners() {
@@ -74,13 +72,11 @@ class LoginFragment : BaseFragment() {
                 if (phoneEditText.text.toString()
                         .isNotEmpty()
                 ) {
+                    ccp.isEnabled = false
                     phoneEditText.isEnabled = false
-                    otpTitle.visibility = View.VISIBLE
-                    otpDescription.visibility = View.VISIBLE
-                    otpView.visibility = View.VISIBLE
                     countryCode = ccp.selectedCountryCodeAsInt
-                    phoneNumber = phoneEditText.text.toString().replace(" ", "").toLong()
-                    viewModel.getOTP(
+                    phoneNumber = ccp.fullNumber.substring(ccp.selectedCountryCode.length).toLong()
+                    this@LoginFragment.viewModel.getOTP(
                         GetOTPBodyParams(
                             countryCode = countryCode!!,
                             phoneNumber = phoneNumber!!
@@ -94,7 +90,7 @@ class LoginFragment : BaseFragment() {
                 }
             }
             continueButton.setOnClickListener {
-                viewModel.verifyOTP(
+                this@LoginFragment.viewModel.verifyOTP(
                     VerifyOTPBodyParams(
                         countryCode = countryCode!!,
                         phoneNumber = phoneNumber!!,
@@ -102,60 +98,62 @@ class LoginFragment : BaseFragment() {
                     )
                 )
             }
-        }
-    }
-
-    private val otpTimer = object : CountDownTimer(120000, 1000) {
-        override fun onTick(millisUntilFinished: Long) {
-            binding.otpTimeLeft.text =
-                if (millisUntilFinished > 60000) "0" + SimpleDateFormat("M:ss").format(
-                    Date(millisUntilFinished)
-                ) else "00" + SimpleDateFormat(":ss").format(Date(millisUntilFinished))
-        }
-
-        override fun onFinish() {
-            binding.otpTimeLeft.text = "00:00"
-            binding.phoneNumberCV.isEnabled = true
+            otpView.addTextChangedListener {
+                if (it?.length == 6) {
+                    hideKeyboard()
+                }
+            }
         }
     }
 
     private fun bindObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.getOTPState.collect {
-                    hideProgressBar()
-                    when (it) {
-                        is GetOTPState.Initial -> {}
-                        is GetOTPState.Loading -> showProgressBar()
-                        is GetOTPState.Sent -> {
-                            binding.otpTimeLeft.isVisible = true
-                            otpTimer.start()
-                            showToast(getString(R.string.otp_sent_successfully))
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.getOTPState.collect {
+                        hideProgressBar()
+                        when (it) {
+                            is GetOTPState.Initial -> {}
+                            is GetOTPState.Loading -> showProgressBar()
+                            is GetOTPState.Sent -> {
+                                binding.apply {
+                                    otpTimeLeft.isVisible = true
+                                    otpTitle.visibility = View.VISIBLE
+                                    otpDescription.visibility = View.VISIBLE
+                                    otpView.visibility = View.VISIBLE
+                                }
+                                showToast(getString(R.string.otp_sent_successfully))
+                            }
+
+                            is GetOTPState.Error -> showToast(it.error)
                         }
-                        is GetOTPState.Error -> showToast(it.error)
                     }
                 }
             }
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.verifyOTPState.collect {
-                    hideProgressBar()
-                    when (it) {
-                        is VerifyOTPState.Initial -> {}
-                        is VerifyOTPState.Loading -> showProgressBar()
-                        is VerifyOTPState.NewUser -> {
-                            findNavController().navigate(
-                                LoginFragmentDirections.actionLoginFragmentToSignUpFragment(
-                                    countryCode!!,
-                                    phoneNumber!!
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.verifyOTPState.collect {
+                        hideProgressBar()
+                        when (it) {
+                            is VerifyOTPState.Initial -> {}
+                            is VerifyOTPState.Loading -> showProgressBar()
+                            is VerifyOTPState.NewUser -> {
+                                findNavController().navigate(
+                                    LoginFragmentDirections.actionLoginFragmentToSignUpFragment(
+                                        countryCode!!,
+                                        phoneNumber!!
+                                    )
                                 )
-                            )
-                        }
-                        is VerifyOTPState.OldUser -> {
-                            startActivity(Intent(requireActivity(), HomeActivity::class.java))
-                            requireActivity().finish()
-                        }
-                        is VerifyOTPState.Error -> {
-                            showToast(it.error)
+                            }
+
+                            is VerifyOTPState.OldUser -> {
+                                startActivity(Intent(requireActivity(), HomeActivity::class.java))
+                                requireActivity().finish()
+                            }
+
+                            is VerifyOTPState.Error -> {
+                                showToast(it.error)
+                            }
                         }
                     }
                 }

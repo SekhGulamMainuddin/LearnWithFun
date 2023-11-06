@@ -23,7 +23,7 @@ object ApplicationModule {
     @Provides
     @Singleton
     fun provideRetrofit(): LearnWithFunApi {
-        return Retrofit.Builder().baseUrl("http://10.0.129.178:8000")
+        return Retrofit.Builder().baseUrl("http://192.168.170.37:8000")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(LearnWithFunApi::class.java)
