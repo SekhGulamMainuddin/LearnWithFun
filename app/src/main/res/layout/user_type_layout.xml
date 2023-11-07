@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import
+            alias="UserType"
+            type="com.sekhgmainuddin.learnwithfun.common.enums.UserType" />
+
+        <import type="com.sekhgmainuddin.learnwithfun.R" />
+
+        <variable
+            name="viewModel"
+            type="com.sekhgmainuddin.learnwithfun.presentation.login.LoginSignUpViewModel" />
+
+        <variable
+            name="userType"
+            type="UserType" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:clickable="true"
+        app:cardCornerRadius="10dp"
+        app:strokeWidth="2dp"
+        app:strokeColor="@{viewModel.userType!=userType ? @android:color/transparent : @color/science_blue}"
+        app:cardElevation="@{viewModel.userType!=userType ? @dimen/dp_0 : @dimen/dp_10}"
+        android:onClick="@{(_) -> viewModel.changeUserType(userType)}" >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:customRawRes="@{userType==UserType.LEARNER ? R.raw.user_type_learner_animation : R.raw.user_type_teacher_animation}"
+                app:customLoop="@{true}"
+                android:layout_marginTop="2dp"
+                android:scaleType="fitXY"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{userType.name()}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:fontFamily="@font/shantellsans_regular"
+                android:layout_gravity="top|start"
+                android:paddingHorizontal="5dp"
+                android:elevation="1dp"
+                />
+
+        </FrameLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

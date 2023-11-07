@@ -1,4 +1,4 @@
-package com.sekhgmainuddin.learnwithfun.presentation.login
+package com.sekhgmainuddin.learnwithfun.presentation.login.uiStates
 
 sealed class GetOTPState {
     data object Initial : GetOTPState()

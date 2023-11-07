@@ -1,14 +1,19 @@
 package com.sekhgmainuddin.learnwithfun.presentation.login
 
-import android.icu.text.SimpleDateFormat
-import android.os.CountDownTimer
+import android.graphics.Bitmap
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sekhgmainuddin.learnwithfun.data.remote.body_params.GetOTPBodyParams
-import com.sekhgmainuddin.learnwithfun.data.remote.body_params.VerifyOTPBodyParams
-import com.sekhgmainuddin.learnwithfun.domain.use_case.login_signup.GetOTPUseCase
-import com.sekhgmainuddin.learnwithfun.domain.use_case.login_signup.VerifyOTPUseCase
+import com.sekhgmainuddin.learnwithfun.common.enums.UserType
+import com.sekhgmainuddin.learnwithfun.common.helper.NetworkResult
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.GetOTPBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.VerifyOTPBodyParams
+import com.sekhgmainuddin.learnwithfun.domain.use_case.loginAndSignup.CreateUserUseCase
+import com.sekhgmainuddin.learnwithfun.domain.use_case.loginAndSignup.GetOTPUseCase
+import com.sekhgmainuddin.learnwithfun.domain.use_case.loginAndSignup.VerifyOTPUseCase
+import com.sekhgmainuddin.learnwithfun.presentation.login.uiStates.CreateUserState
+import com.sekhgmainuddin.learnwithfun.presentation.login.uiStates.GetOTPState
+import com.sekhgmainuddin.learnwithfun.presentation.login.uiStates.VerifyOTPState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -18,13 +23,13 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
-import java.util.Date
 import javax.inject.Inject
 
 @HiltViewModel
 class LoginSignUpViewModel @Inject constructor(
     private val getOTPUseCase: GetOTPUseCase,
-    private val verifyOTPUseCase: VerifyOTPUseCase
+    private val verifyOTPUseCase: VerifyOTPUseCase,
+    private val createUserUseCase: CreateUserUseCase
 ) : ViewModel() {
 
     private var _getOTPState = MutableStateFlow<GetOTPState>(GetOTPState.Initial)
@@ -76,6 +81,62 @@ class LoginSignUpViewModel @Inject constructor(
                 currentTime -= 1
             }
         }
+    }
+
+    private var _createUserState = MutableStateFlow<CreateUserState>(CreateUserState.Initial)
+    val createUserState: StateFlow<CreateUserState>
+        get() = _createUserState
+
+    fun createUser(
+        name: String,
+        email: String,
+        countryCode: Int,
+        phoneNumber: Long,
+        profilePicture: Bitmap?
+    ) =
+        viewModelScope.launch(Dispatchers.IO) {
+            if (name.isEmpty()) {
+                _createUserState.value = CreateUserState.NameNotAdded
+            } else if (email.isEmpty()) {
+                _createUserState.value = CreateUserState.EmailNotVerified
+            } else if (userType.value == null) {
+                _createUserState.value = CreateUserState.UserTypeNotSpecified
+            } else {
+                _createUserState.value = CreateUserState.Loading
+                createUserUseCase(
+                    name,
+                    email,
+                    countryCode,
+                    phoneNumber,
+                    userType.value!!,
+                    profilePicture
+                ).collect {
+                    when (it) {
+                        is NetworkResult.Success -> {
+                            _createUserState.value = CreateUserState.UserCreated
+                        }
+
+                        is NetworkResult.Loading -> {
+                            _createUserState.value = CreateUserState.Loading
+                        }
+
+                        is NetworkResult.Error -> {
+                            _createUserState.value =
+                                CreateUserState.Error(it.message ?: "Some Error Occurred")
+                        }
+                    }
+                }
+            }
+        }
+
+    val userType = MutableStateFlow<UserType?>(null)
+    fun changeUserType(type: UserType) {
+        if (userType.value == type) {
+            userType.value = null
+        } else {
+            userType.value = type
+        }
+        Log.d("USERTYPE", "changeUserType: $userType")
     }
 
 }

@@ -1,4 +1,4 @@
-package com.sekhgmainuddin.learnwithfun.data.remote.body_params
+package com.sekhgmainuddin.learnwithfun.data.remote.bodyParams
 
 data class VerifyOTPBodyParams(
     val countryCode: Int,

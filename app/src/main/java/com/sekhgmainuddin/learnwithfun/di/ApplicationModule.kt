@@ -2,16 +2,18 @@ package com.sekhgmainuddin.learnwithfun.di
 
 import android.content.Context
 import androidx.room.Room
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.sekhgmainuddin.learnwithfun.common.helper.PrefsHelper
 import com.sekhgmainuddin.learnwithfun.data.db.LearnWithFunDb
+import com.sekhgmainuddin.learnwithfun.data.remote.ApiInterceptor
 import com.sekhgmainuddin.learnwithfun.data.remote.LearnWithFunApi
-import com.sekhgmainuddin.learnwithfun.data.repository.LoginSignUpRepositoryImpl
-import com.sekhgmainuddin.learnwithfun.domain.repository.LoginSignUpRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -22,9 +24,11 @@ object ApplicationModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(): LearnWithFunApi {
-        return Retrofit.Builder().baseUrl("http://192.168.170.37:8000")
+    fun provideRetrofit(client: OkHttpClient): LearnWithFunApi {
+        return Retrofit.Builder()
+            .baseUrl("http://10.0.129.178:8000")
             .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
             .build()
             .create(LearnWithFunApi::class.java)
     }
@@ -43,11 +47,15 @@ object ApplicationModule {
 
     @Singleton
     @Provides
-    fun providePrefsHelper(@ApplicationContext context: Context) = PrefsHelper(context)
+    fun providerOkHttpClient(interceptor: ApiInterceptor) =
+        OkHttpClient().newBuilder().addInterceptor(interceptor).build()
 
     @Singleton
     @Provides
-    fun provideLoginSignUpRepository(learnWithFunApi: LearnWithFunApi) : LoginSignUpRepository =
-        LoginSignUpRepositoryImpl(learnWithFunApi)
+    fun provideFirebaseStorage() = Firebase.storage.reference
+
+    @Singleton
+    @Provides
+    fun providePrefsHelper(@ApplicationContext context: Context) = PrefsHelper(context)
 
 }

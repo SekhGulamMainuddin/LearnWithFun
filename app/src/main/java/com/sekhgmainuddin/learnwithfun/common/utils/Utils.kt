@@ -13,10 +13,8 @@ import android.net.Uri
 import android.os.Build.VERSION.SDK_INT
 import android.os.Build.VERSION_CODES.Q
 import android.os.Environment.DIRECTORY_PICTURES
-import android.provider.MediaStore
 import android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI
 import android.provider.MediaStore.MediaColumns.*
-import android.text.format.DateUtils
 import android.transition.Slide
 import android.transition.TransitionManager
 import android.util.Patterns
@@ -30,8 +28,6 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import java.io.File
 import java.io.FileOutputStream
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 object Utils {
 
@@ -73,13 +69,6 @@ object Utils {
         }
     }
 
-    fun Long.getMessageTIme(context: Context): String? {
-        val time = DateUtils.formatDateTime(context, this, DateUtils.FORMAT_SHOW_TIME)
-        val date = DateUtils.formatDateTime(context, this, DateUtils.FORMAT_SHOW_DATE)
-        return time
-    }
-
-
     fun View.slideVisibility(visibility: Boolean, durationTime: Long = 300) {
         val transition = Slide(Gravity.START)
         transition.apply {
@@ -110,42 +99,26 @@ object Utils {
     fun CharSequence?.isValidEmail() =
         !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
-    fun String.isValidPassword(): Boolean {
-        val PASSWORD_PATTERN =
-            "^(?=.*[a-z])(?=.*[0-9])(?=.*[A-Z])(?=.*[@#$%^&+=!/'|*.,<>;:()_`~?])(?=\\S+$).{8,}$"
-        val pattern: Pattern = Pattern.compile(PASSWORD_PATTERN)
-        val matcher: Matcher? = this.let { pattern.matcher(it) }
-        return matcher?.matches() == true
-    }
-
     fun getFileExtension(uri: Uri, context: Context): String? {
         val contentResolver: ContentResolver = context.contentResolver
         val mimeTypeMap = MimeTypeMap.getSingleton()
         return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri))
     }
 
-    fun Uri.getBitmap(contentResolver: ContentResolver): Bitmap? = this.let {
-        if (SDK_INT < 28) {
-            return MediaStore.Images.Media.getBitmap(
-                contentResolver,
-                this
-            )
-        } else {
-            return ImageDecoder.decodeBitmap(ImageDecoder.createSource(contentResolver, this))
-        }
+    fun Uri.getBitmap(contentResolver: ContentResolver): Bitmap = this.let {
+        return ImageDecoder.decodeBitmap(ImageDecoder.createSource(contentResolver, this))
     }
 
     fun Bitmap.saveAsJPG(filename: String, applicationContext: Context) =
         "$filename.jpg".let { name ->
             if (SDK_INT < Q)
-                @Suppress("DEPRECATION")
                 FileOutputStream(
                     File(
                         applicationContext.getExternalFilesDir(DIRECTORY_PICTURES),
                         name
                     )
                 )
-                    .use { compress(Bitmap.CompressFormat.JPEG, 90, it) }
+                    .use { compress(Bitmap.CompressFormat.JPEG, 30, it) }
             else {
                 val values = ContentValues().apply {
                     put(DISPLAY_NAME, name)
@@ -157,7 +130,7 @@ object Utils {
                 val resolver = applicationContext.contentResolver
                 val uri = resolver.insert(EXTERNAL_CONTENT_URI, values)
                 uri?.let { resolver.openOutputStream(it) }
-                    ?.use { compress(Bitmap.CompressFormat.JPEG, 70, it) }
+                    ?.use { compress(Bitmap.CompressFormat.JPEG, 30, it) }
 
                 values.clear()
                 values.put(IS_PENDING, 0)
@@ -187,12 +160,11 @@ object Utils {
     private val videoExtensionList = arrayListOf("mp4")
 
     fun String.isImageOrVideo(): Int {
-        if (this in imageExtensionList)
-            return 0
-        else if (this in videoExtensionList)
-            return 1
-        else
-            return -1
+        return when (this) {
+            in imageExtensionList -> 0
+            in videoExtensionList -> 1
+            else -> -1
+        }
     }
 
     fun Fragment.hideKeyboard() {
@@ -210,8 +182,8 @@ object Utils {
     }
 
     @Throws(Throwable::class)
-    fun retriveVideoFrameFromVideo(videoPath: String?): Bitmap? {
-        var bitmap: Bitmap? = null
+    fun retrieveVideoFrameFromVideo(videoPath: String?): Bitmap? {
+        val bitmap: Bitmap?
         var mediaMetadataRetriever: MediaMetadataRetriever? = null
         try {
             mediaMetadataRetriever = MediaMetadataRetriever()

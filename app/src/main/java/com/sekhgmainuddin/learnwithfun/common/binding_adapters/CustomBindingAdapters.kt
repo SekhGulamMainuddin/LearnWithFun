@@ -4,21 +4,23 @@ import android.graphics.drawable.Drawable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
-import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.updatePadding
 import androidx.databinding.BindingAdapter
+import com.airbnb.lottie.LottieAnimationView
+import com.airbnb.lottie.LottieDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.RequestOptions
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.helper.GlideImageLoader
 
-@BindingAdapter("app:imageResource", "app:progressBar")
-fun setImageResource(view: ImageView, imageResource: String, progressBar: ProgressBar) {
+@BindingAdapter("app:imageUrl", "app:progressBar")
+fun setImageUrl(view: ImageView, imageUrl: String, progressBar: ProgressBar) {
     val options: RequestOptions = RequestOptions()
         .centerCrop()
         .placeholder(R.drawable.placeholder_image)
@@ -28,7 +30,7 @@ fun setImageResource(view: ImageView, imageResource: String, progressBar: Progre
     GlideImageLoader(
         view,
         progressBar
-    ).load(imageResource, options)
+    ).load(imageUrl, options)
 }
 
 @BindingAdapter("app:full_text", "app:span_text", "app:span_color")
@@ -58,7 +60,17 @@ fun setCustomLLPadding(view: LinearLayout, drawable: Drawable?) {
     }
 }
 
-@BindingAdapter("app:setImage")
-fun setImage(view: ImageView, imageUrl: String) {
-    Glide.with(view.context).load(imageUrl).placeholder(R.color.white).into(view)
+@BindingAdapter("app:imageDrawable")
+fun setImageDrawable(view: ImageView, imageDrawable: Int) {
+    Glide.with(view.context).load(AppCompatResources.getDrawable(view.context, imageDrawable))
+        .placeholder(R.color.white).into(view)
+}
+
+@BindingAdapter("app:customRawRes", "app:customLoop")
+fun setLottieAnimation(view: LottieAnimationView, customRawRes: Int, customLoop: Boolean) {
+    view.setAnimation(customRawRes)
+    if (customLoop) {
+        view.repeatCount = LottieDrawable.INFINITE
+    }
+    view.playAnimation()
 }

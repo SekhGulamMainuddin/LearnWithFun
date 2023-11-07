@@ -8,4 +8,9 @@
     <dimen name="padding_if_icon_not_present">10dp</dimen>
     <dimen name="padding_if_icon_present">5dp</dimen>
     <dimen name="design_fab_image_size" tools:override="true">56dp</dimen>
+    <dimen name="dp_1">1dp</dimen>
+    <dimen name="dp_2">2dp</dimen>
+    <dimen name="dp_10">10dp</dimen>
+    <dimen name="dp_20">20dp</dimen>
+    <dimen name="dp_0">0dp</dimen>
 </resources>

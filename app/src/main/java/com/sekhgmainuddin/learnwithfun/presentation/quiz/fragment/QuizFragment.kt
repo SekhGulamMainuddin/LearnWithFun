@@ -20,7 +20,6 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
@@ -186,7 +185,7 @@ class QuizFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
                         .getVisionFaceDetector(options)
                 detector.detectInImage(image)
                     .addOnSuccessListener { faces ->
-                        var cheatingStatus: CheatingStatus
+                        val cheatingStatus: CheatingStatus
                         if (faces == null || faces.isEmpty()) {
                             Log.d("firebaseMLKIT", "NO FACE DETECTED")
                             cheatingStatus = CheatingStatus.NO_FACE_DETECTED
@@ -199,15 +198,14 @@ class QuizFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
                                 CheatingStatus.MULTIPLE_FACE_DETECTED
                         } else {
                             val rotY = faces[0].headEulerAngleY
-                            if (rotY > 30f || rotY < -30f) {
+                            cheatingStatus = if (rotY > 30f || rotY < -30f) {
                                 Log.d(
                                     "firebaseMLKIT",
                                     "CHEATING DETECTED"
                                 )
-                                cheatingStatus =
-                                    CheatingStatus.CHEATING_DETECTED
+                                CheatingStatus.CHEATING_DETECTED
                             } else {
-                                cheatingStatus = CheatingStatus.NO_CHEATING
+                                CheatingStatus.NO_CHEATING
                             }
                         }
 //                        if (cheatingStatus != CheatingStatus.NO_CHEATING) {

@@ -15,8 +15,12 @@ open class BaseActivity : AppCompatActivity(), BaseActivityCallback {
     @Inject
     lateinit var progressDialog: Dialog
 
-    protected fun showToast(message: String?, toastType: Int = Toast.LENGTH_SHORT) {
+    protected fun showToast(message: String, toastType: Int = Toast.LENGTH_SHORT) {
         Toast.makeText(this@BaseActivity, message, toastType).show()
+    }
+
+    protected fun showToast(message: Int, toastType: Int = Toast.LENGTH_SHORT) {
+        showToast(getString(message), toastType)
     }
 
     override fun showProgressDialog() {

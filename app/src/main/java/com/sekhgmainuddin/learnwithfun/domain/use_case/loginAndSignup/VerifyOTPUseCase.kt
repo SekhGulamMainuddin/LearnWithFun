@@ -1,7 +1,7 @@
-package com.sekhgmainuddin.learnwithfun.domain.use_case.login_signup
+package com.sekhgmainuddin.learnwithfun.domain.use_case.loginAndSignup
 
 import com.sekhgmainuddin.learnwithfun.common.helper.PrefsHelper
-import com.sekhgmainuddin.learnwithfun.data.remote.body_params.VerifyOTPBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.VerifyOTPBodyParams
 import com.sekhgmainuddin.learnwithfun.domain.repository.LoginSignUpRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow

@@ -169,7 +169,7 @@
                         android:scaleType="centerCrop"
                         android:background="@drawable/rounded_corners_ll"
                         app:shapeAppearanceOverlay="@style/roundedImageView"
-                        app:imageResource="@{courseDetail.courseThumbnail}"
+                        app:imageUrl="@{courseDetail.courseThumbnail}"
                         app:progressBar="@{progressIndicator}"
                         />
 

@@ -1,30 +1,29 @@
 package com.sekhgmainuddin.learnwithfun.presentation.login.fragments
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import com.otpview.OTPListener
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.hideKeyboard
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.slideVisibility
-import com.sekhgmainuddin.learnwithfun.data.remote.body_params.GetOTPBodyParams
-import com.sekhgmainuddin.learnwithfun.data.remote.body_params.VerifyOTPBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.GetOTPBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.VerifyOTPBodyParams
 import com.sekhgmainuddin.learnwithfun.databinding.FragmentLoginBinding
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseFragment
 import com.sekhgmainuddin.learnwithfun.presentation.home.HomeActivity
-import com.sekhgmainuddin.learnwithfun.presentation.login.GetOTPState
+import com.sekhgmainuddin.learnwithfun.presentation.login.uiStates.GetOTPState
 import com.sekhgmainuddin.learnwithfun.presentation.login.LoginSignUpViewModel
-import com.sekhgmainuddin.learnwithfun.presentation.login.VerifyOTPState
+import com.sekhgmainuddin.learnwithfun.presentation.login.uiStates.VerifyOTPState
 import kotlinx.coroutines.launch
 
 class LoginFragment : BaseFragment() {
@@ -85,21 +84,28 @@ class LoginFragment : BaseFragment() {
                 } else if (binding.phoneEditText.text.toString().isEmpty())
                     showToast("Enter valid Number")
                 else {
-                    otpView.error = "Enter the OTP"
-                    showToast(otpView.text.toString())
+                    otpView.showError()
                 }
             }
             continueButton.setOnClickListener {
-                this@LoginFragment.viewModel.verifyOTP(
-                    VerifyOTPBodyParams(
-                        countryCode = countryCode!!,
-                        phoneNumber = phoneNumber!!,
-                        otp = otpView.text.toString()
+                if (otpView.otp != null) {
+                    this@LoginFragment.viewModel.verifyOTP(
+                        VerifyOTPBodyParams(
+                            countryCode = countryCode!!,
+                            phoneNumber = phoneNumber!!,
+                            otp = otpView.otp!!
+                        )
                     )
-                )
+                } else {
+                    otpView.showError()
+                }
             }
-            otpView.addTextChangedListener {
-                if (it?.length == 6) {
+            otpView.otpListener = object : OTPListener {
+                override fun onInteractionListener() {
+
+                }
+
+                override fun onOTPComplete(otp: String) {
                     hideKeyboard()
                 }
             }
@@ -116,12 +122,7 @@ class LoginFragment : BaseFragment() {
                             is GetOTPState.Initial -> {}
                             is GetOTPState.Loading -> showProgressBar()
                             is GetOTPState.Sent -> {
-                                binding.apply {
-                                    otpTimeLeft.isVisible = true
-                                    otpTitle.visibility = View.VISIBLE
-                                    otpDescription.visibility = View.VISIBLE
-                                    otpView.visibility = View.VISIBLE
-                                }
+                                binding.otpView.requestFocusOTP()
                                 showToast(getString(R.string.otp_sent_successfully))
                             }
 
@@ -145,15 +146,19 @@ class LoginFragment : BaseFragment() {
                                     )
                                 )
                             }
-
                             is VerifyOTPState.OldUser -> {
                                 startActivity(Intent(requireActivity(), HomeActivity::class.java))
                                 requireActivity().finish()
                             }
-
+                            VerifyOTPState.WrongOTP -> {
+                                binding.otpView.showError()
+                                binding.otpView.requestFocusOTP()
+                                showSnackBar(R.string.wrong_otp_entered)
+                            }
                             is VerifyOTPState.Error -> {
                                 showToast(it.error)
                             }
+
                         }
                     }
                 }

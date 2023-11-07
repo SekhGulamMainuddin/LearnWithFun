@@ -1,9 +1,9 @@
-package com.sekhgmainuddin.learnwithfun.data.remote.body_params
+package com.sekhgmainuddin.learnwithfun.data.dto
 
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetOTPBodyParams(
+data class Phone(
     val countryCode: Int,
     val phoneNumber: Long
 )

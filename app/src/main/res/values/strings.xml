@@ -2,7 +2,8 @@
     <string name="app_name">LearnWithFun</string>
     <string name="learn_with_fun"><font color="#0055DF">Learn </font><font color="#FFAB00">with </font><font color="#40D471">Fun</font></string>
     <string name="splash_screen_background_image">Splash Screen Background Image</string>
-    <string name="welcome_to_learn_with_fun"><font color="#FF000000">Welcome\nto </font><font color="#0055DF">Learn </font><font color="#FFAB00">with </font><font color="#40D471">Fun</font></string>
+    <string name="welcome_to_learn_with_fun"><font color="#FF000000">Welcome to\n</font><font color="#0055DF">Learn </font><font color="#FFAB00">with </font><font color="#40D471">Fun</font></string>
+    <string name="welcome_to_learn_with_fun_"><font color="#FF000000">Welcome to </font><font color="#0055DF">Learn </font><font color="#FFAB00">with </font><font color="#40D471">Fun</font></string>
     <string name="learning_is_more_effective_when_it_is_active_rather_than_a_passive_process">Learning is MORE effective when it is ACTIVE rather than a passive process</string>
     <string name="mobile_number">Mobile Number</string>
     <string name="continue_">Continue</string>
@@ -10,7 +11,8 @@
     <string name="otp">OTP</string>
     <string name="enter_the_otp">Enter the OTP</string>
     <string name="resend">Resend OTP</string>
-    <string name="enter_six_digit_otp_send_on_your_mobile_number">Enter Six Digit OTP send on your Mobile Number</string>
+    <string name="enter_six_digit_otp_send_on_your_mobile_number">Enter the Six Digit OTP send on your Mobile Number</string>
+    <string name="enter_six_digit_otp_send_on_your_email">Enter Six Digit OTP send on your Email</string>
     <string name="otp_verification">OTP Verification</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -49,4 +51,23 @@
     <string name="next_question">Next Question</string>
     <string name="default_error_message">Some Error Occurred</string>
     <string name="otp_sent_successfully">OTP sent successfully</string>
+    <string name="create_account">Create Account</string>
+    <string name="email_address">Email Address</string>
+    <string name="example_gmail_com">example@gmail.com</string>
+    <string name="email">Email</string>
+    <string name="full_name">Full Name</string>
+    <string name="name">Name</string>
+    <string name="enter_your_full_name">Enter your Full Name</string>
+    <string name="verify_email">Verify Email</string>
+    <string name="select_user_type">Select User Type</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+
+    <string name="email_not_verified">Email is Not Verified</string>
+    <string name="profile_pic_upload_failed">Failed to Upload the Profile Picture. Please Retry.</string>
+    <string name="account_created_successfully">Account Created Successfully</string>
+    <string name="specify_user_type">Please specify. Are you a Teacher or a Learner?</string>
+    <string name="no_internet_please_check_your_internet_connection">No Internet.\nPlease check your Internet Connection</string>
+    <string name="wrong_otp_entered">OTP Entered is Wrong</string>
+
 </resources>

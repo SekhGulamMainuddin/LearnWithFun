@@ -56,6 +56,7 @@ dependencies {
 
     // Firebase an ML Kit
     implementation("com.google.firebase:firebase-messaging-ktx:23.3.1")
+    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
     implementation("com.google.firebase:firebase-ml-vision:24.1.0")
     implementation("com.google.firebase:firebase-ml-vision-face-model:20.0.2")
     implementation("com.google.android.gms:play-services-vision-face-contour-internal:16.1.0")
@@ -114,12 +115,13 @@ dependencies {
     // Lottie Animation
     implementation("com.airbnb.android:lottie:5.2.0")
 
-    // Android Layouts, Navigation and Fragments
+    // Android Layouts, Navigation, Fragment and OtherViews
     implementation("androidx.fragment:fragment-ktx:1.6.2")
     implementation("com.google.android.material:material:1.10.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
+    implementation("com.github.appsfeature:otp-view:1.0")
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
