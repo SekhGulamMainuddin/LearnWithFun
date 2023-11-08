@@ -181,12 +181,12 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/verifyEmail"
+                android:id="@+id/sendAndVerifyEmail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/verify_email"
+                android:text="@string/send_email"
                 android:textAllCaps="false"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:cornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="@id/emailInputLayout"
                 app:layout_constraintTop_toBottomOf="@id/emailInputLayout" />
@@ -195,12 +195,11 @@
                 android:id="@+id/otpTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
                 android:layout_marginTop="25dp"
                 android:text="@string/otp_verification"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintStart_toStartOf="@id/emailInputLayout"
                 app:layout_constraintTop_toBottomOf="@id/emailInputLayout" />
 
@@ -211,7 +210,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:text="@string/enter_six_digit_otp_send_on_your_email"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/otpTitle" />
 
@@ -220,7 +219,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@android:color/black"
-                android:visibility="gone"
+                android:visibility="visible"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 app:box_margin="6dp"
                 app:height="45dp"
                 app:hide_otp="false"
@@ -242,7 +243,7 @@
                 android:id="@+id/userTypeLabelTV"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@font/noto_sans_medium"
                 android:paddingBottom="10dp"
                 android:text="@string/select_user_type"

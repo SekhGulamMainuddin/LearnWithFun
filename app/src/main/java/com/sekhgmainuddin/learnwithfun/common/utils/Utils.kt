@@ -26,6 +26,8 @@ import android.webkit.MimeTypeMap
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import okhttp3.ResponseBody
+import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
 
@@ -201,5 +203,7 @@ object Utils {
         }
         return bitmap
     }
+
+    fun ResponseBody.getErrorMessage() = JSONObject(this.string())["message"].toString()
 
 }

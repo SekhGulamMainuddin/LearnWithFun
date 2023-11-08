@@ -69,5 +69,13 @@
     <string name="specify_user_type">Please specify. Are you a Teacher or a Learner?</string>
     <string name="no_internet_please_check_your_internet_connection">No Internet.\nPlease check your Internet Connection</string>
     <string name="wrong_otp_entered">OTP Entered is Wrong</string>
+    <string name="email_sent_successfully">Email Sent Successfully to %s</string>
+    <string name="email_is_already_taken">Email is already taken</string>
+    <string name="email_verfied_successfully">Email Verified Successfully</string>
+    <string name="email_not_found">Email not found</string>
+    <string name="please_enter_the_verification_code">Please enter the verification code</string>
+    <string name="verification_code_not_valid">Verification code not valid</string>
+    <string name="enter_a_valid_email">Enter a valid email</string>
+    <string name="send_email">Send Email</string>
 
 </resources>

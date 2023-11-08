@@ -26,7 +26,7 @@ object ApplicationModule {
     @Singleton
     fun provideRetrofit(client: OkHttpClient): LearnWithFunApi {
         return Retrofit.Builder()
-            .baseUrl("http://10.0.129.178:8000")
+            .baseUrl("http://localhost:8000")
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()
