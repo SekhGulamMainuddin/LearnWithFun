@@ -44,35 +44,59 @@ class LoginSignUpViewModel @Inject constructor(
     private val createUserUseCase: CreateUserUseCase
 ) : ViewModel() {
 
-    private var _getOTPState = MutableStateFlow<GetOTPState>(GetOTPState.Initial)
-    val getOTPState: StateFlow<GetOTPState>
+    private var _getOTPState = MutableSharedFlow<GetOTPState>()
+    val getOTPState: SharedFlow<GetOTPState>
         get() = _getOTPState
 
     fun getOTP(getOTPBodyParams: GetOTPBodyParams) = viewModelScope.launch(Dispatchers.IO) {
-        _getOTPState.value = GetOTPState.Loading
-        getOTPUseCase(getOTPBodyParams).catch {
-            _getOTPState.value = GetOTPState.Error(it.localizedMessage ?: "Some Error Occurred")
-            Log.e("TAG", "getOTP: ${it.localizedMessage}")
-        }.collect {
-            otpTimer?.cancel()
-            startOTPTimer()
-            _getOTPState.value = GetOTPState.Sent
+        _getOTPState.emit(GetOTPState.Loading)
+        getOTPUseCase(getOTPBodyParams).collect {
+            when (it) {
+                is NetworkResult.Success -> {
+                    _getOTPState.emit(GetOTPState.Sent)
+                    startOTPTimer()
+                }
+
+                is NetworkResult.Error -> _getOTPState.emit(
+                    GetOTPState.Error(
+                        it.message,
+                        it.strResMessage ?: R.string.default_error_message
+                    )
+                )
+
+                is NetworkResult.Loading -> _getOTPState.emit(GetOTPState.Loading)
+            }
         }
     }
 
-    private var _verifyOTPState = MutableStateFlow<VerifyOTPState>(VerifyOTPState.Initial)
-    val verifyOTPState: StateFlow<VerifyOTPState>
+    private var _verifyOTPState = MutableSharedFlow<VerifyOTPState>()
+    val verifyOTPState: SharedFlow<VerifyOTPState>
         get() = _verifyOTPState
 
     fun verifyOTP(verifyOTPBodyParams: VerifyOTPBodyParams) =
         viewModelScope.launch(Dispatchers.IO) {
             otpTimer?.cancel()
-            _verifyOTPState.value = VerifyOTPState.Loading
-            verifyOTPUseCase(verifyOTPBodyParams).catch {
-                _verifyOTPState.value =
-                    VerifyOTPState.Error(it.localizedMessage ?: "Some Error Occurred")
-            }.collect {
-                _verifyOTPState.value = if (it) VerifyOTPState.OldUser else VerifyOTPState.NewUser
+            _verifyOTPState.emit(VerifyOTPState.Loading)
+            verifyOTPUseCase(verifyOTPBodyParams).collect {
+                when (it) {
+                    is NetworkResult.Success -> {
+                        _verifyOTPState.emit(if (it.data == true) VerifyOTPState.OldUser else VerifyOTPState.NewUser)
+                        _otpTimeLeft.value = null
+                    }
+                    is NetworkResult.Loading -> _verifyOTPState.emit(VerifyOTPState.Loading)
+                    is NetworkResult.Error -> {
+                        if (it.statusCode == 403) {
+                            _verifyOTPState.emit(VerifyOTPState.WrongOTP)
+                        } else {
+                            _verifyOTPState.emit(
+                                VerifyOTPState.Error(
+                                    it.message,
+                                    it.strResMessage ?: R.string.default_error_message
+                                )
+                            )
+                        }
+                    }
+                }
             }
         }
 
@@ -89,7 +113,7 @@ class LoginSignUpViewModel @Inject constructor(
                 val seconds = currentTime % 60
                 _otpTimeLeft.value =
                     "0${currentTime / 60}:${if (seconds < 10) "0${seconds}" else seconds}"
-                delay(100)
+                delay(1000)
                 currentTime -= 1
             }
         }
@@ -144,17 +168,21 @@ class LoginSignUpViewModel @Inject constructor(
                         is NetworkResult.Success -> {
                             _verifyMailState.emit(VerifyMailState.Success)
                         }
+
                         is NetworkResult.Loading -> {
                             _verifyMailState.emit(VerifyMailState.Loading)
                         }
+
                         is NetworkResult.Error -> {
                             when (it.statusCode) {
                                 404 -> {
                                     _verifyMailState.emit(VerifyMailState.EmailNotFound)
                                 }
+
                                 403 -> {
                                     _verifyMailState.emit(VerifyMailState.WrongVerificationCode)
                                 }
+
                                 else -> {
                                     _verifyMailState
                                         .emit(

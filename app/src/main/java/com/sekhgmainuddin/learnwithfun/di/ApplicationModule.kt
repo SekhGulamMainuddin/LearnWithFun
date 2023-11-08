@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.sekhgmainuddin.learnwithfun.common.TEMP.BASE_URL
 import com.sekhgmainuddin.learnwithfun.common.helper.PrefsHelper
 import com.sekhgmainuddin.learnwithfun.data.db.LearnWithFunDb
 import com.sekhgmainuddin.learnwithfun.data.remote.ApiInterceptor
@@ -26,7 +27,7 @@ object ApplicationModule {
     @Singleton
     fun provideRetrofit(client: OkHttpClient): LearnWithFunApi {
         return Retrofit.Builder()
-            .baseUrl("http://localhost:8000")
+            .baseUrl(BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .client(client)
             .build()

@@ -77,5 +77,8 @@
     <string name="verification_code_not_valid">Verification code not valid</string>
     <string name="enter_a_valid_email">Enter a valid email</string>
     <string name="send_email">Send Email</string>
+    <string name="enter_phone_number">Enter Phone Number</string>
+    <string name="verify_your_phone_number_first">Verify your Phone Number first</string>
+    <string name="_91">+91</string>
 
 </resources>

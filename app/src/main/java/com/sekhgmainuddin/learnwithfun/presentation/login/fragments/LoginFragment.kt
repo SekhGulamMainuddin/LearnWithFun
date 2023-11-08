@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -33,7 +34,7 @@ class LoginFragment : BaseFragment() {
         get() = _binding!!
 
     private val viewModel by activityViewModels<LoginSignUpViewModel>()
-    private var countryCode: Int? = null
+    private var countryCode: Int? = 91
     private var phoneNumber: Long? = null
 
     override fun onCreateView(
@@ -58,37 +59,32 @@ class LoginFragment : BaseFragment() {
 
     private fun initClickListeners() {
         binding.apply {
-            ccp.registerCarrierNumberEditText(phoneEditText)
-            ccp.setPhoneNumberValidityChangeListener {
-                if (it) {
+            sendOtpButton.setOnClickListener {
+                phoneNumber = phoneEditText.text.toString().replace(" ", "").toLong()
+                sendOtpButton.text = getString(R.string.resend)
+                this@LoginFragment.viewModel.getOTP(
+                    GetOTPBodyParams(
+                        countryCode = countryCode!!,
+                        phoneNumber = phoneNumber!!
+                    )
+                )
+            }
+            phoneEditText.addTextChangedListener {
+                if (it?.toString()?.replace(" ", "")?.length == 10) {
+                    phoneNumberLayout.error = null
                     sendOtpButton.slideVisibility(true)
                 } else {
-                    sendOtpButton.isVisible = false
-                }
-            }
-            sendOtpButton.setOnClickListener {
-                sendOtpButton.text = getString(R.string.resend)
-                if (phoneEditText.text.toString()
-                        .isNotEmpty()
-                ) {
-                    ccp.isEnabled = false
-                    phoneEditText.isEnabled = false
-                    countryCode = ccp.selectedCountryCodeAsInt
-                    phoneNumber = ccp.fullNumber.substring(ccp.selectedCountryCode.length).toLong()
-                    this@LoginFragment.viewModel.getOTP(
-                        GetOTPBodyParams(
-                            countryCode = countryCode!!,
-                            phoneNumber = phoneNumber!!
-                        )
-                    )
-                } else if (binding.phoneEditText.text.toString().isEmpty())
-                    showToast("Enter valid Number")
-                else {
-                    otpView.showError()
+                    if (sendOtpButton.isVisible) {
+                        sendOtpButton.slideVisibility(false)
+                        sendOtpButton.text = getString(R.string.send_otp)
+                        otpView.setOTP("")
+                    }
                 }
             }
             continueButton.setOnClickListener {
-                if (otpView.otp != null) {
+                if (phoneEditText.text?.length != 10) {
+                    phoneNumberLayout.error = getString(R.string.enter_phone_number)
+                } else if (otpView.otp != null && otpView.otp!!.length == 6) {
                     this@LoginFragment.viewModel.verifyOTP(
                         VerifyOTPBodyParams(
                             countryCode = countryCode!!,
@@ -96,8 +92,10 @@ class LoginFragment : BaseFragment() {
                             otp = otpView.otp!!
                         )
                     )
-                } else {
+                } else if (otpView.isVisible) {
                     otpView.showError()
+                } else {
+                    showSnackBar(R.string.verify_your_phone_number_first)
                 }
             }
             otpView.otpListener = object : OTPListener {
@@ -119,14 +117,19 @@ class LoginFragment : BaseFragment() {
                     viewModel.getOTPState.collect {
                         hideProgressBar()
                         when (it) {
-                            is GetOTPState.Initial -> {}
                             is GetOTPState.Loading -> showProgressBar()
                             is GetOTPState.Sent -> {
                                 binding.otpView.requestFocusOTP()
                                 showToast(getString(R.string.otp_sent_successfully))
                             }
 
-                            is GetOTPState.Error -> showToast(it.error)
+                            is GetOTPState.Error -> {
+                                if (it.message.isEmpty()) {
+                                    showToast(it.messageRes)
+                                } else {
+                                    showToast(it.message)
+                                }
+                            }
                         }
                     }
                 }
@@ -136,7 +139,6 @@ class LoginFragment : BaseFragment() {
                     viewModel.verifyOTPState.collect {
                         hideProgressBar()
                         when (it) {
-                            is VerifyOTPState.Initial -> {}
                             is VerifyOTPState.Loading -> showProgressBar()
                             is VerifyOTPState.NewUser -> {
                                 findNavController().navigate(
@@ -146,17 +148,24 @@ class LoginFragment : BaseFragment() {
                                     )
                                 )
                             }
+
                             is VerifyOTPState.OldUser -> {
                                 startActivity(Intent(requireActivity(), HomeActivity::class.java))
                                 requireActivity().finish()
                             }
+
                             VerifyOTPState.WrongOTP -> {
                                 binding.otpView.showError()
                                 binding.otpView.requestFocusOTP()
                                 showSnackBar(R.string.wrong_otp_entered)
                             }
+
                             is VerifyOTPState.Error -> {
-                                showToast(it.error)
+                                if (it.message.isEmpty()) {
+                                    showToast(it.messageRes)
+                                } else {
+                                    showToast(it.message)
+                                }
                             }
 
                         }

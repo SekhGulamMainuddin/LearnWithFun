@@ -12,19 +12,19 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface LearnWithFunApi {
-    @POST("/get-otp")
+    @POST("get-otp")
     suspend fun getOTP(@Body getOTP: GetOTPBodyParams) : Response<Unit>
 
-    @POST("/verify-otp")
+    @POST("verify-otp")
     suspend fun verifyOTP(@Body verifyOTPBodyParams: VerifyOTPBodyParams) : Response<HashMap<String, Any>>
 
-    @POST("/create-user")
+    @POST("create-user")
     suspend fun createUser(@Body createUserBodyParams: CreateUserBodyParams) : Response<CreateUserDto>
 
-    @GET("/send-mail")
+    @GET("send-mail")
     suspend fun sendMail(@Query("email") email: String) : Response<Unit>
 
-    @POST("/verify-mail")
+    @POST("verify-mail")
     suspend fun verifyMail(@Body verifyEmailBodyParams: VerifyEmailBodyParams) : Response<Unit>
 
 }

@@ -71,8 +71,8 @@ object Utils {
         }
     }
 
-    fun View.slideVisibility(visibility: Boolean, durationTime: Long = 300) {
-        val transition = Slide(Gravity.START)
+    fun View.slideVisibility(visibility: Boolean, durationTime: Long = 300, position: Int = Gravity.START) {
+        val transition = Slide(position)
         transition.apply {
             duration = durationTime
             addTarget(this@slideVisibility)

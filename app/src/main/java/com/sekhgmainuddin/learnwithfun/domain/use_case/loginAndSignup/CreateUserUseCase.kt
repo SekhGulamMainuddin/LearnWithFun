@@ -47,7 +47,7 @@ class CreateUserUseCase @Inject constructor(
                     )
             }
             if (profilePicture != null && photoUrl == null) {
-                emit(NetworkResult.Error(message = applicationContext.getString(R.string.profile_pic_upload_failed)))
+                emit(NetworkResult.Error(strResMessage = R.string.profile_pic_upload_failed))
             } else {
                 val response = repository.createUser(
                     CreateUserBodyParams(
@@ -68,9 +68,9 @@ class CreateUserUseCase @Inject constructor(
                 }
             }
         } catch (_: IOException) {
-            emit(NetworkResult.Error(message = applicationContext.getString(R.string.no_internet_please_check_your_internet_connection)))
+            emit(NetworkResult.Error(strResMessage = R.string.no_internet_please_check_your_internet_connection))
         } catch (e: Exception) {
-            emit(NetworkResult.Error(message = applicationContext.getString(R.string.default_error_message)))
+            emit(NetworkResult.Error(strResMessage = R.string.default_error_message))
         }
     }
 }

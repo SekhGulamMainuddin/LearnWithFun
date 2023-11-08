@@ -109,9 +109,6 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.48.1")
     kapt("com.google.dagger:hilt-compiler:2.48.1")
 
-    // Country Picker
-    implementation("com.hbb20:ccp:2.7.2")
-
     // Lottie Animation
     implementation("com.airbnb.android:lottie:5.2.0")
 
