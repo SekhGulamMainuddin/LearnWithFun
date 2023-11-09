@@ -1,9 +1,12 @@
 package com.sekhgmainuddin.learnwithfun.common.binding_adapters
 
+import android.graphics.Typeface.BOLD
+import android.graphics.Typeface.ITALIC
 import android.graphics.drawable.Drawable
 import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ProgressBar
@@ -19,12 +22,18 @@ import com.bumptech.glide.request.RequestOptions
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.helper.GlideImageLoader
 
-@BindingAdapter("app:imageUrl", "app:progressBar")
-fun setImageUrl(view: ImageView, imageUrl: String, progressBar: ProgressBar) {
+@BindingAdapter("app:imageUrl", "app:progressBar", "app:placeholder", "app:errorImage", requireAll = false)
+fun setImageUrl(
+    view: ImageView,
+    imageUrl: String?,
+    progressBar: ProgressBar,
+    placeholder: Int = R.drawable.placeholder_image,
+    errorImage: Int = R.drawable.image_error
+) {
     val options: RequestOptions = RequestOptions()
         .centerCrop()
-        .placeholder(R.drawable.placeholder_image)
-        .error(R.drawable.image_error)
+        .placeholder(placeholder)
+        .error(errorImage)
         .priority(Priority.HIGH)
 
     GlideImageLoader(
@@ -33,11 +42,31 @@ fun setImageUrl(view: ImageView, imageUrl: String, progressBar: ProgressBar) {
     ).load(imageUrl, options)
 }
 
-@BindingAdapter("app:full_text", "app:span_text", "app:span_color")
-fun formatText(textView: TextView, fullText: String, spanText: String, spanColor: Int) {
+@BindingAdapter(
+    "app:full_text",
+    "app:span_text",
+    "app:span_color",
+    "app:non_span_style",
+    requireAll = false
+)
+fun formatText(
+    textView: TextView,
+    fullText: String,
+    spanText: String,
+    spanColor: Int,
+    nonSpanStyle: String? = null
+) {
     val firstMatchingIndex = fullText.indexOf(spanText)
     val lastMatchingIndex = firstMatchingIndex + spanText.length
     val spannable = SpannableString(fullText)
+    if (nonSpanStyle != null) {
+        spannable.setSpan(
+            StyleSpan(if (nonSpanStyle == "bold") BOLD else ITALIC),
+            lastMatchingIndex + 1,
+            fullText.length - 1,
+            Spannable.SPAN_INCLUSIVE_EXCLUSIVE
+        )
+    }
     spannable.setSpan(
         ForegroundColorSpan(spanColor),
         firstMatchingIndex,

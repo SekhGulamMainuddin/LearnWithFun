@@ -1,4 +1,4 @@
-package com.sekhgmainuddin.learnwithfun.presentation.home.fragments
+package com.sekhgmainuddin.learnwithfun.presentation.home.enroll_course
 
 import android.os.Bundle
 import android.view.LayoutInflater

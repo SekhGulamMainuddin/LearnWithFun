@@ -15,7 +15,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.home.fragments.EnrollCourseFragment"
+        tools:context=".presentation.home.enroll_course.EnrollCourseFragment"
         android:background="@drawable/background">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

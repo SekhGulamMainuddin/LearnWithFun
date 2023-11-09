@@ -3,6 +3,7 @@ package com.sekhgmainuddin.learnwithfun.presentation.splash
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.annotation.OptIn
 import androidx.lifecycle.lifecycleScope
 import androidx.media3.common.util.UnstableApi
@@ -37,7 +38,6 @@ class SplashScreenActivity : BaseActivity() {
             delay(500)
             binding.learnFunTV.slideVisibility(true, 1000)
             delay(1250)
-            prefsHelper.clearToken()
             if (prefsHelper.getToken().isNotEmpty())
                 startActivity(Intent(this@SplashScreenActivity, HomeActivity::class.java))
             else

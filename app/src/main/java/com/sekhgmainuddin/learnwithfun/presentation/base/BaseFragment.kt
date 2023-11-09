@@ -32,14 +32,14 @@ open class BaseFragment : Fragment() {
         showToast(getString(message), toastDuration)
     }
 
-    protected fun showSnackBar(message: String, snackBarDuration: Int = Snackbar.LENGTH_LONG) {
+    protected fun showSnackBar(message: String, snackBarDuration: Int = Snackbar.LENGTH_SHORT) {
         Snackbar.make(
             requireActivity().findViewById(android.R.id.content),
             message, snackBarDuration,
         ).show()
     }
 
-    protected fun showSnackBar(message: Int, snackBarDuration: Int = Snackbar.LENGTH_LONG) {
+    protected fun showSnackBar(message: Int, snackBarDuration: Int = Snackbar.LENGTH_SHORT) {
         showSnackBar(getString(message), snackBarDuration)
     }
 

@@ -1,6 +1,8 @@
 package com.sekhgmainuddin.learnwithfun.data.remote
 
 import com.sekhgmainuddin.learnwithfun.data.dto.CreateUserDto
+import com.sekhgmainuddin.learnwithfun.data.dto.UserDetailDto
+import com.sekhgmainuddin.learnwithfun.data.dto.UserDto
 import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.CreateUserBodyParams
 import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.GetOTPBodyParams
 import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.VerifyEmailBodyParams
@@ -18,7 +20,7 @@ interface LearnWithFunApi {
     @POST("verify-otp")
     suspend fun verifyOTP(@Body verifyOTPBodyParams: VerifyOTPBodyParams) : Response<HashMap<String, Any>>
 
-    @POST("create-user")
+    @POST("user")
     suspend fun createUser(@Body createUserBodyParams: CreateUserBodyParams) : Response<CreateUserDto>
 
     @GET("send-mail")
@@ -26,5 +28,8 @@ interface LearnWithFunApi {
 
     @POST("verify-mail")
     suspend fun verifyMail(@Body verifyEmailBodyParams: VerifyEmailBodyParams) : Response<Unit>
+
+    @GET("user")
+    suspend fun getUserDetails() : Response<UserDetailDto>
 
 }

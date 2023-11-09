@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav_graph"
-    app:startDestination="@id/quizFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.fragments.HomeFragment"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
@@ -19,12 +19,12 @@
     </fragment>
     <fragment
         android:id="@+id/enrollCourseFragment"
-        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.fragments.EnrollCourseFragment"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.enroll_course.EnrollCourseFragment"
         android:label="EnrollCourseFragment"
         tools:layout="@layout/fragment_enroll_course" />
     <fragment
         android:id="@+id/courseTutorialFragment"
-        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.fragments.CourseTutorialFragment"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.course_tutorial.CourseTutorialFragment"
         android:label="CourseTutorialFragment"
         tools:layout="@layout/fragment_course_tutorial" >
         <action

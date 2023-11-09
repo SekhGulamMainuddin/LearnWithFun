@@ -4,14 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <import type="com.sekhgmainuddin.learnwithfun.R"/>
+        <variable
+            name="viewModel"
+            type="com.sekhgmainuddin.learnwithfun.presentation.home.HomeViewModel" />
     </data>
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@drawable/background"
-        tools:context=".presentation.home.fragments.HomeFragment">
+        tools:context=".presentation.home.home.HomeFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -23,28 +26,50 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_margin="20dp"
-                android:src="@color/progress_dialog_background"
+                android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:shapeAppearanceOverlay="@style/circularImageView" />
+                app:shapeAppearanceOverlay="@style/circularImageView"
+                app:imageUrl="@{viewModel.user.profilePicture ?? ` `}"
+                app:progressBar="@{profileImageProgress}"
+                app:errorImage="@{R.drawable.default_user_image}"
+                app:placeholder="@{R.drawable.default_user_image}"
+                android:elevation="2dp"
+                />
+
+            <ProgressBar
+                android:id="@+id/profileImageProgress"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="@id/profileImage"
+                app:layout_constraintBottom_toBottomOf="@id/profileImage"
+                app:layout_constraintStart_toStartOf="@id/profileImage"
+                app:layout_constraintEnd_toEndOf="@id/profileImage"
+                android:padding="5dp"
+                />
 
             <TextView
                 android:id="@+id/headerTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
-                android:text="@string/hi_username"
+                app:full_text="@{@string/hi_username(viewModel.user.name ?? `\u0008`)}"
+                app:span_text="@{@string/hi_}"
+                app:span_color="@{@color/grey}"
+                app:non_span_style="@{`bold`}"
+                android:fontFamily="@font/shantellsans_regular"
                 android:textSize="22sp"
-                android:textStyle="bold"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@id/profileImage"
                 app:layout_constraintStart_toEndOf="@id/profileImage"
                 app:layout_constraintTop_toTopOf="@id/profileImage" />
 
             <ImageButton
                 android:id="@+id/notificationIcon"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:layout_margin="20dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="10dp"
+                android:padding="5dp"
                 android:background="@android:color/transparent"
                 android:scaleType="fitXY"
                 android:src="@drawable/baseline_notifications_none_24"
@@ -55,9 +80,9 @@
 
             <ImageView
                 android:id="@+id/unreadNoticationIcon"
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:layout_margin="5dp"
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_margin="10dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/baseline_circle_24"
                 app:layout_constraintEnd_toEndOf="@id/notificationIcon"
@@ -195,8 +220,8 @@
 
                     <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/currentCourseImage"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"

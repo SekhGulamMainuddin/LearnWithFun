@@ -24,7 +24,8 @@
     <string name="standard_learn">Standard</string>
     <string name="smart_learn">Smart Learn</string>
     <string name="username_learnwithfun_com">username@learnwithfun.com</string>
-    <string name="hi_username"><font color="#FFAAFF">Hi, </font><font color="#000000">Username!</font></string>
+    <string name="hi_username">Hi, %s!</string>
+    <string name="hi_">Hi,</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="home">Home</string>
     <string name="learn">Learn</string>

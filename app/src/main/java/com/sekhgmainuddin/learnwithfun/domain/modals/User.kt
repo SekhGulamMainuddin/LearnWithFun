@@ -1,20 +1,13 @@
 package com.sekhgmainuddin.learnwithfun.domain.modals
 
-@kotlinx.serialization.Serializable
-data class User(
-    val name: String = "",
-    var userId: String= "",
-    val email: String = "",
-    val phone: String = "",
-    val imageUrl: String = "",
-    val bio: String? = null,
-    val interests: ArrayList<String>? = null,
-    val location: String? = null,
-    val activeStatus: Long = 0L,
-    val friends: ArrayList<String>? = null,
-    val followers: ArrayList<String>? = null,
-    val following: ArrayList<String>? = null,
-    val isVerified: Boolean = false,
-    val isSelected: Boolean = false
+import com.sekhgmainuddin.learnwithfun.data.dto.PhoneDto
 
-) : java.io.Serializable
+data class User(
+    val id: String,
+    val courses: List<Courses>,
+    val email: String,
+    val name: String,
+    val phone: PhoneDto,
+    val profilePicture: String = "",
+    val userType: String
+)
