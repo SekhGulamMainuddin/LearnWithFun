@@ -3,27 +3,40 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="course"
+            type="com.sekhgmainuddin.learnwithfun.data.dto.PopularCourse" />
     </data>
 
     <com.google.android.material.card.MaterialCardView
-        android:layout_width="200dp"
-        android:layout_height="280dp"
+        android:layout_width="180dp"
+        android:layout_height="245dp"
         app:cardBackgroundColor="@color/white"
-        app:cardElevation="5dp"
+        app:cardElevation="4dp"
         app:cardCornerRadius="15dp"
         app:contentPadding="10dp"
-        android:layout_marginStart="20dp">
+        android:layout_marginBottom="15dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ProgressBar
+                android:id="@+id/progressBar"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:elevation="11dp"
+                app:layout_constraintTop_toTopOf="@id/imageCardView"
+                app:layout_constraintBottom_toBottomOf="@id/imageCardView"
+                app:layout_constraintStart_toStartOf="@id/imageCardView"
+                app:layout_constraintEnd_toEndOf="@id/imageCardView"
+                />
+
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/imageCardView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                app:cardElevation="10dp"
+                app:cardElevation="4dp"
                 app:layout_constraintBottom_toTopOf="@id/guideHorizontalLine50"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -34,8 +47,10 @@
                     android:id="@+id/courseImage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/splash_screen_background"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    app:progressBar="@{progressBar}"
+                    app:imageUrl="@{course.courseThumbnail}"
+                    />
 
             </com.google.android.material.card.MaterialCardView>
 
@@ -44,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.48" />
+                app:layout_constraintGuide_percent="0.55" />
 
             <TextView
                 android:id="@+id/specialTagTV"
@@ -52,8 +67,9 @@
                 android:layout_height="wrap_content"
                 android:textColor="@color/light_science_blue"
                 android:layout_marginTop="10dp"
-                android:text="@string/new_collection"
+                android:text="@{course.tag, default = @string/popular}"
                 android:textStyle="bold"
+                android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/imageCardView"
@@ -69,10 +85,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                android:layout_marginTop="8dp"
-                android:text="@string/google_ux_design"
+                android:layout_marginTop="5dp"
+                android:text="@{course.courseName, default = @string/course}"
                 android:textStyle="bold"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/specialTagTV"
@@ -84,17 +100,17 @@
 
             <ImageButton
                 android:id="@+id/openCourseDetailButton"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 app:tint="@color/white"
                 android:src="@drawable/baseline_navigate_next_24"
                 android:scaleType="centerInside"
-                android:padding="12dp"
+                android:padding="6dp"
                 android:background="@drawable/gradient_button_color_blue"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginBottom="5dp"
+                android:layout_marginVertical="5dp"
                 />
 
 

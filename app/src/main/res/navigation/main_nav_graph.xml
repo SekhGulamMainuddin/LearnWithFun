@@ -16,6 +16,12 @@
         <action
             android:id="@+id/action_homeFragment_to_courseTutorialFragment"
             app:destination="@id/courseTutorialFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_coursesFragment"
+            app:destination="@id/coursesFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/enrollCourseFragment"
@@ -36,4 +42,14 @@
         android:name="com.sekhgmainuddin.learnwithfun.presentation.quiz.fragment.QuizFragment"
         android:label="QuizFragment"
         tools:layout="@layout/fragment_quiz" />
+    <fragment
+        android:id="@+id/coursesFragment"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.couses.CoursesFragment"
+        android:label="fragment_courses"
+        tools:layout="@layout/fragment_courses" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.profile.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

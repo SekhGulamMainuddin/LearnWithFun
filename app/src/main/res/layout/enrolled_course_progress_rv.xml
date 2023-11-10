@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="enrolled_course"
+            type="com.sekhgmainuddin.learnwithfun.data.dto.EnrolledCourse" />
+    </data>
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/courseProgressCV"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:layout_marginHorizontal="20dp"
+        app:contentPadding="10dp"
+        app:cardCornerRadius="15dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardElevation="4dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/currentCourseImage"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:shapeAppearanceOverlay="@style/roundedImageView"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{enrolled_course.courseThumbnail ?? ` `}"
+                app:progressBar="@{currentCourseImageProgressBar}" />
+
+            <ProgressBar
+                android:id="@+id/currentCourseImageProgressBar"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                app:layout_constraintTop_toTopOf="@id/currentCourseImage"
+                app:layout_constraintBottom_toBottomOf="@id/currentCourseImage"
+                app:layout_constraintStart_toStartOf="@id/currentCourseImage"
+                app:layout_constraintEnd_toEndOf="@id/currentCourseImage"
+                android:padding="5dp" />
+
+            <TextView
+                android:id="@+id/currentCourseTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="@{enrolled_course.courseName}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/currentCourseImage"
+                app:layout_constraintEnd_toStartOf="@id/playCurrentCourseButton"
+                android:layout_marginHorizontal="15dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:fontFamily="@font/noto_sans_bold"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/courseTutor"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/currentCourseTitle"
+                app:layout_constraintStart_toStartOf="@id/currentCourseTitle"
+                app:layout_constraintEnd_toEndOf="@id/currentCourseTitle"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:text="@{enrolled_course.instructorName}"
+                android:textColor="@color/grey" />
+
+            <com.google.android.material.progressindicator.LinearProgressIndicator
+                android:id="@+id/currentCourseProgress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/courseTutor"
+                app:layout_constraintStart_toStartOf="@id/currentCourseTitle"
+                app:layout_constraintEnd_toEndOf="@id/currentCourseTitle"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:trackCornerRadius="15dp"
+                app:trackThickness="10dp"
+                android:indeterminate="false"
+                android:progress="@{enrolled_course.courseCoverageProgress}"
+                app:indicatorColor="@color/mid_science_blue"
+                app:trackColor="@color/pale_aqua" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/playCurrentCourseButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:backgroundTint="@color/mid_science_blue"
+                android:src="@drawable/baseline_play_arrow_24"
+                app:tint="@color/white"
+                app:maxImageSize="32dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+</layout>

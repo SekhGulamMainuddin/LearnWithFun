@@ -130,6 +130,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/send_otp"
                     android:textAllCaps="false"
+                    android:textColor="@color/white"
                     android:visibility="gone"
                     app:cornerRadius="10dp"
                     app:layout_constraintEnd_toEndOf="@id/phoneNumberLayout"
@@ -208,6 +209,7 @@
             android:padding="15dp"
             android:text="@string/continue_"
             app:cornerRadius="10dp"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />

@@ -36,9 +36,10 @@
     <string name="find_your_favourite_course_here">Find your favourite course here!</string>
     <string name="find_you_course_or_mentor">Find you course or mentor</string>
     <string name="popular_courses">Popular courses</string>
+    <string name="popular">Popular</string>
+    <string name="course">Course</string>
     <string name="see_all">See all</string>
     <string name="new_collection">New Collection</string>
-    <string name="google_ux_design">Google UX Design</string>
     <string name="courses_in_progress">Courses in Progress</string>
     <string name="enroll_now">Enroll Now</string>
     <string name="about_this_course">About this course</string>

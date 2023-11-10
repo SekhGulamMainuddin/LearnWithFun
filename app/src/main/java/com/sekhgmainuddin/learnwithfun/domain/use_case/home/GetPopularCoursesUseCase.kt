@@ -4,26 +4,22 @@ import android.util.Log
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.helper.NetworkResult
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.getErrorMessage
-import com.sekhgmainuddin.learnwithfun.data.dto.UserDetailDto
+import com.sekhgmainuddin.learnwithfun.data.dto.PopularCourses
+import com.sekhgmainuddin.learnwithfun.domain.modals.HomeViewContent
 import com.sekhgmainuddin.learnwithfun.domain.repository.HomeRepository
 import kotlinx.coroutines.flow.flow
 import java.io.IOException
 import javax.inject.Inject
 
-class GetUserDetailsUseCase @Inject constructor(
+class GetPopularCoursesUseCase @Inject constructor(
     private val repository: HomeRepository
 ) {
-    operator fun invoke() = flow<NetworkResult<UserDetailDto>> {
+    operator fun invoke() = flow<NetworkResult<HomeViewContent>> {
         try {
-            emit(NetworkResult.Loading())
-            val response = repository.getUserDetails()
+            val response = repository.getPopularCourses()
             if (response.isSuccessful) {
-                val userDetails = response.body()!!
-                userDetails.enrolled_courses.map {
-                    it.courseCoverageProgress =
-                        (if (it.courseLength != 0) (it.courseCoverage.toDouble() / it.courseLength.toDouble() * 100.0) else 0.0).toInt()
-                }
-                emit(NetworkResult.Success(userDetails))
+                val courses = HomeViewContent(response.body()!!)
+                emit(NetworkResult.Success(courses))
             } else {
                 emit(
                     NetworkResult.Error(
@@ -34,7 +30,7 @@ class GetUserDetailsUseCase @Inject constructor(
             }
         } catch (e: IOException) {
             emit(NetworkResult.Error(strResMessage = R.string.no_internet_please_check_your_internet_connection))
-        } catch (_: Exception) {
+        } catch (e: Exception) {
             emit(NetworkResult.Error(strResMessage = R.string.default_error_message))
         }
     }

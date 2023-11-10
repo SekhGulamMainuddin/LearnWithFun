@@ -10,31 +10,25 @@
             type="com.sekhgmainuddin.learnwithfun.presentation.home.HomeViewModel" />
     </data>
 
-    <androidx.core.widget.NestedScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/background"
         tools:context=".presentation.home.home.HomeFragment">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="100dp">
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/profileImage"
-                android:layout_width="60dp"
-                android:layout_height="60dp"
+                android:layout_width="54dp"
+                android:layout_height="54dp"
                 android:layout_margin="20dp"
                 android:scaleType="centerCrop"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:shapeAppearanceOverlay="@style/circularImageView"
-                app:imageUrl="@{viewModel.user.profilePicture ?? ` `}"
+                app:imageUrl="@{viewModel.userDetail.user.profilePicture ?? ` `}"
                 app:progressBar="@{profileImageProgress}"
                 app:errorImage="@{R.drawable.default_user_image}"
                 app:placeholder="@{R.drawable.default_user_image}"
-                android:elevation="2dp"
+                android:elevation="6dp"
                 />
 
             <ProgressBar
@@ -53,12 +47,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
-                app:full_text="@{@string/hi_username(viewModel.user.name ?? `\u0008`)}"
+                app:full_text="@{@string/hi_username(viewModel.userDetail.user.name.substring(0, viewModel.userDetail.user.name.indexOf(' ')) ?? `\u0008`)}"
                 app:span_text="@{@string/hi_}"
                 app:span_color="@{@color/grey}"
                 app:non_span_style="@{`bold`}"
                 android:fontFamily="@font/shantellsans_regular"
-                android:textSize="22sp"
+                android:textSize="20sp"
                 android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="@id/profileImage"
                 app:layout_constraintStart_toEndOf="@id/profileImage"
@@ -66,12 +60,13 @@
 
             <ImageButton
                 android:id="@+id/notificationIcon"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+                android:layout_width="35dp"
+                android:layout_height="35dp"
                 android:layout_margin="10dp"
                 android:padding="5dp"
-                android:background="@android:color/transparent"
                 android:scaleType="fitXY"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
                 android:src="@drawable/baseline_notifications_none_24"
                 app:layout_constraintBottom_toBottomOf="@id/profileImage"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -82,7 +77,7 @@
                 android:id="@+id/unreadNoticationIcon"
                 android:layout_width="12dp"
                 android:layout_height="12dp"
-                android:layout_margin="10dp"
+                android:layout_margin="8dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/baseline_circle_24"
                 app:layout_constraintEnd_toEndOf="@id/notificationIcon"
@@ -119,175 +114,40 @@
                 <androidx.appcompat.widget.SearchView
                     android:id="@+id/searchChat"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="42dp"
                     android:layout_weight="1"
                     app:defaultQueryHint="@string/find_you_course_or_mentor"
                     app:iconifiedByDefault="false"
-                    app:queryBackground="@null" />
+                    app:queryBackground="@null"
+                    android:textSize="14sp"
+                    />
 
                 <ImageButton
                     android:id="@+id/filterButton"
-                    android:layout_width="50dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
                     android:background="@drawable/gradient_button_color_blue"
-                    android:padding="12dp"
+                    android:padding="10dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/filter_icon"
                     app:tint="@color/white" />
 
             </LinearLayout>
 
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/courseCategoryTabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="15dp"
-                android:background="@android:color/transparent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/searchViewLayout" />
-
-            <TextView
-                android:id="@+id/popularCoursesTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="@string/popular_courses"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="@id/seeAllButton"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/seeAllButton" />
-
-            <Button
-                android:id="@+id/seeAllButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="5dp"
-                android:background="@android:color/transparent"
-                android:text="@string/see_all"
-                android:textAllCaps="false"
-                android:textColor="@color/science_blue"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/courseCategoryTabLayout" />
-
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/coursesRecyclerView"
+                android:id="@+id/home_screen_rv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintTop_toBottomOf="@id/searchViewLayout"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/seeAllButton"
-                tools:listitem="@layout/course_item" />
-
-            <TextView
-                android:id="@+id/coursesInProgressTV"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:text="@string/courses_in_progress"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintTop_toBottomOf="@id/coursesRecyclerView"
-                app:layout_constraintStart_toStartOf="parent"
-                android:layout_marginVertical="20dp"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                android:orientation="vertical"
+                android:paddingVertical="15dp"
+                android:clipToPadding="false"
                 />
 
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/courseProgressCV"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginHorizontal="20dp"
-                app:contentPadding="10dp"
-                app:cardCornerRadius="15dp"
-                app:cardBackgroundColor="@color/white"
-                app:cardElevation="5dp"
-                app:layout_constraintTop_toBottomOf="@id/coursesInProgressTV"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                >
-
-                <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <com.google.android.material.imageview.ShapeableImageView
-                        android:id="@+id/currentCourseImage"
-                        android:layout_width="70dp"
-                        android:layout_height="70dp"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:shapeAppearanceOverlay="@style/roundedImageView"
-                        android:src="@drawable/splash_screen_background"
-                        android:scaleType="centerCrop"
-                        />
-
-                    <TextView
-                        android:id="@+id/currentCourseTitle"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:text="Current Course Title"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintStart_toEndOf="@id/currentCourseImage"
-                        app:layout_constraintEnd_toStartOf="@id/playCurrentCourseButton"
-                        android:layout_marginHorizontal="15dp"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        />
-
-                    <TextView
-                        android:id="@+id/courseTutor"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/currentCourseTitle"
-                        app:layout_constraintStart_toStartOf="@id/currentCourseTitle"
-                        app:layout_constraintEnd_toEndOf="@id/currentCourseTitle"
-                        android:maxLines="1"
-                        android:ellipsize="end"
-                        />
-
-                    <com.google.android.material.progressindicator.LinearProgressIndicator
-                        android:id="@+id/currentCourseProgress"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toBottomOf="@id/courseTutor"
-                        app:layout_constraintStart_toStartOf="@id/currentCourseTitle"
-                        app:layout_constraintEnd_toEndOf="@id/currentCourseTitle"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:trackCornerRadius="15dp"
-                        app:trackThickness="10dp"
-                        android:indeterminate="false"
-                        android:progress="50"
-                        app:indicatorColor="@color/mid_science_blue"
-                        app:trackColor="@color/pale_aqua"
-                        />
-
-                    <com.google.android.material.floatingactionbutton.FloatingActionButton
-                        android:id="@+id/playCurrentCourseButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:backgroundTint="@color/mid_science_blue"
-                        android:src="@drawable/baseline_play_arrow_24"
-                        app:tint="@color/white"
-                        app:maxImageSize="32dp"
-                        />
-
-                </androidx.constraintlayout.widget.ConstraintLayout>
-
-            </com.google.android.material.card.MaterialCardView>
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-    </androidx.core.widget.NestedScrollView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

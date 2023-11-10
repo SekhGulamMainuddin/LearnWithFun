@@ -119,6 +119,7 @@ dependencies {
     implementation("androidx.navigation:navigation-fragment-ktx:2.7.5")
     implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
     implementation("com.github.appsfeature:otp-view:1.0")
+    implementation("np.com.susanthapa:curved_bottom_navigation:0.6.5")
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")
