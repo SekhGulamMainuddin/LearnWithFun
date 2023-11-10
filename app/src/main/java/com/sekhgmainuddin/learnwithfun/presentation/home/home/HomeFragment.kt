@@ -4,21 +4,18 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.databinding.FragmentHomeBinding
-import com.sekhgmainuddin.learnwithfun.domain.modals.HomeViewContent
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseFragment
-import com.sekhgmainuddin.learnwithfun.presentation.home.HomeViewModel
 import com.sekhgmainuddin.learnwithfun.presentation.home.home.adapters.HomeScreenRVAdapter
+import com.sekhgmainuddin.learnwithfun.presentation.home.home.adapters.OnCourseClickListener
 import com.sekhgmainuddin.learnwithfun.presentation.home.home.uiStates.GetPopularCoursesState
 import com.sekhgmainuddin.learnwithfun.presentation.home.home.uiStates.GetUserDetailsState
 import kotlinx.coroutines.launch
@@ -47,19 +44,52 @@ class HomeFragment : BaseFragment() {
         registerListenersAndAdapters()
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
-        if(viewModel.userDetail.value == null){
+        if (viewModel.userDetail.value == null) {
             viewModel.getUserDetails()
             viewModel.getPopularCourses()
         }
         bindObserver()
+        registerClickListeners()
+    }
+
+    private fun registerClickListeners() {
+        binding.apply {
+            profileImage.setOnClickListener {
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
+            }
+        }
     }
 
     private fun registerListenersAndAdapters() {
-        homeScreenRVAdapter = HomeScreenRVAdapter()
+        homeScreenRVAdapter = HomeScreenRVAdapter(
+            object : OnCourseClickListener {
+                override fun onEnrolledCourseClicked(courseId: String) {
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToCourseTutorialFragment(
+                            courseId
+                        )
+                    )
+                }
+
+                override fun onCourseClicked(courseId: String) {
+                    findNavController().navigate(
+                        HomeFragmentDirections.actionHomeFragmentToEnrollCourseFragment(
+                            courseId
+                        )
+                    )
+                }
+
+                override fun onSeeAllCoursesClicked() {
+                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCoursesFragment())
+                }
+
+            },
+        )
         binding.homeScreenRv.adapter = homeScreenRVAdapter
-        homeScreenRVAdapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+        homeScreenRVAdapter.registerAdapterDataObserver(object :
+            RecyclerView.AdapterDataObserver() {
             override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
-                if (positionStart == 0){
+                if (positionStart == 0) {
                     binding.homeScreenRv.layoutManager?.scrollToPosition(0)
                 }
             }
@@ -75,7 +105,7 @@ class HomeFragment : BaseFragment() {
                         when (it) {
                             GetUserDetailsState.Initial -> {}
                             is GetUserDetailsState.Success -> {
-                                homeScreenRVAdapter.submitList(it.homeViewListContent)
+                                homeScreenRVAdapter.submitList(it.content)
                             }
                             GetUserDetailsState.Loading -> showProgressBar()
                             is GetUserDetailsState.Error -> {
@@ -97,6 +127,7 @@ class HomeFragment : BaseFragment() {
                             GetPopularCoursesState.Initial -> {}
                             is GetPopularCoursesState.Success -> {
                                 homeScreenRVAdapter.submitList(it.content)
+                                homeScreenRVAdapter.notifyItemChanged(0)
                             }
                             GetPopularCoursesState.Loading -> {}
                             is GetPopularCoursesState.Error -> {

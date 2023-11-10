@@ -7,25 +7,29 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sekhgmainuddin.learnwithfun.R
-import com.sekhgmainuddin.learnwithfun.data.dto.PopularCourse
+import com.sekhgmainuddin.learnwithfun.data.dto.PopularCourseDto
 import com.sekhgmainuddin.learnwithfun.databinding.CourseItemBinding
 
-class PopularCoursesAdapter :
-    ListAdapter<PopularCourse, PopularCoursesAdapter.PopularCourseViewHolder>(DiffCallback()) {
+class PopularCoursesAdapter(
+    private val courseClickListener: OnCourseClickListener
+) :
+    ListAdapter<PopularCourseDto, PopularCoursesAdapter.PopularCourseViewHolder>(DiffCallback()) {
 
-    inner class PopularCourseViewHolder(val binding: CourseItemBinding) :
+    inner class PopularCourseViewHolder(
+        val binding: CourseItemBinding,
+    ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(course: PopularCourse) {
+        fun bind(course: PopularCourseDto) {
             binding.course = course
         }
     }
 
-    private class DiffCallback : DiffUtil.ItemCallback<PopularCourse>() {
-        override fun areItemsTheSame(oldItem: PopularCourse, newItem: PopularCourse): Boolean {
-            return oldItem == newItem
+    private class DiffCallback : DiffUtil.ItemCallback<PopularCourseDto>() {
+        override fun areItemsTheSame(oldItem: PopularCourseDto, newItem: PopularCourseDto): Boolean {
+            return oldItem === newItem
         }
 
-        override fun areContentsTheSame(oldItem: PopularCourse, newItem: PopularCourse): Boolean {
+        override fun areContentsTheSame(oldItem: PopularCourseDto, newItem: PopularCourseDto): Boolean {
             return oldItem == newItem
         }
 
@@ -44,6 +48,9 @@ class PopularCoursesAdapter :
 
     override fun onBindViewHolder(holder: PopularCourseViewHolder, position: Int) {
         holder.bind(currentList[position])
+        holder.itemView.setOnClickListener {
+            courseClickListener.onCourseClicked(currentList[position]._id)
+        }
         holder.binding.executePendingBindings()
     }
 

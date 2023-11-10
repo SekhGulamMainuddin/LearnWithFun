@@ -28,7 +28,7 @@
         android:theme="@style/Theme.LearnWithFun"
         tools:targetApi="34">
         <activity
-            android:name=".presentation.course_video.CourseVideoActivity"
+            android:name=".presentation.courseVideo.CourseVideoActivity"
             android:exported="false"
             />
         <activity

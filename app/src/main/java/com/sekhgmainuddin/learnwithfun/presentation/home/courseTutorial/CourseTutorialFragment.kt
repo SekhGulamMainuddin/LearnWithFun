@@ -1,4 +1,4 @@
-package com.sekhgmainuddin.learnwithfun.presentation.home.course_tutorial
+package com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial
 
 import android.os.Bundle
 import android.view.LayoutInflater

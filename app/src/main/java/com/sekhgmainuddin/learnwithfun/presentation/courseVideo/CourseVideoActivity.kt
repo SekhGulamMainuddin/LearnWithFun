@@ -1,4 +1,4 @@
-package com.sekhgmainuddin.learnwithfun.presentation.course_video
+package com.sekhgmainuddin.learnwithfun.presentation.courseVideo
 
 import android.content.pm.ActivityInfo
 import androidx.databinding.DataBindingUtil

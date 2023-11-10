@@ -103,3 +103,8 @@ fun setLottieAnimation(view: LottieAnimationView, customRawRes: Int, customLoop:
     }
     view.playAnimation()
 }
+
+@BindingAdapter("app:makeSelectedAutomatically")
+fun makeSelectedAutomatically(view: TextView, makeSelectedAutomatically: Boolean) {
+    view.isSelected  = makeSelectedAutomatically
+}

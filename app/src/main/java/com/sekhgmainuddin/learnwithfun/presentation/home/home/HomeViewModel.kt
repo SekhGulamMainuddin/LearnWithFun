@@ -1,4 +1,4 @@
-package com.sekhgmainuddin.learnwithfun.presentation.home
+package com.sekhgmainuddin.learnwithfun.presentation.home.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,6 +12,7 @@ import com.sekhgmainuddin.learnwithfun.presentation.home.home.uiStates.GetPopula
 import com.sekhgmainuddin.learnwithfun.presentation.home.home.uiStates.GetUserDetailsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -30,23 +31,24 @@ class HomeViewModel @Inject constructor(
     val userDetail = MutableStateFlow<UserDetailDto?>(null)
 
     private var popularCourseList = HomeViewContent(emptyList())
-    private val homeViewContent = mutableListOf<HomeViewContent>()
+    private var homeViewContent = mutableListOf<HomeViewContent>()
 
     fun getUserDetails() = viewModelScope.launch(Dispatchers.IO) {
         getUserDetailsUseCase().collect {
             when (it) {
                 is NetworkResult.Success -> {
                     userDetail.value = it.data!!
-                    homeViewContent.clear()
                     val contentList = it.data!!.enrolled_courses.map { course ->
                         HomeViewContent(
                             enrolledCourseProgress = course
                         )
-                    }.toMutableList()
+                    }.toList()
+                    homeViewContent.clear()
+                    homeViewContent.add(popularCourseList)
+                    homeViewContent.add(HomeViewContent())
                     homeViewContent.addAll(contentList)
-                    homeViewContent.add(0, popularCourseList)
-                    homeViewContent.add(1, HomeViewContent())
-                    _userDetails.value = GetUserDetailsState.Success(contentList)
+                    // Done because ListAdapter DiffUtil doesn't call on same list
+                    _userDetails.value = GetUserDetailsState.Success(homeViewContent.toList())
                 }
 
                 is NetworkResult.Loading -> {
@@ -73,12 +75,11 @@ class HomeViewModel @Inject constructor(
             when (it) {
                 is NetworkResult.Success -> {
                     popularCourseList = it.data!!
-                    try {
+                    if(homeViewContent.isNotEmpty()){
                         homeViewContent[0] = popularCourseList
-                    } catch (e: Exception) {
-                        homeViewContent.add(popularCourseList)
+                        _popularCourses.value = GetPopularCoursesState.Success(homeViewContent.toList())
                     }
-                    _popularCourses.value = GetPopularCoursesState.Success(homeViewContent)
+                    // Done because ListAdapter DiffUtil doesn't call on same list
                 }
 
                 is NetworkResult.Loading -> {

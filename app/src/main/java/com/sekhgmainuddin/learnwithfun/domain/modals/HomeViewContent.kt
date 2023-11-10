@@ -1,9 +1,9 @@
 package com.sekhgmainuddin.learnwithfun.domain.modals
 
-import com.sekhgmainuddin.learnwithfun.data.dto.EnrolledCourse
-import com.sekhgmainuddin.learnwithfun.data.dto.PopularCourse
+import com.sekhgmainuddin.learnwithfun.data.dto.EnrolledCourseDto
+import com.sekhgmainuddin.learnwithfun.data.dto.PopularCourseDto
 
 data class HomeViewContent (
-    val popularCourse: List<PopularCourse>? = null,
-    val enrolledCourseProgress : EnrolledCourse? = null
+    val popularCourse: List<PopularCourseDto>? = null,
+    val enrolledCourseProgress : EnrolledCourseDto? = null
 )

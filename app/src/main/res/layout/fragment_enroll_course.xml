@@ -6,16 +6,15 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
-        <import type="com.sekhgmainuddin.learnwithfun.R"/>
         <variable
-            name="courseDetail"
-            type="com.sekhgmainuddin.learnwithfun.domain.modals.CourseDetail" />
+            name="viewModel"
+            type="com.sekhgmainuddin.learnwithfun.presentation.home.enrollCourse.EnrollCourseViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentation.home.enroll_course.EnrollCourseFragment"
+        tools:context=".presentation.home.enrollCourse.EnrollCourseFragment"
         android:background="@drawable/background">
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -70,8 +69,8 @@
                     android:id="@+id/tutorName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    app:full_text="@{@string/by(courseDetail.tutorName)}"
-                    app:span_text="@{courseDetail.tutorName}"
+                    app:full_text="@{@string/by(viewModel.courseDetail.instructorName)}"
+                    app:span_text="@{viewModel.courseDetail.instructorName ?? ` `}"
                     app:span_color="@{@color/black}"
                     android:textSize="16sp"
                     />
@@ -81,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="10dp"
-                    android:text="@{courseDetail.courseName}"
+                    android:text="@{viewModel.courseDetail.courseName}"
                     android:textAlignment="viewStart"
                     android:textColor="@color/black"
                     android:textSize="38sp"
@@ -92,7 +91,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="15dp">
+                    android:layout_marginBottom="10dp">
 
                     <View
                         android:layout_width="match_parent"
@@ -107,15 +106,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
-                        android:gravity="center">
+                        android:gravity="center"
+                        android:paddingBottom="5dp">
 
                         <include
                             layout="@layout/course_detail_item"
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"
-                            bind:stringData="@{`100k+`}"
+                            bind:stringData="@{String.valueOf(viewModel.courseDetail.studentsEnrolled.totalCount)}"
                             bind:color="@{@color/orange}"
-                            bind:label="@{`Student`}"
+                            bind:label="@{@string/students}"
                             />
 
                         <Space
@@ -129,7 +129,7 @@
                             android:layout_width="wrap_content"
                             bind:drawableResource="@{@drawable/reviews_icon}"
                             bind:color="@{@color/redColor}"
-                            bind:label="@{`Reviews`}"
+                            bind:label="@{@string/reviews}"
                             />
 
                         <Space
@@ -165,11 +165,10 @@
                     <com.google.android.material.imageview.ShapeableImageView
                         android:layout_width="match_parent"
                         android:layout_height="215dp"
-                        android:src="@drawable/splash_screen_background"
                         android:scaleType="centerCrop"
                         android:background="@drawable/rounded_corners_ll"
                         app:shapeAppearanceOverlay="@style/roundedImageView"
-                        app:imageUrl="@{courseDetail.courseThumbnail}"
+                        app:imageUrl="@{viewModel.courseDetail.courseThumbnail}"
                         app:progressBar="@{progressIndicator}"
                         />
 
@@ -190,7 +189,7 @@
                     android:id="@+id/courseDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@{courseDetail.courseDesc}"
+                    android:text="@{viewModel.courseDetail.courseDesc}"
                     android:textSize="14sp"
                     android:fontFamily="@font/noto_sans_medium"
                     android:textColor="@color/darkGrey"
@@ -208,7 +207,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         layout="@layout/about_course_item_layout"
-                        bind:value="@{String.valueOf(courseDetail.totalLessons)}"
+                        bind:value="@{String.valueOf(viewModel.courseDetail.contents.size())}"
                         bind:label="@{`Lessons`}"
                         />
 
@@ -217,7 +216,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         layout="@layout/about_course_item_layout"
-                        bind:value="@{String.valueOf(courseDetail.ratings)}"
+                        bind:value="@{String.valueOf(4.5)}"
                         bind:label="@{`Ratings`}"
                         android:layout_marginHorizontal="10dp"
                         />
@@ -227,7 +226,7 @@
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         layout="@layout/about_course_item_layout"
-                        bind:value="@{String.valueOf(courseDetail.totalNumberEnrolledCandidates)}"
+                        bind:value="@{String.valueOf(viewModel.courseDetail.studentsEnrolled.totalCount)}"
                         bind:label="@{`Enrolled`}"
                         />
 

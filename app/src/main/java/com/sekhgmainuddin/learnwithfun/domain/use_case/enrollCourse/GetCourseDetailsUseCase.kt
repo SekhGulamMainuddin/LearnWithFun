@@ -1,23 +1,23 @@
-package com.sekhgmainuddin.learnwithfun.domain.use_case.home
+package com.sekhgmainuddin.learnwithfun.domain.use_case.enrollCourse
 
+import android.util.Log
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.helper.NetworkResult
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.getErrorMessage
-import com.sekhgmainuddin.learnwithfun.domain.modals.HomeViewContent
-import com.sekhgmainuddin.learnwithfun.domain.repository.HomeRepository
+import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.CourseDetailDto
+import com.sekhgmainuddin.learnwithfun.domain.repository.EnrollCourseRepository
 import kotlinx.coroutines.flow.flow
 import java.io.IOException
 import javax.inject.Inject
 
-class GetPopularCoursesUseCase @Inject constructor(
-    private val repository: HomeRepository
+class GetCourseDetailsUseCase @Inject constructor(
+    private val repository: EnrollCourseRepository
 ) {
-    operator fun invoke() = flow<NetworkResult<HomeViewContent>> {
+    operator fun invoke(courseId: String) = flow<NetworkResult<CourseDetailDto>> {
         try {
-            val response = repository.getPopularCourses()
+            val response = repository.getCourseDetails(courseId)
             if (response.isSuccessful) {
-                val courses = HomeViewContent(response.body()!!)
-                emit(NetworkResult.Success(courses))
+                emit(NetworkResult.Success(response.body()!!))
             } else {
                 emit(
                     NetworkResult.Error(
@@ -28,7 +28,7 @@ class GetPopularCoursesUseCase @Inject constructor(
             }
         } catch (e: IOException) {
             emit(NetworkResult.Error(strResMessage = R.string.no_internet_please_check_your_internet_connection))
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             emit(NetworkResult.Error(strResMessage = R.string.default_error_message))
         }
     }

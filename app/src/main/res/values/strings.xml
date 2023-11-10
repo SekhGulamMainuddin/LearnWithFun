@@ -38,6 +38,8 @@
     <string name="popular_courses">Popular courses</string>
     <string name="popular">Popular</string>
     <string name="course">Course</string>
+    <string name="reviews">Reviews</string>
+    <string name="students">Students</string>
     <string name="see_all">See all</string>
     <string name="new_collection">New Collection</string>
     <string name="courses_in_progress">Courses in Progress</string>

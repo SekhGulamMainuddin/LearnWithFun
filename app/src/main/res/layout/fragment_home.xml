@@ -7,7 +7,7 @@
         <import type="com.sekhgmainuddin.learnwithfun.R"/>
         <variable
             name="viewModel"
-            type="com.sekhgmainuddin.learnwithfun.presentation.home.HomeViewModel" />
+            type="com.sekhgmainuddin.learnwithfun.presentation.home.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -29,6 +29,7 @@
                 app:errorImage="@{R.drawable.default_user_image}"
                 app:placeholder="@{R.drawable.default_user_image}"
                 android:elevation="6dp"
+                android:clickable="true"
                 />
 
             <ProgressBar

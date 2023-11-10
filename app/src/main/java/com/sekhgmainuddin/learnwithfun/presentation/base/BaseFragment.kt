@@ -51,6 +51,10 @@ open class BaseFragment : Fragment() {
         callback?.hideProgressDialog()
     }
 
+    protected fun pressBack() {
+        activity?.onBackPressedDispatcher?.onBackPressed()
+    }
+
     override fun onDetach() {
         super.onDetach()
         callback = null

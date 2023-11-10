@@ -1,6 +1,6 @@
 package com.sekhgmainuddin.learnwithfun.data.dto
 
-data class PopularCourse(
+data class PopularCourseDto(
     val _id: String,
     val courseName: String,
     val courseThumbnail: String,

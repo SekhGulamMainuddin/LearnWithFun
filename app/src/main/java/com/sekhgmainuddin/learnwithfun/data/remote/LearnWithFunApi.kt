@@ -1,9 +1,9 @@
 package com.sekhgmainuddin.learnwithfun.data.remote
 
 import com.sekhgmainuddin.learnwithfun.data.dto.CreateUserDto
-import com.sekhgmainuddin.learnwithfun.data.dto.PopularCourses
+import com.sekhgmainuddin.learnwithfun.data.dto.PopularCoursesDto
 import com.sekhgmainuddin.learnwithfun.data.dto.UserDetailDto
-import com.sekhgmainuddin.learnwithfun.data.dto.UserDto
+import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.CourseDetailDto
 import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.CreateUserBodyParams
 import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.GetOTPBodyParams
 import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.VerifyEmailBodyParams
@@ -34,6 +34,9 @@ interface LearnWithFunApi {
     suspend fun getUserDetails() : Response<UserDetailDto>
 
     @GET("course/get-recommended-courses")
-    suspend fun getPopularCourses() : Response<PopularCourses>
+    suspend fun getPopularCourses() : Response<PopularCoursesDto>
+
+    @GET("course/")
+    suspend fun getCourseDetails(@Query("id") id: String) : Response<CourseDetailDto>
 
 }

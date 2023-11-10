@@ -12,10 +12,18 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_enrollCourseFragment"
-            app:destination="@id/enrollCourseFragment" />
+            app:destination="@id/enrollCourseFragment" >
+            <argument
+                android:name="courseId"
+                app:argType="string" />
+        </action>
         <action
             android:id="@+id/action_homeFragment_to_courseTutorialFragment"
-            app:destination="@id/courseTutorialFragment" />
+            app:destination="@id/courseTutorialFragment" >
+            <argument
+                android:name="courseId"
+                app:argType="string" />
+        </action>
         <action
             android:id="@+id/action_homeFragment_to_coursesFragment"
             app:destination="@id/coursesFragment" />
@@ -25,14 +33,21 @@
     </fragment>
     <fragment
         android:id="@+id/enrollCourseFragment"
-        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.enroll_course.EnrollCourseFragment"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.enrollCourse.EnrollCourseFragment"
         android:label="EnrollCourseFragment"
-        tools:layout="@layout/fragment_enroll_course" />
+        tools:layout="@layout/fragment_enroll_course">
+        <argument
+            android:name="courseId"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/courseTutorialFragment"
-        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.course_tutorial.CourseTutorialFragment"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.CourseTutorialFragment"
         android:label="CourseTutorialFragment"
-        tools:layout="@layout/fragment_course_tutorial" >
+        tools:layout="@layout/fragment_course_tutorial">
+        <argument
+            android:name="courseId"
+            app:argType="string" />
         <action
             android:id="@+id/action_courseTutorialFragment_to_quizFragment"
             app:destination="@id/quizFragment" />

@@ -1,6 +1,5 @@
 package com.sekhgmainuddin.learnwithfun.presentation.home.home.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.LinearLayout.HORIZONTAL
@@ -11,24 +10,26 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sekhgmainuddin.learnwithfun.R
-import com.sekhgmainuddin.learnwithfun.data.dto.EnrolledCourse
+import com.sekhgmainuddin.learnwithfun.data.dto.EnrolledCourseDto
 import com.sekhgmainuddin.learnwithfun.databinding.EnrolledCourseProgressRvBinding
 import com.sekhgmainuddin.learnwithfun.databinding.EnrolledCoursesLabelRvBinding
 import com.sekhgmainuddin.learnwithfun.databinding.PopularCoursesHorizontalRvBinding
 import com.sekhgmainuddin.learnwithfun.domain.modals.HomeViewContent
 
-const val POPULAR_COURSES = 0
-const val ENROLLED_COURSES_LABEL = 1
-const val ENROLLED_COURSES = 2
+class HomeScreenRVAdapter(
+    private val onCourseClickListener: OnCourseClickListener
+) : ListAdapter<HomeViewContent, RecyclerView.ViewHolder>(DiffCallback()) {
 
-class HomeScreenRVAdapter : ListAdapter<HomeViewContent, RecyclerView.ViewHolder>(DiffCallback()) {
+    private val POPULAR_COURSES = 0
+    private val ENROLLED_COURSES_LABEL = 1
+    private val ENROLLED_COURSES = 2
 
     private class DiffCallback : DiffUtil.ItemCallback<HomeViewContent>() {
         override fun areItemsTheSame(
             oldItem: HomeViewContent,
             newItem: HomeViewContent
         ): Boolean {
-            return oldItem == newItem
+            return oldItem.enrolledCourseProgress == newItem.enrolledCourseProgress && oldItem.popularCourse == newItem.popularCourse
         }
 
         override fun areContentsTheSame(
@@ -48,7 +49,8 @@ class HomeScreenRVAdapter : ListAdapter<HomeViewContent, RecyclerView.ViewHolder
                         R.layout.popular_courses_horizontal_rv,
                         parent,
                         false
-                    )
+                    ),
+                    onCourseClickListener
                 )
 
             ENROLLED_COURSES_LABEL ->
@@ -76,9 +78,22 @@ class HomeScreenRVAdapter : ListAdapter<HomeViewContent, RecyclerView.ViewHolder
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = currentList[position]
         when (position) {
-            0 -> (holder as PopularCoursesViewHolder).bind(item)
+            0 -> {
+                val popularCoursesHolder = holder as PopularCoursesViewHolder
+                popularCoursesHolder.bind(item)
+                popularCoursesHolder.binding.seeAllButton.setOnClickListener {
+                    onCourseClickListener.onSeeAllCoursesClicked()
+                }
+            }
+
             1 -> (holder as LabelViewHolder)
-            else -> (holder as EnrolledProgressViewHolder).bind(item.enrolledCourseProgress!!)
+            else -> {
+                val enrolledCourseHolder = holder as EnrolledProgressViewHolder
+                enrolledCourseHolder.bind(item.enrolledCourseProgress!!)
+                enrolledCourseHolder.binding.playCurrentCourseButton.setOnClickListener {
+                    onCourseClickListener.onEnrolledCourseClicked(item.enrolledCourseProgress.courseId)
+                }
+            }
         }
     }
 
@@ -98,12 +113,15 @@ class HomeScreenRVAdapter : ListAdapter<HomeViewContent, RecyclerView.ViewHolder
         }
     }
 
-    private inner class PopularCoursesViewHolder(val binding: PopularCoursesHorizontalRvBinding) :
+    private inner class PopularCoursesViewHolder(
+        val binding: PopularCoursesHorizontalRvBinding,
+        val courseClickListener: OnCourseClickListener
+    ) :
         RecyclerView.ViewHolder(binding.root) {
         private var popularCoursesAdapter: PopularCoursesAdapter? = null
         fun bind(content: HomeViewContent) {
             if (binding.coursesRecyclerView.adapter == null) {
-                popularCoursesAdapter = PopularCoursesAdapter()
+                popularCoursesAdapter = PopularCoursesAdapter(courseClickListener)
                 binding.apply {
                     coursesRecyclerView.adapter = popularCoursesAdapter
                     val divider = DividerItemDecoration(
@@ -121,7 +139,6 @@ class HomeScreenRVAdapter : ListAdapter<HomeViewContent, RecyclerView.ViewHolder
                     )
                 }
             }
-            Log.d("PopularCourses", "bind: $content")
             popularCoursesAdapter?.submitList(content.popularCourse)
         }
     }
@@ -129,9 +146,11 @@ class HomeScreenRVAdapter : ListAdapter<HomeViewContent, RecyclerView.ViewHolder
     private inner class LabelViewHolder(binding: EnrolledCoursesLabelRvBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    private inner class EnrolledProgressViewHolder(val binding: EnrolledCourseProgressRvBinding) :
+    private inner class EnrolledProgressViewHolder(
+        val binding: EnrolledCourseProgressRvBinding
+    ) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(enrolledCourse: EnrolledCourse) {
+        fun bind(enrolledCourse: EnrolledCourseDto) {
             binding.enrolledCourse = enrolledCourse
         }
     }
