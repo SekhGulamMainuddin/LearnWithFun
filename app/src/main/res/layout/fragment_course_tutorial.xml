@@ -5,8 +5,8 @@
 
     <data>
         <variable
-            name="courseDetail"
-            type="com.sekhgmainuddin.learnwithfun.domain.modals.CourseDetail" />
+            name="viewModel"
+            type="com.sekhgmainuddin.learnwithfun.presentation.home.couses.CourseViewModel" />
     </data>
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -36,15 +36,19 @@
                 android:id="@+id/tutorName"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                app:full_text="@{@string/by(courseDetail.tutorName)}"
-                app:span_text="@{courseDetail.tutorName}"
-                app:span_color="@{@color/black}"
+                app:full_text="@{@string/by(viewModel.courseDetail.instructorName)}"
+                app:span_text="@{@string/by_}"
+                app:span_color="@{@color/grey}"
+                app:non_span_style="@{`bold`}"
+                android:textStyle="bold"
+                android:fontFamily="@font/noto_sans_semi_bold"
                 android:textSize="16sp"
+                android:textColor="@color/black"
                 app:layout_constraintTop_toBottomOf="@id/backButton"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginHorizontal="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="15dp"
                 android:textAlignment="viewStart"
                 />
 
@@ -52,8 +56,9 @@
                 android:id="@+id/courseTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="10dp"
-                android:text="@{courseDetail.courseName}"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:text="@{viewModel.courseDetail.courseName}"
                 android:textAlignment="viewStart"
                 android:textColor="@color/black"
                 android:textSize="38sp"
@@ -87,7 +92,8 @@
                 android:layout_marginTop="20dp"
                 android:padding="20dp"
                 android:clipToPadding="false"
-                tools:listitem="@layout/course_content_item_desc"
+                android:orientation="vertical"
+                tools:listitem="@layout/course_content_item"
                 />
 
 

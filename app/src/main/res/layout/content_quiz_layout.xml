@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+        <variable
+            name="content"
+            type="com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.ContentDto" />
+        <variable
+            name="clickHandler"
+            type="com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.CourseContentAdapter.CourseContentClickListener" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/gradient_border_ll">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/quizAnimation"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:lottie_autoPlay="true"
+            app:lottie_rawRes="@raw/content_quiz_animation"
+            app:lottie_loop="true"
+            android:scaleType="fitXY"
+            />
+
+        <TextView
+            android:id="@+id/quizTitle"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/noto_sans_semi_bold"
+            android:text="@{content.title, default = `Intoduction to Figma`}"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintStart_toEndOf="@id/quizAnimation"
+            app:layout_constraintEnd_toStartOf="@id/attendButton"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/quizDesc"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:text="@{content.desc, default = `ajdashdiyhasoidyhaiosdyhaosidyhoaisyhdoiasdnlaknclo ;oghdoi;qwhjd;oijhd kashd;kashd;.kashd;oiqwyh;eoih;lk jhalsjkdgho`}"
+            android:textColor="@color/grey"
+            android:layout_marginHorizontal="10dp"
+            app:layout_constraintStart_toEndOf="@id/quizAnimation"
+            app:layout_constraintEnd_toStartOf="@id/attendButton"
+            app:layout_constraintTop_toBottomOf="@id/quizTitle"
+            android:maxLines="2"
+            android:ellipsize="end"
+            />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/attendButton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/science_blue"
+            android:layout_marginEnd="10dp"
+            app:shapeAppearanceOverlay="@style/circularImageView"
+            android:src="@drawable/baseline_navigate_next_24"
+            app:tint="@color/white"
+            app:contentPadding="10dp"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:clickable="true"
+            android:onClick="@{clickHandler::attendQuiz}"
+            />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -49,6 +49,7 @@
     <string name="show_less">Show less</string>
     <string name="ellipsis">…</string>
     <string name="by">By %s</string>
+    <string name="by_">By</string>
     <string name="week_with_number">Week %s</string>
     <string name="play_video">Play Video</string>
     <string name="player_time_separator">:</string>
@@ -84,5 +85,6 @@
     <string name="enter_phone_number">Enter Phone Number</string>
     <string name="verify_your_phone_number_first">Verify your Phone Number first</string>
     <string name="_91">+91</string>
+    <string name="quiz">Quiz</string>
 
 </resources>

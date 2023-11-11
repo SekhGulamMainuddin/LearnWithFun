@@ -70,7 +70,6 @@ class HomeFragment : BaseFragment() {
                         )
                     )
                 }
-
                 override fun onCourseClicked(courseId: String) {
                     findNavController().navigate(
                         HomeFragmentDirections.actionHomeFragmentToEnrollCourseFragment(
@@ -78,7 +77,6 @@ class HomeFragment : BaseFragment() {
                         )
                     )
                 }
-
                 override fun onSeeAllCoursesClicked() {
                     findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCoursesFragment())
                 }

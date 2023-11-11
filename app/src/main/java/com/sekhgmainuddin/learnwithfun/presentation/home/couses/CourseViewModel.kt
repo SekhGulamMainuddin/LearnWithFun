@@ -1,4 +1,4 @@
-package com.sekhgmainuddin.learnwithfun.presentation.home.enrollCourse
+package com.sekhgmainuddin.learnwithfun.presentation.home.couses
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -12,12 +12,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class EnrollCourseViewModel @Inject constructor(
+class CourseViewModel @Inject constructor(
     private val getCourseDetailsUseCase: GetCourseDetailsUseCase
 ) : ViewModel() {
 
@@ -29,6 +28,7 @@ class EnrollCourseViewModel @Inject constructor(
     val courseDetail = MutableStateFlow<CourseDetailDto?>(null)
 
     fun getCourseDetails(courseId: String) = viewModelScope.launch(Dispatchers.IO) {
+        courseDetail.value = null
         getCourseDetailsUseCase(courseId).collect {
             when (it) {
                 is NetworkResult.Success -> {

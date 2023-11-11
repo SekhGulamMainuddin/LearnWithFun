@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <import type="android.view.View"/>
         <variable
             name="weekNumber"
             type="int" />
@@ -26,11 +26,13 @@
         android:layout_marginStart="-10dp">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/weekItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/interdimensional_blue"
+            app:cardBackgroundColor="@{isSelected?@color/interdimensional_blue:@color/white}"
             app:cardCornerRadius="25dp"
             android:clickable="true"
+            app:cardElevation="@{isSelected ? @dimen/dp_2 : @dimen/dp_0}"
             >
 
             <TextView
@@ -42,6 +44,8 @@
                 android:textSize="14sp"
                 android:paddingHorizontal="25dp"
                 android:paddingVertical="10dp"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
                 />
 
         </androidx.cardview.widget.CardView>
@@ -52,6 +56,7 @@
             android:background="@color/white"
             android:layout_marginStart="-10dp"
             android:elevation="-1dp"
+            android:visibility="@{isEnd ? View.GONE : View.VISIBLE}"
             />
 
     </LinearLayout>

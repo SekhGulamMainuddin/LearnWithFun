@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.data.dto.PopularCourseDto
-import com.sekhgmainuddin.learnwithfun.databinding.CourseItemBinding
+import com.sekhgmainuddin.learnwithfun.databinding.PopularCourseItemBinding
 
 class PopularCoursesAdapter(
     private val courseClickListener: OnCourseClickListener
@@ -16,7 +16,7 @@ class PopularCoursesAdapter(
     ListAdapter<PopularCourseDto, PopularCoursesAdapter.PopularCourseViewHolder>(DiffCallback()) {
 
     inner class PopularCourseViewHolder(
-        val binding: CourseItemBinding,
+        val binding: PopularCourseItemBinding,
     ) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(course: PopularCourseDto) {
@@ -39,7 +39,7 @@ class PopularCoursesAdapter(
         return PopularCourseViewHolder(
             DataBindingUtil.inflate(
                 LayoutInflater.from(parent.context),
-                R.layout.course_item,
+                R.layout.popular_course_item,
                 parent,
                 false
             )

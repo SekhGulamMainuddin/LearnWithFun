@@ -11,5 +11,7 @@ data class CourseDetailDto(
     val price: Double,
     val studentsEnrolled: StudentsEnrolledDto,
     val tags: List<String>,
-    val instructorName: String
+    val instructorName: String,
+    val weekMap: HashMap<String, Int>,
+    val courseCoverage: CourseCoverageDto
 )

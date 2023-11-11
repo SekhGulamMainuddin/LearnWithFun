@@ -131,7 +131,7 @@ class HomeScreenRVAdapter(
                     divider.setDrawable(
                         ContextCompat.getDrawable(
                             coursesRecyclerView.context,
-                            R.drawable.popular_course_item_divider
+                            R.drawable.horizontal_20_dp_space_divider
                         )!!
                     )
                     coursesRecyclerView.addItemDecoration(
