@@ -54,9 +54,9 @@
     </fragment>
     <fragment
         android:id="@+id/quizFragment"
-        android:name="com.sekhgmainuddin.learnwithfun.presentation.quiz.fragment.QuizFragment"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.quiz.QuizActivity"
         android:label="QuizFragment"
-        tools:layout="@layout/fragment_quiz" />
+        tools:layout="@layout/activity_quiz" />
     <fragment
         android:id="@+id/coursesFragment"
         android:name="com.sekhgmainuddin.learnwithfun.presentation.home.couses.CoursesFragment"

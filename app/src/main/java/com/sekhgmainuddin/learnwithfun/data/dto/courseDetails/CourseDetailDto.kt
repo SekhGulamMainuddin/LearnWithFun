@@ -1,5 +1,9 @@
 package com.sekhgmainuddin.learnwithfun.data.dto.courseDetails
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class CourseDetailDto(
     val __v: Int,
     val _id: String,
@@ -14,4 +18,4 @@ data class CourseDetailDto(
     val instructorName: String,
     val weekMap: HashMap<String, Int>,
     val courseCoverage: CourseCoverageDto
-)
+) : Parcelable

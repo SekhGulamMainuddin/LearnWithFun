@@ -86,5 +86,9 @@
     <string name="verify_your_phone_number_first">Verify your Phone Number first</string>
     <string name="_91">+91</string>
     <string name="quiz">Quiz</string>
+    <string name="course_details_not_found">Course and Contents Not Found</string>
+    <string name="other_videos">Other Videos</string>
+    <string name="other_attachments_with_this_video">Other Attachments with this video</string>
+    <string name="notes">Notes</string>
 
 </resources>

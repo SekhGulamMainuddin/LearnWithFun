@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.sekhgmainuddin.learnwithfun.R" />
+
+        <variable
+            name="content"
+            type="com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.ContentDto" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="185dp"
+        android:layout_height="165dp"
+        android:layout_marginVertical="10dp"
+        android:clickable="true"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="5dp">
+
+        <LinearLayout
+            android:id="@+id/courseVideoItemLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/videoCV"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                app:cardBackgroundColor="@color/black"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="0dp">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        app:imageUrl="@{content.thumbnail ?? ` `}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:placeholder="@{R.drawable.black_drawable}"
+                        app:progressBar="@{progressBar}" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="1dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/baseline_play_circle_filled_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:elevation="4dp"
+                        app:cardBackgroundColor="#E9FFFFFF"
+                        app:cardCornerRadius="25dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="2dp"
+                            android:fontFamily="@font/noto_sans_semi_bold"
+                            android:paddingHorizontal="4dp"
+                            android:paddingVertical="2dp"
+                            android:text="@{content.courseDuration ?? ` `}"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            app:drawableStartCompat="@drawable/baseline_access_time_12" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/contentTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans_semi_bold"
+                android:maxLines="1"
+                android:text="@{content.title, default = `Intoduction to Figma`}"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:ellipsize="marquee"
+                android:singleLine="true"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:fadingEdge="horizontal"
+                android:scrollHorizontally="true"
+                app:makeSelectedAutomatically="@{true}"
+                android:paddingHorizontal="10dp"/>
+
+            <TextView
+                android:id="@+id/contentDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:paddingVertical="5dp"
+                android:text="@{content.desc, default = `ajdashdiyhasoidyhaiosdyhaosidyhoaisyhdoiasdnlaknclo ;oghdoi;qwhjd;oijhd kashd;kashd;.kashd;oiqwyh;eoih;lk jhalsjkdgho`}"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                android:paddingHorizontal="10dp"
+                android:layout_marginBottom="5dp"/>
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

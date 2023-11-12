@@ -1,15 +1,13 @@
-package com.sekhgmainuddin.learnwithfun.presentation.quiz.fragment
+package com.sekhgmainuddin.learnwithfun.presentation.quiz
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
+import androidx.activity.viewModels
 import androidx.annotation.OptIn
+import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
@@ -19,7 +17,6 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
@@ -31,9 +28,7 @@ import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions.FAST
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.enums.CheatingStatus
 import com.sekhgmainuddin.learnwithfun.common.utils.CameraUtility
-import com.sekhgmainuddin.learnwithfun.databinding.FragmentQuizBinding
-import com.sekhgmainuddin.learnwithfun.presentation.base.BaseFragment
-import com.sekhgmainuddin.learnwithfun.presentation.quiz.QuizViewModel
+import com.sekhgmainuddin.learnwithfun.databinding.ActivityQuizBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -43,35 +38,21 @@ import pub.devrel.easypermissions.EasyPermissions
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class QuizFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
+class QuizActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
 
-    private var _binding: FragmentQuizBinding? = null
-    private val binding: FragmentQuizBinding
-        get() = _binding!!
+    private lateinit var binding: ActivityQuizBinding
     private var imageCapture: ImageCapture? = null
     private var cameraExecutor: ExecutorService? = null
-    private val viewModel by activityViewModels<QuizViewModel>()
+    private val viewModel by viewModels<QuizViewModel>()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = DataBindingUtil.inflate(
-            inflater, R.layout.fragment_quiz, container, false
-        )
-
-        return _binding!!.root
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_quiz)
 
         requestPermission()
         cameraExecutor = Executors.newSingleThreadExecutor()
 
-        val displayMetrics = requireContext().resources.displayMetrics
+        val displayMetrics = resources.displayMetrics
         val screenHeight = displayMetrics.heightPixels
         val screenWidth = displayMetrics.widthPixels
         var dX = 0.0f
@@ -83,6 +64,7 @@ class QuizFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
                 MotionEvent.ACTION_DOWN -> {
                     dX = dragView.x - event.rawX
                     dY = dragView.y - event.rawY
+                    dragView.performClick()
                 }
 
                 MotionEvent.ACTION_MOVE -> {
@@ -91,6 +73,7 @@ class QuizFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
                     if (newX <= 0 || newX >= screenWidth - dragView.width || newY <= 0 || newY >= screenHeight - dragView.height) {
                         return@setOnTouchListener true
                     }
+                    dragView.performClick()
                     dragView.x = newX
                     dragView.y = newY
                 }
@@ -101,6 +84,7 @@ class QuizFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
             }
             true
         }
+
     }
 
     override fun onPause() {
@@ -108,15 +92,14 @@ class QuizFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
         Log.d("firebaseMLKIT", "onPause: APP CHANGED")
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun onDestroy() {
+        super.onDestroy()
         cameraExecutor?.shutdown()
         cameraExecutor = null
     }
 
     private fun startCamera() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext())
+        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
         cameraProviderFuture.addListener({
             val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
             val preview = Preview.Builder()
@@ -151,7 +134,7 @@ class QuizFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
             } catch (exc: Exception) {
                 Log.e("cameraXLog", "Use case binding failed", exc)
             }
-        }, ContextCompat.getMainExecutor(requireContext()))
+        }, ContextCompat.getMainExecutor(this))
 
     }
 
@@ -225,7 +208,7 @@ class QuizFragment : BaseFragment(), EasyPermissions.PermissionCallbacks {
 
     private fun requestPermission() {
 
-        if (CameraUtility.hasCameraPermissions(requireContext())) {
+        if (CameraUtility.hasCameraPermissions(this)) {
             startCamera()
             return
         }

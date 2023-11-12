@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
         <import type="com.sekhgmainuddin.learnwithfun.R"/>
@@ -9,7 +10,7 @@
             type="com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.ContentDto" />
         <variable
             name="clickHandler"
-            type="com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.CourseContentAdapter.CourseContentClickListener" />
+            type="com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.CourseContentClickListener" />
     </data>
 
     <LinearLayout
@@ -21,10 +22,10 @@
             android:id="@+id/videoCV"
             android:layout_width="match_parent"
             android:layout_height="210dp"
-            android:layout_marginBottom="20dp"
             android:clickable="true"
             app:cardBackgroundColor="@color/black"
             app:cardCornerRadius="20dp"
+            android:layout_marginBottom="12dp"
             app:cardElevation="0dp"
             android:onClick="@{clickHandler::playVideo}"
             android:focusable="false"
@@ -107,13 +108,13 @@
             android:elevation="10dp"
             app:cardBackgroundColor="@color/white"
             app:cardCornerRadius="20dp"
-            app:contentPadding="15dp"
-            app:contentPaddingBottom="10dp"
             app:strokeColor="@color/grey">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="15dp"
+                android:paddingVertical="10dp">
 
                 <TextView
                     android:id="@+id/contentTitle"

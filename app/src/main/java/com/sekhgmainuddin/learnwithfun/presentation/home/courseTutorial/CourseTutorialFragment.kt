@@ -1,11 +1,14 @@
 package com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
@@ -20,6 +23,7 @@ import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.CourseDetailDto
 import com.sekhgmainuddin.learnwithfun.databinding.FragmentCourseTutorialBinding
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseFragment
+import com.sekhgmainuddin.learnwithfun.presentation.courseVideo.CourseVideoActivity
 import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.CourseContentAdapter
 import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.OnCourseContentClickListener
 import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.WeeksAdapter
@@ -27,7 +31,6 @@ import com.sekhgmainuddin.learnwithfun.presentation.home.couses.CourseViewModel
 import com.sekhgmainuddin.learnwithfun.presentation.home.enrollCourse.uiStates.GetCourseDetailsState
 import kotlinx.coroutines.launch
 import kotlin.random.Random
-
 
 class CourseTutorialFragment : BaseFragment() {
 
@@ -42,6 +45,8 @@ class CourseTutorialFragment : BaseFragment() {
     private val weekList = arrayListOf<Pair<String, Boolean>>()
     private var courseDetailDto: CourseDetailDto? = null
     private var previousVisibleItem = -1
+
+    private var previousClickedItem = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -69,23 +74,34 @@ class CourseTutorialFragment : BaseFragment() {
             backButton.setOnClickListener {
                 pressBack()
             }
-            weeksAdapter = WeeksAdapter { position->
+            weeksAdapter = WeeksAdapter { position ->
                 courseContentRecyclerView.smoothScrollToPosition(
-                    courseDetailDto!!.weekMap[(position+1).toString()]!!
+                    courseDetailDto!!.weekMap[(position + 1).toString()]!!
                 )
             }
             weekRecyclerView.adapter = weeksAdapter
             courseContentAdapter = CourseContentAdapter(
                 object : OnCourseContentClickListener {
                     override fun playVideo(contentPosition: Int) {
-                        Log.d("ClickListeners", "Play Video $contentPosition")
+                        previousClickedItem = contentPosition
+                        CourseVideoActivity.player?.release()
+                        CourseVideoActivity.player = null
+                        playVideoForResult.launch(
+                            Intent(
+                                requireActivity(),
+                                CourseVideoActivity::class.java
+                            ).putExtra("position", contentPosition)
+                                .putExtra("courseDetails", courseDetailDto)
+                        )
                     }
 
                     override fun attendQuiz(contentPosition: Int) {
+                        previousClickedItem = contentPosition
                         Log.d("ClickListeners", "Attend Quiz $contentPosition")
                     }
 
                     override fun downloadNotes(contentPosition: Int) {
+                        previousClickedItem = contentPosition
                         Log.d("ClickListeners", "Download Notes $contentPosition")
                     }
 
@@ -129,6 +145,7 @@ class CourseTutorialFragment : BaseFragment() {
                         is GetCourseDetailsState.Success -> {
                             courseDetailDto = it.courseDetailDto
                             var firstWeek = true
+                            weekList.clear()
                             courseDetailDto?.weekMap?.forEach { w ->
                                 weekList.add(Pair(w.key, firstWeek))
                                 firstWeek = false
@@ -151,6 +168,18 @@ class CourseTutorialFragment : BaseFragment() {
             }
         }
     }
+
+    val playVideoForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result->
+            if (result.resultCode == Activity.RESULT_OK) {
+                Log.d("RESULTACTIVITY", "result: ENTERED")
+                Log.d("RESULTACTIVITY",result.data?.getBooleanExtra("isChanged", false).toString())
+            }
+
+            if (result.data?.hasExtra("isChanged") == true) {
+                viewModel.getCourseDetails(args.courseId)
+            }
+        }
 
     override fun onDestroyView() {
         super.onDestroyView()

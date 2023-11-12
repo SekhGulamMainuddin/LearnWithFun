@@ -1,8 +1,6 @@
 package com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import androidx.core.content.ContextCompat
@@ -222,23 +220,6 @@ class CourseContentAdapter(private val onCourseContentClickListener: OnCourseCon
                 )
                 attendButton.setBackgroundColor(attendButton.context.getColorRes(quizButtonColor))
             }
-        }
-    }
-
-    class CourseContentClickListener(
-        private val viewHolder: ViewHolder,
-        private val onCourseContentClickListener: OnCourseContentClickListener
-    ) {
-        fun playVideo(v: View?) {
-            onCourseContentClickListener.playVideo(viewHolder.bindingAdapterPosition)
-        }
-
-        fun attendQuiz(v: View?) {
-            onCourseContentClickListener.attendQuiz(viewHolder.bindingAdapterPosition)
-        }
-
-        fun downloadNotes(v: View?) {
-            onCourseContentClickListener.downloadNotes(viewHolder.bindingAdapterPosition)
         }
     }
 

@@ -8,7 +8,7 @@
             type="com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.ContentDto" />
         <variable
             name="clickHandler"
-            type="com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.CourseContentAdapter.CourseContentClickListener" />
+            type="com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.CourseContentClickListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

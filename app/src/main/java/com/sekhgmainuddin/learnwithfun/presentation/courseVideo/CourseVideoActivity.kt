@@ -1,62 +1,167 @@
 package com.sekhgmainuddin.learnwithfun.presentation.courseVideo
 
+import android.app.Activity
+import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.os.Build
 import androidx.databinding.DataBindingUtil
 import android.os.Bundle
+import android.util.Log
+import android.widget.LinearLayout
+import androidx.activity.OnBackPressedCallback
+import androidx.annotation.OptIn
+import androidx.core.content.ContextCompat
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
+import androidx.recyclerview.widget.DividerItemDecoration
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.Constants.CURRENT_VIDEO_START
 import com.sekhgmainuddin.learnwithfun.common.Constants.PLAY_WHEN_READY
+import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.ContentDto
+import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.CourseDetailDto
 import com.sekhgmainuddin.learnwithfun.databinding.ActivityCourseVideoBinding
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseActivity
+import com.sekhgmainuddin.learnwithfun.presentation.courseVideo.adapters.ContentOtherVideosListAdapter
+import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.OnCourseContentClickListener
+import com.sekhgmainuddin.learnwithfun.presentation.quiz.QuizActivity
+import kotlinx.coroutines.flow.MutableStateFlow
 
-@UnstableApi
 class CourseVideoActivity : BaseActivity() {
 
     private lateinit var binding: ActivityCourseVideoBinding
     private var isPortrait = true
+    private var currentVideoStart = 0L
+    private var currentContent = MutableStateFlow<ContentDto?>(null)
+    private lateinit var otherVideosListAdapter: ContentOtherVideosListAdapter
+    private var contentPosition = 0
+    private var courseDetailDto: CourseDetailDto? = null
+    private var otherVideoList = mutableListOf<ContentDto>()
+
     companion object {
-        private var player: ExoPlayer? = null
+        var player: ExoPlayer? = null
     }
 
+    @UnstableApi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_course_video)
 
-        var currentVideoStart = 0L
-        var playerWhenReady = false
-        savedInstanceState?.let {
-            currentVideoStart = it.getLong(CURRENT_VIDEO_START, 0)
-            playerWhenReady = it.getBoolean(PLAY_WHEN_READY, false)
+        binding.lifecycleOwner = this
+        binding.content = currentContent
+        registerClickListenersAndAdapters()
+
+        courseDetailDto = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("courseDetails", CourseDetailDto::class.java)
+        } else {
+            intent.getParcelableExtra<CourseDetailDto>("courseDetails")
+        }
+        contentPosition = intent.getIntExtra("position", 0)
+        courseDetailDto?.contents?.forEachIndexed { i, c ->
+            if (i != contentPosition) {
+                otherVideoList.add(c)
+            }
         }
 
-        if (player == null) {
-            player = ExoPlayer.Builder(this)
-                .build()
-                .also { exoPlayer ->
-                    binding.playerView.player = exoPlayer
-                    val mediaItem =
-                        MediaItem.fromUri("https://user-images.githubusercontent.com/73953395/246585839-af995eab-02c3-467c-afa1-e05f144a747c.mp4")
-                    exoPlayer.setMediaItem(mediaItem, currentVideoStart)
-                    exoPlayer.playWhenReady = playerWhenReady
-                    exoPlayer.prepare()
-                }
-        } else {
-            binding.playerView.player = player
-            player?.seekTo(currentVideoStart)
-        }
-        binding.playerView.setShowNextButton(false)
-        binding.playerView.setShowPreviousButton(false)
-        binding.playerView.setFullscreenButtonClickListener {
-            requestedOrientation = if (isPortrait) {
-                ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
-            } else {
-                ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                setResult(Activity.RESULT_OK, Intent().putExtra("isChanged", false))
+                finish()
             }
-            isPortrait = !isPortrait
+        })
+
+        savedInstanceState?.let {
+            currentVideoStart = it.getLong(CURRENT_VIDEO_START, 0)
         }
+
+        if (courseDetailDto == null) {
+            showToast(R.string.course_details_not_found)
+        } else {
+            refreshLayoutForContentItem(otherVideoList)
+            setUpPlayer()
+        }
+    }
+
+    @OptIn(UnstableApi::class)
+    private fun registerClickListenersAndAdapters() {
+        otherVideosListAdapter =
+            ContentOtherVideosListAdapter {
+                player?.pause()
+                val currentContent = otherVideoList[it]
+                val newOtherVideoList = mutableListOf<ContentDto>()
+                courseDetailDto?.contents?.forEachIndexed { i, c ->
+                    if (currentContent._id == c._id) {
+                        this@CourseVideoActivity.contentPosition = i
+                    } else {
+                        newOtherVideoList.add(c)
+                    }
+                }
+                Log.d(
+                    "videoPlay",
+                    "playVideo: $contentPosition $currentContent ${otherVideoList.size}"
+                )
+                refreshLayoutForContentItem(newOtherVideoList)
+                otherVideoList.clear()
+                otherVideoList.addAll(newOtherVideoList)
+            }
+        binding.apply {
+            otherVideoRecyclerView?.let {
+                val divider =
+                    DividerItemDecoration(it.context, LinearLayout.HORIZONTAL)
+                ContextCompat.getDrawable(it.context, R.drawable.horizontal_20_dp_space_divider)
+                    ?.let { it1 -> divider.setDrawable(it1) }
+                it.addItemDecoration(divider)
+            }
+            otherVideoRecyclerView?.adapter = otherVideosListAdapter
+            playerView.setShowNextButton(false)
+            playerView.setShowPreviousButton(false)
+            playerView.setFullscreenButtonClickListener {
+                requestedOrientation = if (isPortrait) {
+                    ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE
+                } else {
+                    ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+                }
+                isPortrait = !isPortrait
+            }
+            playQuiz?.setOnClickListener {
+                startActivity(Intent(this@CourseVideoActivity, QuizActivity::class.java))
+            }
+            downloadNotesButton?.setOnClickListener {
+
+            }
+        }
+    }
+
+    private fun refreshLayoutForContentItem(list: List<ContentDto>) {
+        currentContent.value = courseDetailDto?.contents?.get(contentPosition)
+        otherVideosListAdapter.submitList(list)
+        player?.updateVideoSource("https://user-images.githubusercontent.com/73953395/272551706-95724a57-12a7-4b37-bf5d-ed76bad77927.mp4")
+    }
+
+    @UnstableApi
+    private fun setUpPlayer() {
+        binding.apply {
+            if (player == null) {
+                player = ExoPlayer.Builder(this@CourseVideoActivity)
+                    .build()
+                    .also { exoPlayer ->
+                        playerView.player = exoPlayer
+                        exoPlayer.updateVideoSource("https://user-images.githubusercontent.com/73953395/246585839-af995eab-02c3-467c-afa1-e05f144a747c.mp4")
+                    }
+            } else {
+                playerView.player = player
+                player?.seekTo(currentVideoStart)
+            }
+        }
+    }
+
+    private fun ExoPlayer.updateVideoSource(url: String) {
+        this.removeMediaItem(0)
+        val mediaItem =
+            MediaItem.fromUri(url)
+        this.setMediaItem(mediaItem, currentVideoStart)
+        this.playWhenReady = true
+        this.prepare()
     }
 
     override fun onResume() {
@@ -64,17 +169,16 @@ class CourseVideoActivity : BaseActivity() {
         player?.play()
     }
 
-    override fun onPause() {
-        super.onPause()
-        player?.pause()
-    }
-
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         player?.let {
             outState.putLong(CURRENT_VIDEO_START, it.currentPosition)
-            outState.putBoolean(PLAY_WHEN_READY, it.playWhenReady)
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        player?.pause()
     }
 
     override fun onDestroy() {
