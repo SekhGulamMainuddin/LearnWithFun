@@ -23,7 +23,7 @@ class CourseContentAdapter(private val onCourseContentClickListener: OnCourseCon
     val CONTENT_WITH_VIDEO_AND_NOTES = 1
     val CONTENT_WITH_VIDEO_AND_QUIZ = 2
     val CONTENT_WITH_VIDEO_ONLY = 3
-    val CONTENT_WITH_QUIZ_ONLY = 3
+    val CONTENT_WITH_QUIZ_ONLY = 4
 
     private var courseDetails: CourseDetailDto? = null
 
@@ -92,16 +92,12 @@ class CourseContentAdapter(private val onCourseContentClickListener: OnCourseCon
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = currentList[position]
-        if (item.url != null && !item.quiz.isNullOrEmpty() && item.notesPdfUrl != null) {
-            (holder as ContentWithVideoNotesAndQuiz).bind(item)
-        } else if (item.url != null && !item.quiz.isNullOrEmpty()) {
-            (holder as ContentWithVideoAndQuiz).bind(item)
-        } else if (item.url != null && item.notesPdfUrl != null) {
-            (holder as ContentWithVideoAndNotes).bind(item)
-        } else if (item.url != null) {
-            (holder as ContentWithOnlyVideo).bind(item)
-        } else {
-            (holder as ContentWithQuizOnly).bind(item)
+        when (getItemViewType(position)) {
+            CONTENT_WITH_VIDEO_QUIZ_AND_NOTES -> (holder as ContentWithVideoNotesAndQuiz).bind(item)
+            CONTENT_WITH_VIDEO_AND_NOTES -> (holder as ContentWithVideoAndNotes).bind(item)
+            CONTENT_WITH_VIDEO_AND_QUIZ -> (holder as ContentWithVideoAndQuiz).bind(item)
+            CONTENT_WITH_VIDEO_ONLY -> (holder as ContentWithOnlyVideo).bind(item)
+            else -> (holder as ContentWithQuizOnly).bind(item)
         }
     }
 
@@ -113,10 +109,10 @@ class CourseContentAdapter(private val onCourseContentClickListener: OnCourseCon
             CONTENT_WITH_VIDEO_AND_QUIZ
         } else if (item.url != null && item.notesPdfUrl != null) {
             CONTENT_WITH_VIDEO_AND_NOTES
-        } else if (item.url != null) {
-            CONTENT_WITH_VIDEO_ONLY
-        } else {
+        } else if (item.url == null && item.quiz != null) {
             CONTENT_WITH_QUIZ_ONLY
+        } else {
+            CONTENT_WITH_VIDEO_ONLY
         }
     }
 
@@ -128,7 +124,10 @@ class CourseContentAdapter(private val onCourseContentClickListener: OnCourseCon
             binding.apply {
                 playQuiz.isVisible = false
                 downloadNotesButton.isVisible = false
-                clickHandler = CourseContentClickListener(this@ContentWithOnlyVideo, onCourseContentClickListener)
+                clickHandler = CourseContentClickListener(
+                    this@ContentWithOnlyVideo,
+                    onCourseContentClickListener
+                )
             }
         }
 
@@ -160,7 +159,10 @@ class CourseContentAdapter(private val onCourseContentClickListener: OnCourseCon
         init {
             binding.apply {
                 playQuiz.isVisible = false
-                clickHandler = CourseContentClickListener(this@ContentWithVideoAndNotes, onCourseContentClickListener)
+                clickHandler = CourseContentClickListener(
+                    this@ContentWithVideoAndNotes,
+                    onCourseContentClickListener
+                )
             }
         }
 
@@ -176,7 +178,10 @@ class CourseContentAdapter(private val onCourseContentClickListener: OnCourseCon
         init {
             binding.apply {
                 downloadNotesButton.isVisible = false
-                clickHandler = CourseContentClickListener(this@ContentWithVideoAndQuiz, onCourseContentClickListener)
+                clickHandler = CourseContentClickListener(
+                    this@ContentWithVideoAndQuiz,
+                    onCourseContentClickListener
+                )
             }
         }
 
@@ -195,7 +200,10 @@ class CourseContentAdapter(private val onCourseContentClickListener: OnCourseCon
         ViewHolder(binding.root) {
         init {
             binding.apply {
-                clickHandler = CourseContentClickListener(this@ContentWithQuizOnly, onCourseContentClickListener)
+                clickHandler = CourseContentClickListener(
+                    this@ContentWithQuizOnly,
+                    onCourseContentClickListener
+                )
             }
         }
 

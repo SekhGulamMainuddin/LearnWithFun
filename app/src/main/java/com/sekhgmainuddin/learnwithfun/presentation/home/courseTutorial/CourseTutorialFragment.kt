@@ -29,6 +29,7 @@ import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters
 import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.WeeksAdapter
 import com.sekhgmainuddin.learnwithfun.presentation.home.couses.CourseViewModel
 import com.sekhgmainuddin.learnwithfun.presentation.home.enrollCourse.uiStates.GetCourseDetailsState
+import com.sekhgmainuddin.learnwithfun.presentation.quiz.QuizActivity
 import kotlinx.coroutines.launch
 import kotlin.random.Random
 
@@ -86,7 +87,7 @@ class CourseTutorialFragment : BaseFragment() {
                         previousClickedItem = contentPosition
                         CourseVideoActivity.player?.release()
                         CourseVideoActivity.player = null
-                        playVideoForResult.launch(
+                        startVideoOrQuizForResult.launch(
                             Intent(
                                 requireActivity(),
                                 CourseVideoActivity::class.java
@@ -97,7 +98,15 @@ class CourseTutorialFragment : BaseFragment() {
 
                     override fun attendQuiz(contentPosition: Int) {
                         previousClickedItem = contentPosition
-                        Log.d("ClickListeners", "Attend Quiz $contentPosition")
+                        startVideoOrQuizForResult.launch(
+                            Intent(
+                                requireActivity(),
+                                QuizActivity::class.java
+                            ).putExtra("courseId", courseDetailDto!!._id).putExtra(
+                                "courseDetails",
+                                courseDetailDto!!.contents[contentPosition]
+                            )
+                        )
                     }
 
                     override fun downloadNotes(contentPosition: Int) {
@@ -169,16 +178,12 @@ class CourseTutorialFragment : BaseFragment() {
         }
     }
 
-    val playVideoForResult =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result->
-            if (result.resultCode == Activity.RESULT_OK) {
-                Log.d("RESULTACTIVITY", "result: ENTERED")
-                Log.d("RESULTACTIVITY",result.data?.getBooleanExtra("isChanged", false).toString())
+    val startVideoOrQuizForResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == -1) {
+                showSnackBar(R.string.course_details_not_found)
             }
-
-            if (result.data?.hasExtra("isChanged") == true) {
-                viewModel.getCourseDetails(args.courseId)
-            }
+            viewModel.getCourseDetails(args.courseId)
         }
 
     override fun onDestroyView() {

@@ -54,6 +54,8 @@
     <string name="play_video">Play Video</string>
     <string name="player_time_separator">:</string>
     <string name="next_question">Next Question</string>
+    <string name="submit_exam">Submit Exam</string>
+    <string name="option_number">%d. %s</string>
     <string name="default_error_message">Some Error Occurred</string>
     <string name="otp_sent_successfully">OTP sent successfully</string>
     <string name="create_account">Create Account</string>
@@ -90,5 +92,9 @@
     <string name="other_videos">Other Videos</string>
     <string name="other_attachments_with_this_video">Other Attachments with this video</string>
     <string name="notes">Notes</string>
+    <string name="cannot_play_video_as_source_url_is_null">Cannot play video as source url is null</string>
+    <string name="answer_explanation">Answer Explanation</string>
+    <string name="_i_of_n_questions">%d of %d questions</string>
+    <string name="options">Options</string>
 
 </resources>

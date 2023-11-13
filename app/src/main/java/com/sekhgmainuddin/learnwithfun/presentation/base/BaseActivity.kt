@@ -6,6 +6,7 @@ import android.content.Context
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
@@ -29,6 +30,17 @@ open class BaseActivity : AppCompatActivity(), BaseActivityCallback {
 
     override fun hideProgressDialog() {
         progressDialog.dismiss()
+    }
+
+    protected fun showSnackBar(message: String, snackBarDuration: Int = Snackbar.LENGTH_SHORT) {
+        Snackbar.make(
+            findViewById(android.R.id.content),
+            message, snackBarDuration,
+        ).show()
+    }
+
+    protected fun showSnackBar(message: Int, snackBarDuration: Int = Snackbar.LENGTH_SHORT) {
+        showSnackBar(getString(message), snackBarDuration)
     }
 
     companion object {

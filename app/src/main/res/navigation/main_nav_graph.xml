@@ -48,15 +48,7 @@
         <argument
             android:name="courseId"
             app:argType="string" />
-        <action
-            android:id="@+id/action_courseTutorialFragment_to_quizFragment"
-            app:destination="@id/quizFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/quizFragment"
-        android:name="com.sekhgmainuddin.learnwithfun.presentation.quiz.QuizActivity"
-        android:label="QuizFragment"
-        tools:layout="@layout/activity_quiz" />
     <fragment
         android:id="@+id/coursesFragment"
         android:name="com.sekhgmainuddin.learnwithfun.presentation.home.couses.CoursesFragment"

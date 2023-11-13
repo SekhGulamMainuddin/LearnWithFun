@@ -17,6 +17,7 @@ import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.lifecycleScope
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
@@ -28,7 +29,10 @@ import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions.FAST
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.enums.CheatingStatus
 import com.sekhgmainuddin.learnwithfun.common.utils.CameraUtility
+import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.ContentDto
+import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.CourseDetailDto
 import com.sekhgmainuddin.learnwithfun.databinding.ActivityQuizBinding
+import com.sekhgmainuddin.learnwithfun.presentation.base.BaseActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -38,16 +42,32 @@ import pub.devrel.easypermissions.EasyPermissions
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
-class QuizActivity : AppCompatActivity(), EasyPermissions.PermissionCallbacks {
+class QuizActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 
     private lateinit var binding: ActivityQuizBinding
     private var imageCapture: ImageCapture? = null
     private var cameraExecutor: ExecutorService? = null
     private val viewModel by viewModels<QuizViewModel>()
+    private var contentDetailDto: ContentDto? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_quiz)
+
+        contentDetailDto = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            intent.getParcelableExtra("courseDetails", ContentDto::class.java)
+        } else {
+            intent.getParcelableExtra<ContentDto>("courseDetails")
+        }
+        if(contentDetailDto!=null) {
+            viewModel.setQuestions(contentDetailDto!!)
+        } else {
+            setResult(-1)
+            finish()
+        }
+
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
         requestPermission()
         cameraExecutor = Executors.newSingleThreadExecutor()
