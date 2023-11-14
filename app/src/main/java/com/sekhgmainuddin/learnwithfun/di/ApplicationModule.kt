@@ -48,6 +48,10 @@ object ApplicationModule {
 
     @Singleton
     @Provides
+    fun provideTimeShareDao(learnWithFunDb: LearnWithFunDb) = learnWithFunDb.getDao()
+
+    @Singleton
+    @Provides
     fun providerOkHttpClient(interceptor: ApiInterceptor) =
         OkHttpClient().newBuilder().addInterceptor(interceptor).build()
 

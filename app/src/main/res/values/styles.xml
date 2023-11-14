@@ -13,4 +13,5 @@
     <style name="MyTextInputEditText" parent="ThemeOverlay.MaterialComponents.TextInputEditText.OutlinedBox.Dense">
         <item name="android:textColor">@android:color/black</item>
     </style>
+
 </resources>

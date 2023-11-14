@@ -8,8 +8,9 @@ import com.sekhgmainuddin.learnwithfun.common.Constants.SAVED_USER_DETAILS
 import com.sekhgmainuddin.learnwithfun.common.enums.UserType
 import com.sekhgmainuddin.learnwithfun.common.helper.NetworkResult
 import com.sekhgmainuddin.learnwithfun.common.helper.PrefsHelper
+import com.sekhgmainuddin.learnwithfun.common.utils.Utils.getErrorMessage
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.saveAsJPG
-import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.CreateUserBodyParams
+import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.CreateUserBodyParams
 import com.sekhgmainuddin.learnwithfun.domain.repository.LoginSignUpRepository
 import com.sekhgmainuddin.learnwithfun.domain.repository.UploadFileRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -61,10 +62,13 @@ class CreateUserUseCase @Inject constructor(
                 )
                 if (response.isSuccessful) {
                     prefsHelper.updateToken(response.body()!!.token)
-                    prefsHelper.putValue(SAVED_USER_DETAILS, Json.encodeToString(response.body()))
                     emit(NetworkResult.Success(Unit))
                 } else {
-                    emit(NetworkResult.Error(message = response.message()))
+                    emit(
+                        NetworkResult.Error(
+                            message = response.errorBody()?.getErrorMessage() ?: ""
+                        )
+                    )
                 }
             }
         } catch (_: IOException) {

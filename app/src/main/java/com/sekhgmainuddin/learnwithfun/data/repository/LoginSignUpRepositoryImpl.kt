@@ -2,14 +2,16 @@ package com.sekhgmainuddin.learnwithfun.data.repository
 
 import com.sekhgmainuddin.learnwithfun.data.dto.CreateUserDto
 import com.sekhgmainuddin.learnwithfun.data.remote.LearnWithFunApi
-import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.CreateUserBodyParams
-import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.GetOTPBodyParams
-import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.VerifyEmailBodyParams
-import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.VerifyOTPBodyParams
+import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.CreateUserBodyParams
+import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.GetOTPBodyParams
+import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.VerifyEmailBodyParams
+import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.VerifyOTPBodyParams
 import com.sekhgmainuddin.learnwithfun.domain.repository.LoginSignUpRepository
 import retrofit2.Response
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class LoginSignUpRepositoryImpl @Inject constructor(
     private val api: LearnWithFunApi
 ) :

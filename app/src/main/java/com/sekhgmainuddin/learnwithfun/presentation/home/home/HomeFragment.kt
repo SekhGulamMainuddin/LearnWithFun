@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
@@ -57,6 +58,12 @@ class HomeFragment : BaseFragment() {
             profileImage.setOnClickListener {
                 findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToProfileFragment())
             }
+            searchViewLayout.setOnClickListener {
+                findNavController().navigate(
+                    R.id.action_homeFragment_to_coursesFragment,
+                    bundleOf("calledFromHome" to true)
+                )
+            }
         }
     }
 
@@ -70,6 +77,7 @@ class HomeFragment : BaseFragment() {
                         )
                     )
                 }
+
                 override fun onCourseClicked(courseId: String) {
                     findNavController().navigate(
                         HomeFragmentDirections.actionHomeFragmentToEnrollCourseFragment(
@@ -77,8 +85,12 @@ class HomeFragment : BaseFragment() {
                         )
                     )
                 }
+
                 override fun onSeeAllCoursesClicked() {
-                    findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToCoursesFragment())
+                    findNavController().navigate(
+                        R.id.action_homeFragment_to_coursesFragment,
+                        bundleOf("calledFromHome" to true)
+                    )
                 }
 
             },
@@ -105,6 +117,7 @@ class HomeFragment : BaseFragment() {
                             is GetUserDetailsState.Success -> {
                                 homeScreenRVAdapter.submitList(it.content)
                             }
+
                             GetUserDetailsState.Loading -> showProgressBar()
                             is GetUserDetailsState.Error -> {
                                 if (it.message.isEmpty()) {
@@ -127,6 +140,7 @@ class HomeFragment : BaseFragment() {
                                 homeScreenRVAdapter.submitList(it.content)
                                 homeScreenRVAdapter.notifyItemChanged(0)
                             }
+
                             GetPopularCoursesState.Loading -> {}
                             is GetPopularCoursesState.Error -> {
                                 if (it.message.isEmpty()) {

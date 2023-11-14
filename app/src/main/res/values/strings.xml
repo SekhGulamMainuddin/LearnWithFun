@@ -55,7 +55,7 @@
     <string name="player_time_separator">:</string>
     <string name="next_question">Next Question</string>
     <string name="submit_exam">Submit Exam</string>
-    <string name="option_number">%d. %s</string>
+    <string name="option_number">%d) %s</string>
     <string name="default_error_message">Some Error Occurred</string>
     <string name="otp_sent_successfully">OTP sent successfully</string>
     <string name="create_account">Create Account</string>
@@ -96,5 +96,23 @@
     <string name="answer_explanation">Answer Explanation</string>
     <string name="_i_of_n_questions">%d of %d questions</string>
     <string name="options">Options</string>
+    <string name="confirm_to_attend_the_quiz">Confirm to attend the Quiz</string>
+    <string name="cancel">Cancel</string>
+    <string name="attend_quiz">Attend Quiz</string>
+    <string name="loading_quiz">Loading Quiz</string>
+    <string name="quiz_loaded_successfully">Quiz Loaded Successfully.\nStarting in 1s</string>
+    <string name="failed_to_load_quiz">Failed to Load the Quiz</string>
+    <string name="views">Views</string>
+    <string name="view">View</string>
+    <string name="likes">Likes</string>
+    <string name="like">Like</string>
+    <string name="select_an_option_to_proceed">Select an option to proceed</string>
+    <string name="submitting_your_answer">Submitting your answer</string>
+    <string name="quiz_submitted_successfully">Quiz Submitted Successfully</string>
+    <string name="loading_next_question">Loading Next Question</string>
+    <string name="this_is_the_first_question">This is the First Question</string>
+    <string name="cheating_detected">Cheating Detected</string>
+    <string name="please_dont_violate_exam_rules">Please do not violate exam rules.\nMultiple violations may lead to disqualification.</string>
+    <string name="ok">Ok</string>
 
 </resources>

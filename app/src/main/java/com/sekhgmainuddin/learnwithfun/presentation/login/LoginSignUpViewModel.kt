@@ -8,9 +8,9 @@ import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.enums.UserType
 import com.sekhgmainuddin.learnwithfun.common.helper.NetworkResult
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.isValidEmail
-import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.GetOTPBodyParams
-import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.VerifyEmailBodyParams
-import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.VerifyOTPBodyParams
+import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.GetOTPBodyParams
+import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.VerifyEmailBodyParams
+import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.VerifyOTPBodyParams
 import com.sekhgmainuddin.learnwithfun.domain.use_case.loginAndSignup.CreateUserUseCase
 import com.sekhgmainuddin.learnwithfun.domain.use_case.loginAndSignup.GetOTPUseCase
 import com.sekhgmainuddin.learnwithfun.domain.use_case.loginAndSignup.SendEmailUseCase

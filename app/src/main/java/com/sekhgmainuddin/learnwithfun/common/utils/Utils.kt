@@ -30,6 +30,7 @@ import okhttp3.ResponseBody
 import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
+import kotlin.math.abs
 
 object Utils {
 
@@ -71,7 +72,11 @@ object Utils {
         }
     }
 
-    fun View.slideVisibility(visibility: Boolean, durationTime: Long = 300, position: Int = Gravity.START) {
+    fun View.slideVisibility(
+        visibility: Boolean,
+        durationTime: Long = 300,
+        position: Int = Gravity.START
+    ) {
         val transition = Slide(position)
         transition.apply {
             duration = durationTime
@@ -111,7 +116,7 @@ object Utils {
         return ImageDecoder.decodeBitmap(ImageDecoder.createSource(contentResolver, this))
     }
 
-    fun Bitmap.saveAsJPG(filename: String, applicationContext: Context) =
+    fun Bitmap.saveAsJPG(filename: String, applicationContext: Context, quality: Int = 30) =
         "$filename.jpg".let { name ->
             if (SDK_INT < Q)
                 FileOutputStream(
@@ -120,7 +125,7 @@ object Utils {
                         name
                     )
                 )
-                    .use { compress(Bitmap.CompressFormat.JPEG, 30, it) }
+                    .use { compress(Bitmap.CompressFormat.JPEG, quality, it) }
             else {
                 val values = ContentValues().apply {
                     put(DISPLAY_NAME, name)
@@ -132,7 +137,7 @@ object Utils {
                 val resolver = applicationContext.contentResolver
                 val uri = resolver.insert(EXTERNAL_CONTENT_URI, values)
                 uri?.let { resolver.openOutputStream(it) }
-                    ?.use { compress(Bitmap.CompressFormat.JPEG, 30, it) }
+                    ?.use { compress(Bitmap.CompressFormat.JPEG, quality, it) }
 
                 values.clear()
                 values.put(IS_PENDING, 0)
@@ -205,5 +210,16 @@ object Utils {
     }
 
     fun ResponseBody.getErrorMessage() = JSONObject(this.string())["message"].toString()
+
+    fun Int.toViewsOrLikesCount(): String {
+        var numberString = ""
+        return if (abs(this / 1000000) > 1) {
+            (this / 1000000).toString() + "m"
+        } else if (abs(this / 1000) > 1) {
+            (this / 1000).toString() + "k"
+        } else {
+            this.toString()
+        }
+    }
 
 }

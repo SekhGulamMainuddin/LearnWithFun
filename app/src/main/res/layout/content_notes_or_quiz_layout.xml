@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="com.sekhgmainuddin.learnwithfun.R"/>
         <variable
             name="content"
             type="com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.ContentDto" />
@@ -17,19 +18,18 @@
         android:background="@drawable/gradient_border_ll">
 
         <com.airbnb.lottie.LottieAnimationView
-            android:id="@+id/quizAnimation"
+            android:id="@+id/quizOrNotesAnimation"
             android:layout_width="74dp"
             android:layout_height="match_parent"
             android:layout_marginBottom="2dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:lottie_autoPlay="true"
-            app:lottie_loop="false"
-            app:lottie_rawRes="@raw/content_quiz_animation" />
+            app:customRawRes="@{(content.quiz!=null &amp;&amp; !content.quiz.isEmpty()) ? R.raw.content_quiz_animation : R.raw.content_notes_animation}"
+            app:customLoop="@{content.notesPdfUrl!=null}"/>
 
         <TextView
-            android:id="@+id/quizTitle"
+            android:id="@+id/quizOrNotesTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -37,15 +37,15 @@
             android:text="@{content.title, default = `Intoduction to Figma`}"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/quizDesc"
-            app:layout_constraintEnd_toStartOf="@id/attendButton"
+            app:layout_constraintBottom_toTopOf="@+id/quizOrNotesDesc"
+            app:layout_constraintEnd_toStartOf="@id/attendOrViewButton"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@id/quizAnimation"
+            app:layout_constraintStart_toEndOf="@id/quizOrNotesAnimation"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_chainStyle="packed" />
 
         <TextView
-            android:id="@+id/quizDesc"
+            android:id="@+id/quizOrNotesDesc"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -55,13 +55,13 @@
             android:text="@{content.desc, default = `ajdashdiyhasoidyhaiosdyhaosidyhoaisyhdoiasdnlaknclo ;oghdoi;qwhjd;oijhd kashd;kashd;.kashd;oiqwyh;eoih;lk jhalsjkdgho`}"
             android:textColor="@color/grey"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@id/attendButton"
+            app:layout_constraintEnd_toStartOf="@id/attendOrViewButton"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@id/quizAnimation"
-            app:layout_constraintTop_toBottomOf="@+id/quizTitle" />
+            app:layout_constraintStart_toEndOf="@id/quizOrNotesAnimation"
+            app:layout_constraintTop_toBottomOf="@+id/quizOrNotesTitle" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/attendButton"
+            android:id="@+id/attendOrViewButton"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginEnd="10dp"
@@ -69,7 +69,7 @@
             android:clickable="true"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:onClick="@{clickHandler::attendQuiz}"
+            android:onClick="@{content.notesPdfUrl!=null?clickHandler::downloadNotes:clickHandler::attendQuiz}"
             android:src="@drawable/baseline_navigate_next_24"
             app:contentPadding="10dp"
             app:layout_constraintBottom_toBottomOf="parent"

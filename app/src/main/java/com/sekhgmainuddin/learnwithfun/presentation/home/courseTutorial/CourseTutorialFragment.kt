@@ -1,6 +1,5 @@
 package com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,6 +14,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,11 +27,12 @@ import com.sekhgmainuddin.learnwithfun.presentation.courseVideo.CourseVideoActiv
 import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.CourseContentAdapter
 import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.OnCourseContentClickListener
 import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.WeeksAdapter
-import com.sekhgmainuddin.learnwithfun.presentation.home.couses.CourseViewModel
+import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.uiStates.AttendQuizState
+import com.sekhgmainuddin.learnwithfun.presentation.home.courses.CourseViewModel
 import com.sekhgmainuddin.learnwithfun.presentation.home.enrollCourse.uiStates.GetCourseDetailsState
 import com.sekhgmainuddin.learnwithfun.presentation.quiz.QuizActivity
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.random.Random
 
 class CourseTutorialFragment : BaseFragment() {
 
@@ -72,6 +73,13 @@ class CourseTutorialFragment : BaseFragment() {
 
     private fun registerClickListenersAndAdapters() {
         binding.apply {
+            refreshButton.setOnClickListener {
+                swipeRefreshLayout.isRefreshing = true
+                this@CourseTutorialFragment.viewModel.getCourseDetails(args.courseId)
+            }
+            swipeRefreshLayout.setOnRefreshListener {
+                this@CourseTutorialFragment.viewModel.getCourseDetails(args.courseId)
+            }
             backButton.setOnClickListener {
                 pressBack()
             }
@@ -98,20 +106,16 @@ class CourseTutorialFragment : BaseFragment() {
 
                     override fun attendQuiz(contentPosition: Int) {
                         previousClickedItem = contentPosition
-                        startVideoOrQuizForResult.launch(
-                            Intent(
-                                requireActivity(),
-                                QuizActivity::class.java
-                            ).putExtra("courseId", courseDetailDto!!._id).putExtra(
-                                "courseDetails",
-                                courseDetailDto!!.contents[contentPosition]
+                        findNavController().navigate(
+                            CourseTutorialFragmentDirections.actionCourseTutorialFragmentToAttendExamDialog(
+                                course = courseDetailDto!!,
+                                contentPosition = contentPosition
                             )
                         )
                     }
 
                     override fun downloadNotes(contentPosition: Int) {
                         previousClickedItem = contentPosition
-                        Log.d("ClickListeners", "Download Notes $contentPosition")
                     }
 
                 },
@@ -144,34 +148,60 @@ class CourseTutorialFragment : BaseFragment() {
         }
     }
 
+    private fun showAttendQuizAlert() {
+
+    }
+
     private fun bindObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.courseDetails.collect {
-                    hideProgressBar()
-                    when (it) {
-                        GetCourseDetailsState.Initial -> {}
-                        is GetCourseDetailsState.Success -> {
-                            courseDetailDto = it.courseDetailDto
-                            var firstWeek = true
-                            weekList.clear()
-                            courseDetailDto?.weekMap?.forEach { w ->
-                                weekList.add(Pair(w.key, firstWeek))
-                                firstWeek = false
+            launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.courseDetails.collect {
+                        hideProgressBar()
+                        when (it) {
+                            GetCourseDetailsState.Initial -> {}
+                            is GetCourseDetailsState.Success -> {
+                                courseDetailDto = it.courseDetailDto
+                                var firstWeek = true
+                                weekList.clear()
+                                courseDetailDto?.weekMap?.forEach { w ->
+                                    weekList.add(Pair(w.key, firstWeek))
+                                    firstWeek = false
+                                }
+                                weeksAdapter.submitList(weekList)
+                                courseContentAdapter.updateCourseDetails(it.courseDetailDto)
+                                courseContentAdapter.submitList(it.courseDetailDto.contents)
+                                binding.swipeRefreshLayout.isRefreshing = false
                             }
-                            weeksAdapter.submitList(weekList)
-                            courseContentAdapter.updateCourseDetails(it.courseDetailDto)
-                            courseContentAdapter.submitList(it.courseDetailDto.contents)
-                        }
 
-                        GetCourseDetailsState.Loading -> showProgressBar()
-                        is GetCourseDetailsState.Error -> {
-                            if (it.message.isEmpty()) {
-                                showToast(it.messageRes)
-                            } else {
-                                showToast(it.message)
+                            GetCourseDetailsState.Loading -> showProgressBar()
+                            is GetCourseDetailsState.Error -> {
+                                binding.swipeRefreshLayout.isRefreshing = false
+                                if (it.message.isEmpty()) {
+                                    showToast(it.messageRes)
+                                } else {
+                                    showToast(it.message)
+                                }
                             }
                         }
+                    }
+                }
+            }
+            launch {
+                viewModel.attendQuiz.collect {
+                    if (it is AttendQuizState.Success) {
+                        delay(1010)
+                        startActivity(
+                            Intent(
+                                requireActivity(),
+                                QuizActivity::class.java
+                            ).putExtra(
+                                "content",
+                                courseDetailDto!!.contents[previousClickedItem]
+                            )
+                                .putExtra("examId", it.examId)
+                                .putExtra("courseId", courseDetailDto!!._id)
+                        )
                     }
                 }
             }

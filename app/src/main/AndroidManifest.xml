@@ -38,7 +38,8 @@
         <activity
             android:name=".presentation.home.HomeActivity"
             android:exported="true"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:resizeableActivity="false">
         </activity>
         <activity
             android:name=".presentation.login.LoginSignUpActivity"

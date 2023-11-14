@@ -6,7 +6,9 @@ import com.sekhgmainuddin.learnwithfun.data.remote.LearnWithFunApi
 import com.sekhgmainuddin.learnwithfun.domain.repository.HomeRepository
 import retrofit2.Response
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class HomeRepositoryImpl @Inject constructor(
     private val api: LearnWithFunApi
 ) : HomeRepository {

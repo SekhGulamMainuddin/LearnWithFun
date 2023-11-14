@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.ContentDto
 import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.CourseDetailDto
-import com.sekhgmainuddin.learnwithfun.databinding.ContentQuizLayoutBinding
+import com.sekhgmainuddin.learnwithfun.databinding.ContentNotesOrQuizLayoutBinding
 import com.sekhgmainuddin.learnwithfun.databinding.CourseContentItemBinding
 import np.com.susanthapa.curved_bottom_navigation.getColorRes
 
@@ -24,6 +24,7 @@ class CourseContentAdapter(private val onCourseContentClickListener: OnCourseCon
     val CONTENT_WITH_VIDEO_AND_QUIZ = 2
     val CONTENT_WITH_VIDEO_ONLY = 3
     val CONTENT_WITH_QUIZ_ONLY = 4
+    val CONTENT_WITH_NOTES_ONLY = 5
 
     private var courseDetails: CourseDetailDto? = null
 
@@ -79,10 +80,19 @@ class CourseContentAdapter(private val onCourseContentClickListener: OnCourseCon
                 )
             )
 
+            CONTENT_WITH_NOTES_ONLY -> ContentWithNotesOnly(
+                DataBindingUtil.inflate(
+                    LayoutInflater.from(parent.context),
+                    R.layout.content_notes_or_quiz_layout,
+                    parent,
+                    false
+                )
+            )
+
             else -> ContentWithQuizOnly(
                 DataBindingUtil.inflate(
                     LayoutInflater.from(parent.context),
-                    R.layout.content_quiz_layout,
+                    R.layout.content_notes_or_quiz_layout,
                     parent,
                     false
                 )
@@ -97,6 +107,7 @@ class CourseContentAdapter(private val onCourseContentClickListener: OnCourseCon
             CONTENT_WITH_VIDEO_AND_NOTES -> (holder as ContentWithVideoAndNotes).bind(item)
             CONTENT_WITH_VIDEO_AND_QUIZ -> (holder as ContentWithVideoAndQuiz).bind(item)
             CONTENT_WITH_VIDEO_ONLY -> (holder as ContentWithOnlyVideo).bind(item)
+            CONTENT_WITH_NOTES_ONLY -> (holder as ContentWithNotesOnly).bind(item)
             else -> (holder as ContentWithQuizOnly).bind(item)
         }
     }
@@ -111,8 +122,10 @@ class CourseContentAdapter(private val onCourseContentClickListener: OnCourseCon
             CONTENT_WITH_VIDEO_AND_NOTES
         } else if (item.url == null && item.quiz != null) {
             CONTENT_WITH_QUIZ_ONLY
-        } else {
+        } else if (item.quiz.isNullOrEmpty()) {
             CONTENT_WITH_VIDEO_ONLY
+        } else {
+            CONTENT_WITH_NOTES_ONLY
         }
     }
 
@@ -195,7 +208,7 @@ class CourseContentAdapter(private val onCourseContentClickListener: OnCourseCon
     }
 
     private inner class ContentWithQuizOnly(
-        private val binding: ContentQuizLayoutBinding
+        private val binding: ContentNotesOrQuizLayoutBinding
     ) :
         ViewHolder(binding.root) {
         init {
@@ -211,7 +224,7 @@ class CourseContentAdapter(private val onCourseContentClickListener: OnCourseCon
             var quizButtonDrawable: Int = R.drawable.baseline_navigate_next_24
             var quizButtonColor: Int = R.color.science_blue
             if (courseDetails?.courseCoverage?.quizAttended?.containsKey(content._id) == true) {
-                if (courseDetails!!.courseCoverage.quizAttended[content._id]!!.quizCompleted) {
+                if (courseDetails!!.courseCoverage!!.quizAttended[content._id]!!.quizCompleted) {
                     quizButtonDrawable = R.drawable.baseline_done_24
                     quizButtonColor = R.color.paris_green
                 } else {
@@ -220,22 +233,45 @@ class CourseContentAdapter(private val onCourseContentClickListener: OnCourseCon
             }
             binding.apply {
                 this.content = content
-                attendButton.setImageDrawable(
+                attendOrViewButton.setImageDrawable(
                     ContextCompat.getDrawable(
-                        attendButton.context,
+                        attendOrViewButton.context,
                         quizButtonDrawable
                     )
                 )
-                attendButton.setBackgroundColor(attendButton.context.getColorRes(quizButtonColor))
+                attendOrViewButton.setBackgroundColor(
+                    attendOrViewButton.context.getColorRes(
+                        quizButtonColor
+                    )
+                )
             }
         }
+    }
+
+    private inner class ContentWithNotesOnly(
+        private val binding: ContentNotesOrQuizLayoutBinding
+    ) :
+        ViewHolder(binding.root) {
+        init {
+            binding.apply {
+                clickHandler = CourseContentClickListener(
+                    this@ContentWithNotesOnly,
+                    onCourseContentClickListener
+                )
+            }
+        }
+
+        fun bind(content: ContentDto) {
+            binding.content = content
+        }
+
     }
 
     fun Button.setQuizButtonDrawableAndColor(content: ContentDto) {
         var quizButtonDrawable: Int = R.drawable.attend_quiz_drawable
         var quizButtonColor: Int = R.color.science_blue
         if (courseDetails?.courseCoverage?.quizAttended?.containsKey(content._id) == true) {
-            if (courseDetails!!.courseCoverage.quizAttended[content._id]!!.quizCompleted) {
+            if (courseDetails!!.courseCoverage!!.quizAttended[content._id]!!.quizCompleted) {
                 quizButtonDrawable = R.drawable.baseline_done_24
                 quizButtonColor = R.color.paris_green
             } else {

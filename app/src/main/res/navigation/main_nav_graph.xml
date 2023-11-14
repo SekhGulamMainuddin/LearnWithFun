@@ -26,7 +26,11 @@
         </action>
         <action
             android:id="@+id/action_homeFragment_to_coursesFragment"
-            app:destination="@id/coursesFragment" />
+            app:destination="@id/coursesFragment" >
+            <argument
+                android:name="calledFromHome"
+                app:argType="boolean"/>
+        </action>
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
@@ -48,15 +52,43 @@
         <argument
             android:name="courseId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_courseTutorialFragment_to_attendExamDialog"
+            app:destination="@id/attendExamDialog" >
+
+            <argument
+                android:name="course"
+                app:argType="com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.CourseDetailDto" />
+            <argument
+                android:name="contentPosition"
+                app:argType="integer" />
+
+        </action>
     </fragment>
     <fragment
         android:id="@+id/coursesFragment"
-        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.couses.CoursesFragment"
-        android:label="fragment_courses"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.courses.CoursesFragment"
+        android:label="CoursesFragment"
         tools:layout="@layout/fragment_courses" />
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.sekhgmainuddin.learnwithfun.presentation.home.profile.ProfileFragment"
-        android:label="fragment_profile"
+        android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile" />
+
+    <dialog
+        android:id="@+id/attendExamDialog"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.AttendExamDialogFragment"
+        android:label="AttendExamDialogFragment"
+        tools:layout="@layout/fragment_attend_exam_dialog">
+
+        <argument
+            android:name="course"
+            app:argType="com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.CourseDetailDto" />
+        <argument
+            android:name="contentPosition"
+            app:argType="integer" />
+
+    </dialog>
+
 </navigation>

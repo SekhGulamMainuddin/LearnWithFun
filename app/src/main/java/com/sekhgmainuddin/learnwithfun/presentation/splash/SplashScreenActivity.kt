@@ -38,6 +38,7 @@ class SplashScreenActivity : BaseActivity() {
             delay(500)
             binding.learnFunTV.slideVisibility(true, 1000)
             delay(1250)
+            prefsHelper.updateToken("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NDYwMTlkYTAxMWU5NzZhM2YyZTY1ZiIsImlhdCI6MTY5OTQ3MDgyMX0.TQ24xLOcGhbCkT94Ym8PRSUSzIqhFFUlsKQnS8vUjkw")
             if (prefsHelper.getToken().isNotEmpty())
                 startActivity(Intent(this@SplashScreenActivity, HomeActivity::class.java))
             else

@@ -6,8 +6,8 @@ plugins {
     kotlin("plugin.serialization") version "1.9.20"
     id("kotlin-parcelize")
     id("com.google.devtools.ksp")
-    id("androidx.navigation.safeargs.kotlin")
     id("com.google.gms.google-services")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -95,6 +95,7 @@ dependencies {
     // Room Database
     val roomVersion = "2.6.0"
     implementation("androidx.room:room-runtime:$roomVersion")
+    implementation("androidx.room:room-ktx:$roomVersion")
     annotationProcessor("androidx.room:room-compiler:$roomVersion")
     kapt("androidx.room:room-compiler:$roomVersion")
     androidTestImplementation("androidx.room:room-testing:$roomVersion")
@@ -120,6 +121,7 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:2.7.5")
     implementation("com.github.appsfeature:otp-view:1.0")
     implementation("np.com.susanthapa:curved_bottom_navigation:0.6.5")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
     // ViewModel
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.2")

@@ -1,13 +1,15 @@
 package com.sekhgmainuddin.learnwithfun.presentation.quiz
 
 import android.Manifest
+import android.app.Dialog
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.MotionEvent
+import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.OptIn
-import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageAnalysis
@@ -18,6 +20,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata
@@ -29,13 +32,17 @@ import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions.FAST
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.enums.CheatingStatus
 import com.sekhgmainuddin.learnwithfun.common.utils.CameraUtility
+import com.sekhgmainuddin.learnwithfun.data.db.entities.CheatFlagEntity
 import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.ContentDto
-import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.CourseDetailDto
 import com.sekhgmainuddin.learnwithfun.databinding.ActivityQuizBinding
+import com.sekhgmainuddin.learnwithfun.databinding.SubmittingQuizLayoutBinding
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseActivity
+import com.sekhgmainuddin.learnwithfun.presentation.quiz.uiStates.QuizState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
@@ -49,25 +56,63 @@ class QuizActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
     private var cameraExecutor: ExecutorService? = null
     private val viewModel by viewModels<QuizViewModel>()
     private var contentDetailDto: ContentDto? = null
+    private var examId: String? = null
+    private var quizCompleted = false
+    private lateinit var quizDialog: Dialog
+    private lateinit var dialogBinding: SubmittingQuizLayoutBinding
+    private lateinit var cheatingAlertDialog: MaterialAlertDialogBuilder
+    private var cheatingAttempts = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_quiz)
 
         contentDetailDto = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            intent.getParcelableExtra("courseDetails", ContentDto::class.java)
+            intent.getParcelableExtra("content", ContentDto::class.java)
         } else {
-            intent.getParcelableExtra<ContentDto>("courseDetails")
+            intent.getParcelableExtra<ContentDto>("content")
         }
-        if(contentDetailDto!=null) {
+        examId = intent.getStringExtra("examId")
+        viewModel.examId = examId!!
+        viewModel.courseId = intent.getStringExtra("courseId")!!
+
+        if (contentDetailDto != null) {
             viewModel.setQuestions(contentDetailDto!!)
         } else {
             setResult(-1)
             finish()
         }
 
+        cheatingAlertDialog = MaterialAlertDialogBuilder(
+            this
+        )
+            .setTitle(R.string.cheating_detected)
+            .setMessage(R.string.please_dont_violate_exam_rules)
+            .setPositiveButton(R.string.ok) { dialog, _ ->
+                cheatingAttempts = 0
+                dialog.dismiss()
+            }
+            .setCancelable(false)
+
+        dialogBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(this),
+            R.layout.submitting_quiz_layout,
+            null,
+            false
+        )
+        dialogBinding.lifecycleOwner = this
+        dialogBinding.viewModel = viewModel
+        quizDialog =
+            Dialog(this, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen).apply {
+                setContentView(dialogBinding.root)
+                setCancelable(false)
+            }
+
         binding.lifecycleOwner = this
         binding.viewModel = viewModel
+        binding.backButton.setOnClickListener {
+            onBackPressedDispatcher.onBackPressed()
+        }
 
         requestPermission()
         cameraExecutor = Executors.newSingleThreadExecutor()
@@ -104,12 +149,67 @@ class QuizActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
             }
             true
         }
+        bindObservers()
+    }
 
+    private fun bindObservers() {
+        lifecycleScope.launch {
+            launch {
+                viewModel.quizStates.collect {
+                    when (it) {
+                        QuizState.Initial -> {}
+
+                        QuizState.Completed -> {
+                            quizDialog.show()
+                            showToast(R.string.quiz_submitted_successfully)
+                            delay(1500)
+                            quizDialog.dismiss()
+                            finish()
+                        }
+
+                        is QuizState.Error -> {
+                            quizDialog.dismiss()
+                            if (it.message.isEmpty()) {
+                                showToast(getString(it.messageRes))
+                            } else {
+                                showToast(it.message)
+                            }
+                        }
+
+                        QuizState.NextQuestion -> {
+                            quizDialog.dismiss()
+                        }
+
+                        QuizState.SubmittingAnswer -> {
+                            quizDialog.show()
+                        }
+                    }
+                }
+            }
+            launch {
+                viewModel.cheatingStates.collectLatest {
+                    cheatingAttempts++
+                    if(it != CheatingStatus.NO_CHEATING && cheatingAttempts!=3) {
+                        cheatingAlertDialog.show()
+                    }
+                }
+            }
+        }
     }
 
     override fun onPause() {
         super.onPause()
-        Log.d("firebaseMLKIT", "onPause: APP CHANGED")
+        if (!quizCompleted) {
+            viewModel.triggerExamViolation(
+                CheatFlagEntity(
+                    System.currentTimeMillis(),
+                    examId!!,
+                    CheatingStatus.EXAM_WINDOW_CHANGED_DURING_TEST.name,
+                    null,
+                    null
+                )
+            )
+        }
     }
 
     override fun onDestroy() {
@@ -158,7 +258,7 @@ class QuizActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
 
     }
 
-    private class FaceCheatAnalyzer : ImageAnalysis.Analyzer {
+    private inner class FaceCheatAnalyzer : ImageAnalysis.Analyzer {
         fun degreesToFirebaseRotation(degrees: Int): Int = when (degrees) {
             0 -> FirebaseVisionImageMetadata.ROTATION_0
             90 -> FirebaseVisionImageMetadata.ROTATION_90
@@ -170,6 +270,7 @@ class QuizActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
         @OptIn(ExperimentalGetImage::class)
         override fun analyze(imageProxy: ImageProxy) {
             val mediaImage = imageProxy.image
+            val bitmapImage = imageProxy.toBitmap()
             val imageRotation =
                 degreesToFirebaseRotation(imageProxy.imageInfo.rotationDegrees)
             if (mediaImage != null) {
@@ -211,9 +312,17 @@ class QuizActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
                                 CheatingStatus.NO_CHEATING
                             }
                         }
-//                        if (cheatingStatus != CheatingStatus.NO_CHEATING) {
-//                            viewModel.triggerExamViolation(cheatingStatus)
-//                        }
+                        if (cheatingStatus != CheatingStatus.NO_CHEATING) {
+                            viewModel.triggerExamViolation(
+                                CheatFlagEntity(
+                                    System.currentTimeMillis(),
+                                    examId!!,
+                                    cheatingStatus.name,
+                                    bitmapImage,
+                                    null
+                                )
+                            )
+                        }
                         CoroutineScope(Dispatchers.Main).launch {
                             delay(500)
                             imageProxy.close()

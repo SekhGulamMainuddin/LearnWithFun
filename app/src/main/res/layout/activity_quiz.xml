@@ -35,34 +35,18 @@
             app:maxImageSize="25dp"
             app:tint="@color/black" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/reportButton"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="20dp"
-            android:cropToPadding="true"
-            android:src="@drawable/baseline_outlined_flag_24"
-            app:backgroundTint="@color/white"
-            app:elevation="2dp"
-            app:fabCustomSize="50dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:maxImageSize="25dp"
-            app:tint="@color/black" />
-
         <TextView
             android:id="@+id/questionStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="50dp"
             android:fontFamily="@font/noto_sans_semi_bold"
             android:text="@{@string/_i_of_n_questions(viewModel.questionNumber, viewModel.questionsList.size())}"
             android:textColor="@color/black"
             android:textSize="16sp"
-            app:layout_constraintEnd_toStartOf="@id/reportButton"
-            app:layout_constraintStart_toEndOf="@id/backButton"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginTop="-10dp"
+            app:layout_constraintTop_toBottomOf="@id/backButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
         <TextView
             android:id="@+id/question"
@@ -139,7 +123,7 @@
                     app:layout_constraintTop_toBottomOf="@id/questionImage"
                     android:paddingVertical="10dp"
                     android:text="@string/options"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textColor="@color/black"
                     android:layout_marginStart="20dp"
                     android:fontFamily="@font/shantellsans_regular"
@@ -224,7 +208,9 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:layout_marginHorizontal="20dp"
                     android:paddingTop="10dp"
-                    android:paddingBottom="50dp"
+                    android:textSize="18sp"
+                    android:fontFamily="@font/noto_sans_medium"
+                    android:paddingBottom="150dp"
                     android:text="@{viewModel.currentQuiz.quiz.questionDesc}"
                     android:textColor="@color/black"
                     android:visibility="@{viewModel.currentQuiz.correctAns!=null ? View.VISIBLE : View.GONE ,default = `visible`}" />
@@ -255,6 +241,7 @@
             android:layout_height="50dp"
             android:layout_margin="20dp"
             android:cropToPadding="true"
+            android:onClick="@{(v) -> viewModel.previousQuestion()}"
             android:src="@drawable/baseline_arrow_back_ios_new_24"
             app:backgroundTint="@color/white"
             app:elevation="2dp"

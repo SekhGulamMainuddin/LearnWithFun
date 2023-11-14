@@ -21,6 +21,7 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.request.RequestOptions
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.helper.GlideImageLoader
+import com.sekhgmainuddin.learnwithfun.common.utils.Utils.toViewsOrLikesCount
 
 @BindingAdapter("app:imageUrl", "app:progressBar", "app:placeholder", "app:errorImage", requireAll = false)
 fun setImageUrl(
@@ -107,4 +108,14 @@ fun setLottieAnimation(view: LottieAnimationView, customRawRes: Int, customLoop:
 @BindingAdapter("app:makeSelectedAutomatically")
 fun makeSelectedAutomatically(view: TextView, makeSelectedAutomatically: Boolean) {
     view.isSelected  = makeSelectedAutomatically
+}
+
+@BindingAdapter("app:viewsCount")
+fun setViewsCount(view: TextView, views: Int) {
+    view.text = "${views.toViewsOrLikesCount()} ${view.context.getString(if(views>1) R.string.views else R.string.view)}"
+}
+
+@BindingAdapter("app:likesCount")
+fun setLikesCount(view: TextView, likes: Int) {
+    view.text = "${likes.toViewsOrLikesCount()} ${view.context.getString(if(likes>1) R.string.likes else R.string.like)}"
 }

@@ -1,12 +1,14 @@
-package com.sekhgmainuddin.learnwithfun.presentation.home.couses
+package com.sekhgmainuddin.learnwithfun.presentation.home.courses
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.helper.NetworkResult
+import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.AttendExamBodyParams
 import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.CourseDetailDto
 import com.sekhgmainuddin.learnwithfun.domain.use_case.enrollCourse.GetCourseDetailsUseCase
+import com.sekhgmainuddin.learnwithfun.domain.use_case.quiz.AttendQuizUseCase
+import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.uiStates.AttendQuizState
 import com.sekhgmainuddin.learnwithfun.presentation.home.enrollCourse.uiStates.GetCourseDetailsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -17,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CourseViewModel @Inject constructor(
-    private val getCourseDetailsUseCase: GetCourseDetailsUseCase
+    private val getCourseDetailsUseCase: GetCourseDetailsUseCase,
+    private val attendQuizUseCase: AttendQuizUseCase
 ) : ViewModel() {
 
     private var _courseDetails =
@@ -41,7 +44,6 @@ class CourseViewModel @Inject constructor(
                 }
 
                 is NetworkResult.Error -> {
-                    Log.d("asjdkasjgd", "getCourseDetails: ${it.message}")
                     _courseDetails.value = GetCourseDetailsState.Error(
                         it.message,
                         it.strResMessage ?: R.string.default_error_message
@@ -49,6 +51,40 @@ class CourseViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    private var _attendQuiz = MutableStateFlow<AttendQuizState>(AttendQuizState.Initial)
+    val attendQuiz: StateFlow<AttendQuizState>
+        get() = _attendQuiz
+
+    fun attendQuiz(attendExamBodyParams: AttendExamBodyParams) =
+        viewModelScope.launch(Dispatchers.IO) {
+            attendQuizUseCase(attendExamBodyParams).collect {
+                when (it) {
+                    is NetworkResult.Success -> {
+                        _attendQuiz.value = AttendQuizState.Success(it.data!!)
+                    }
+
+                    is NetworkResult.Loading -> {
+                        _attendQuiz.value = AttendQuizState.Loading
+                    }
+
+                    is NetworkResult.Error -> {
+                        _attendQuiz.value = AttendQuizState.Error(
+                            it.message,
+                            it.strResMessage ?: R.string.default_error_message
+                        )
+                    }
+                }
+            }
+        }
+
+    fun setFreshQuiz() {
+        _attendQuiz.value = AttendQuizState.Initial
+    }
+
+    fun examIdAlreadyPresent(examId: String) {
+        _attendQuiz.value = AttendQuizState.Success(examId)
     }
 
 }

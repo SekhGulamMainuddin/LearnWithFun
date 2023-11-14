@@ -8,7 +8,7 @@
     <data>
         <variable
             name="viewModel"
-            type="com.sekhgmainuddin.learnwithfun.presentation.home.couses.CourseViewModel" />
+            type="com.sekhgmainuddin.learnwithfun.presentation.home.courses.CourseViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

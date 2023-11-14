@@ -3,7 +3,9 @@ package com.sekhgmainuddin.learnwithfun.common.helper
 import android.content.Context
 import android.content.SharedPreferences
 import com.sekhgmainuddin.learnwithfun.common.Constants.LEARN_WITH_FUN_TOKEN
+import com.sekhgmainuddin.learnwithfun.data.dto.UserDto
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 class PrefsHelper @Inject constructor(@ApplicationContext context: Context) {
@@ -57,6 +59,9 @@ class PrefsHelper @Inject constructor(@ApplicationContext context: Context) {
 
                     Boolean::class -> {
                         getBoolean(key, defaultValue as Boolean)
+                    }
+                    UserDto::class -> {
+                        Json.decodeFromString<UserDto>(getString(key, "")!!)
                     }
 
                     else -> throw IllegalStateException("Unsupported type")

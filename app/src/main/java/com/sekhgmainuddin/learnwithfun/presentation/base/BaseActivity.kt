@@ -9,12 +9,18 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
+import javax.inject.Named
 
 @AndroidEntryPoint
 open class BaseActivity : AppCompatActivity(), BaseActivityCallback {
 
+    @Named("progressDialog")
     @Inject
     lateinit var progressDialog: Dialog
+
+    @Named("loadingDialog")
+    @Inject
+    lateinit var loadingDialog: Dialog
 
     protected fun showToast(message: String, toastType: Int = Toast.LENGTH_SHORT) {
         Toast.makeText(this@BaseActivity, message, toastType).show()
@@ -30,6 +36,14 @@ open class BaseActivity : AppCompatActivity(), BaseActivityCallback {
 
     override fun hideProgressDialog() {
         progressDialog.dismiss()
+    }
+
+    override fun showLoadingDialog() {
+        loadingDialog.show()
+    }
+
+    override fun hideLoadingDialog() {
+        loadingDialog.dismiss()
     }
 
     protected fun showSnackBar(message: String, snackBarDuration: Int = Snackbar.LENGTH_SHORT) {

@@ -4,6 +4,7 @@
     xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
+        <import type="com.sekhgmainuddin.learnwithfun.common.utils.Utils"/>
         <import type="com.sekhgmainuddin.learnwithfun.R"/>
         <variable
             name="content"
@@ -46,7 +47,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:progressBar="@{progressBar}" />
+                    app:progressBar="@{progressBar}"
+                    />
 
                 <ProgressBar
                     android:id="@+id/progressBar"
@@ -76,7 +78,7 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_margin="15dp"
+                    android:layout_margin="10dp"
                     android:elevation="4dp"
                     app:cardBackgroundColor="#E9FFFFFF"
                     app:cardCornerRadius="25dp"
@@ -97,6 +99,34 @@
                         app:drawableStartCompat="@drawable/baseline_access_time_24" />
 
                 </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:paddingHorizontal="10dp"
+                    android:layout_margin="10dp"
+                    android:layout_marginStart="5dp"
+                    app:viewsCount="@{content.viewsIdList.size() }"
+                    android:textColor="@color/white"
+                    android:background="@drawable/views_and_likes_background"
+                    android:fontFamily="@font/shantellsans_regular"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    android:paddingHorizontal="10dp"
+                    android:layout_margin="10dp"
+                    android:layout_marginStart="5dp"
+                    app:likesCount="@{content.likesIdList.size() }"
+                    android:textColor="@color/white"
+                    android:background="@drawable/views_and_likes_background"
+                    android:fontFamily="@font/shantellsans_regular"
+                    />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -135,6 +165,8 @@
                     android:paddingVertical="5dp"
                     android:text="@{content.desc, default = `ajdashdiyhasoidyhaiosdyhaosidyhoaisyhdoiasdnlaknclo ;oghdoi;qwhjd;oijhd kashd;kashd;.kashd;oiqwyh;eoih;lk jhalsjkdgho`}"
                     android:textColor="@color/grey"
+                    android:maxLines="2"
+                    android:ellipsize="end"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/contentTitle" />
