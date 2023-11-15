@@ -7,11 +7,12 @@ import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.sekhgmainuddin.learnwithfun.data.db.Converters
 
-@Entity(tableName = "cheat_flag_entity")
+@Entity(tableName = "cheat_flag_entity", primaryKeys = ["dateTime", "examId"])
 data class CheatFlagEntity(
-    @ColumnInfo(name = "dateTime") @PrimaryKey(autoGenerate = false) val dateTime: Long,
+    @ColumnInfo(name = "dateTime") val dateTime: Long,
     @ColumnInfo(name = "examId") val examId: String,
     @ColumnInfo(name = "flagType") val flagType: String,
     @ColumnInfo(name = "image") @TypeConverters(Converters::class) var image: Bitmap?,
     @ColumnInfo(name = "imageUrl") var imageUrl: String? = null,
+    @ColumnInfo(name = "retryCount") var retryCount: Int = 0
 )

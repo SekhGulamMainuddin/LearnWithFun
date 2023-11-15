@@ -34,6 +34,7 @@
         <activity
             android:name=".presentation.quiz.QuizActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             />
         <activity
             android:name=".presentation.home.HomeActivity"

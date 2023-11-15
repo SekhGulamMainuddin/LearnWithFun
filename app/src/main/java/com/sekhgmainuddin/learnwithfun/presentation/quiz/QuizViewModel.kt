@@ -1,5 +1,6 @@
 package com.sekhgmainuddin.learnwithfun.presentation.quiz
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sekhgmainuddin.learnwithfun.R
@@ -14,6 +15,7 @@ import com.sekhgmainuddin.learnwithfun.domain.use_case.quiz.TriggerExamViolation
 import com.sekhgmainuddin.learnwithfun.presentation.quiz.uiStates.QuizState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -31,7 +33,7 @@ class QuizViewModel @Inject constructor(
     var courseId = ""
     private var currentQuestion = 0
     val quizStates = MutableStateFlow<QuizState>(QuizState.Initial)
-    val cheatingStates = MutableStateFlow<CheatingStatus>(CheatingStatus.NO_CHEATING)
+    val cheatingStates = MutableSharedFlow<CheatingStatus>()
 
     fun setQuestions(contentDto: ContentDto) {
         questionsList.clear()
@@ -50,8 +52,9 @@ class QuizViewModel @Inject constructor(
 
     fun triggerExamViolation(cheatFlagEntity: CheatFlagEntity) =
         viewModelScope.launch(Dispatchers.IO) {
-            cheatingStates.value = CheatingStatus.valueOf(cheatFlagEntity.flagType)
-            triggerExamViolationUseCase(cheatFlagEntity)
+            cheatingStates.emit(CheatingStatus.valueOf(cheatFlagEntity.flagType))
+//            triggerExamViolationUseCase(cheatFlagEntity)
+            Log.d("CHEATINGs", "triggerExamViolation: ${cheatFlagEntity.flagType}")
         }
 
     private fun addScoreToAttendedQuestion(isCorrect: Boolean) =

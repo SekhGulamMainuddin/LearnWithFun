@@ -8,7 +8,7 @@ import com.sekhgmainuddin.learnwithfun.data.db.entities.CheatFlagEntity
 @TypeConverters(Converters::class)
 @Database(
     entities = [CheatFlagEntity::class],
-    version = 3,
+    version = 5,
     exportSchema = false
 )
 abstract class LearnWithFunDb : RoomDatabase() {

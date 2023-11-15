@@ -106,12 +106,19 @@ class CourseTutorialFragment : BaseFragment() {
 
                     override fun attendQuiz(contentPosition: Int) {
                         previousClickedItem = contentPosition
-                        findNavController().navigate(
-                            CourseTutorialFragmentDirections.actionCourseTutorialFragmentToAttendExamDialog(
-                                course = courseDetailDto!!,
-                                contentPosition = contentPosition
+                        if (!courseDetailDto!!.courseCoverage!!.quizAttended.containsKey(
+                                courseDetailDto!!.contents[contentPosition]._id
                             )
-                        )
+                        ) {
+                            findNavController().navigate(
+                                CourseTutorialFragmentDirections.actionCourseTutorialFragmentToAttendExamDialog(
+                                    course = courseDetailDto!!,
+                                    contentPosition = contentPosition
+                                )
+                            )
+                        } else {
+                            showSnackBar(R.string.quiz_already_attended)
+                        }
                     }
 
                     override fun downloadNotes(contentPosition: Int) {

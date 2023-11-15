@@ -1,12 +1,14 @@
 package com.sekhgmainuddin.learnwithfun.presentation.home
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.databinding.ActivityHomeBinding
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseActivity
+import com.sekhgmainuddin.learnwithfun.presentation.home.home.HomeViewModel
 import np.com.susanthapa.curved_bottom_navigation.CbnMenuItem
 import java.io.File
 
@@ -16,6 +18,7 @@ class HomeActivity : BaseActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
+    private val viewModel by viewModels<HomeViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +47,11 @@ class HomeActivity : BaseActivity() {
         )
         binding.bottomNavBar.setMenuItems(menuItems, 0)
         binding.bottomNavBar.setupWithNavController(navController)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.retryUploadingCheatFlags()
     }
 
     override fun onDestroy() {

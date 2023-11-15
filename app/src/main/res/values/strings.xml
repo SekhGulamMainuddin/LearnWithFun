@@ -114,5 +114,6 @@
     <string name="cheating_detected">Cheating Detected</string>
     <string name="please_dont_violate_exam_rules">Please do not violate exam rules.\nMultiple violations may lead to disqualification.</string>
     <string name="ok">Ok</string>
+    <string name="quiz_already_attended">Quiz Already Attended</string>
 
 </resources>

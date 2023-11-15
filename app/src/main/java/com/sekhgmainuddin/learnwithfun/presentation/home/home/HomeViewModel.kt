@@ -1,27 +1,38 @@
 package com.sekhgmainuddin.learnwithfun.presentation.home.home
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.helper.NetworkResult
+import com.sekhgmainuddin.learnwithfun.data.db.entities.CheatFlagEntity
 import com.sekhgmainuddin.learnwithfun.data.dto.UserDetailDto
 import com.sekhgmainuddin.learnwithfun.domain.modals.HomeViewContent
+import com.sekhgmainuddin.learnwithfun.domain.use_case.home.GetAllUploadFailedCheatAlerts
 import com.sekhgmainuddin.learnwithfun.domain.use_case.home.GetPopularCoursesUseCase
 import com.sekhgmainuddin.learnwithfun.domain.use_case.home.GetUserDetailsUseCase
+import com.sekhgmainuddin.learnwithfun.domain.use_case.quiz.TriggerExamViolationUseCase
 import com.sekhgmainuddin.learnwithfun.presentation.home.home.uiStates.GetPopularCoursesState
 import com.sekhgmainuddin.learnwithfun.presentation.home.home.uiStates.GetUserDetailsState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.awaitCancellation
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.yield
+import java.util.LinkedList
 import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val getUserDetailsUseCase: GetUserDetailsUseCase,
-    private val getPopularCoursesUseCase: GetPopularCoursesUseCase
+    private val getPopularCoursesUseCase: GetPopularCoursesUseCase,
+    private val getAllUploadFailedCheatAlerts: GetAllUploadFailedCheatAlerts,
+    private val triggerExamViolationUseCase: TriggerExamViolationUseCase
 ) : ViewModel() {
 
     private var _userDetails = MutableStateFlow<GetUserDetailsState>(GetUserDetailsState.Initial)
@@ -75,9 +86,10 @@ class HomeViewModel @Inject constructor(
             when (it) {
                 is NetworkResult.Success -> {
                     popularCourseList = it.data!!
-                    if(homeViewContent.isNotEmpty()){
+                    if (homeViewContent.isNotEmpty()) {
                         homeViewContent[0] = popularCourseList
-                        _popularCourses.value = GetPopularCoursesState.Success(homeViewContent.toList())
+                        _popularCourses.value =
+                            GetPopularCoursesState.Success(homeViewContent.toList())
                     }
                     // Done because ListAdapter DiffUtil doesn't call on same list
                 }
@@ -94,6 +106,46 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun retryUploadingCheatFlags() = viewModelScope.launch(Dispatchers.IO) {
+        try {
+            getAllUploadFailedCheatAlerts(Unit)
+            getAllUploadFailedCheatAlerts().catch {
+                Log.d("retryUploadingCheatFlags", "retryUploadingCheatFlags: ${it.message}")
+            }.collect {
+                if(it.isEmpty()){
+                    yield()
+                    awaitCancellation()
+                }
+                it.forEach { c ->
+                    if (!retryMap.containsKey(c.dateTime) && c.retryCount < 5) {
+                        Log.d("retryUploadingCheatFlags", "retryUploadingCheatFlags: ${it}")
+                        retryMap[c.dateTime] = c
+                        retryUploadCheatQueue.push(c)
+                    }
+                }
+                if (!isRetryRunning && retryUploadCheatQueue.isNotEmpty()) {
+                    uploadCheatingFlags()
+                }
+            }
+        }catch (e: Exception) {
+            Log.d("RetryException", "retryUploadingCheatFlags: $e")
+        }
+    }
+
+    private val retryMap = HashMap<Long, CheatFlagEntity>()
+    private val retryUploadCheatQueue = LinkedList<CheatFlagEntity>()
+    private var isRetryRunning = false
+    private fun uploadCheatingFlags() = viewModelScope.launch(Dispatchers.IO) {
+        isRetryRunning = true
+        while (retryUploadCheatQueue.isNotEmpty()) {
+            val it = retryUploadCheatQueue.first
+            triggerExamViolationUseCase(it)
+            retryMap.remove(it.dateTime)
+            retryUploadCheatQueue.pop()
+        }
+        isRetryRunning = false
     }
 
 

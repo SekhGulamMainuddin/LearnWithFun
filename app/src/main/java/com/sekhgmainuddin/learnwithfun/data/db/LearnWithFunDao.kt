@@ -22,4 +22,8 @@ interface LearnWithFunDao {
 
     @Query("SELECT * FROM cheat_flag_entity")
     fun getAllFailedCheatFlag() : Flow<List<CheatFlagEntity>>
+
+    @Query("UPDATE cheat_flag_entity SET retryCount=4 WHERE retryCount=5")
+    suspend fun setFreshRetry()
+
 }

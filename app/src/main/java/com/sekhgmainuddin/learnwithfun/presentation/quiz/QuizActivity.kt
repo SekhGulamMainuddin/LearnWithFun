@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.MotionEvent
-import android.widget.TextView
 import androidx.activity.viewModels
 import androidx.annotation.OptIn
 import androidx.camera.core.CameraSelector
@@ -41,7 +40,6 @@ import com.sekhgmainuddin.learnwithfun.presentation.quiz.uiStates.QuizState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import pub.devrel.easypermissions.AppSettingsDialog
@@ -61,6 +59,7 @@ class QuizActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
     private lateinit var quizDialog: Dialog
     private lateinit var dialogBinding: SubmittingQuizLayoutBinding
     private lateinit var cheatingAlertDialog: MaterialAlertDialogBuilder
+    private var isCheatDialogShowing = false
     private var cheatingAttempts = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -90,6 +89,7 @@ class QuizActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
             .setMessage(R.string.please_dont_violate_exam_rules)
             .setPositiveButton(R.string.ok) { dialog, _ ->
                 cheatingAttempts = 0
+                isCheatDialogShowing = false
                 dialog.dismiss()
             }
             .setCancelable(false)
@@ -189,8 +189,12 @@ class QuizActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
             launch {
                 viewModel.cheatingStates.collectLatest {
                     cheatingAttempts++
-                    if(it != CheatingStatus.NO_CHEATING && cheatingAttempts!=3) {
-                        cheatingAlertDialog.show()
+                    if (it != CheatingStatus.NO_CHEATING && cheatingAttempts != 3) {
+                        cheatingAlertDialog.setTitle(it.name.replace('_', ' ').lowercase().replaceFirstChar(Char::uppercase))
+                        if (!isCheatDialogShowing) {
+                            isCheatDialogShowing = true
+                            cheatingAlertDialog.show()
+                        }
                     }
                 }
             }
@@ -324,7 +328,7 @@ class QuizActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
                             )
                         }
                         CoroutineScope(Dispatchers.Main).launch {
-                            delay(500)
+                            delay(1000)
                             imageProxy.close()
                         }
                     }
