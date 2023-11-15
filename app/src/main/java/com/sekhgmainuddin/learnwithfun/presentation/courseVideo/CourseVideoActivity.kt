@@ -14,12 +14,17 @@ import android.view.WindowInsetsController
 import android.view.WindowManager
 import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.viewModels
 import androidx.annotation.OptIn
 import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
 import androidx.media3.exoplayer.ExoPlayer
@@ -31,8 +36,14 @@ import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.CourseDetailDto
 import com.sekhgmainuddin.learnwithfun.databinding.ActivityCourseVideoBinding
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseActivity
 import com.sekhgmainuddin.learnwithfun.presentation.courseVideo.adapters.ContentOtherVideosListAdapter
+import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.AttendExamDialogFragment
+import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.AttendExamDialogFragmentArgs
+import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.uiStates.AttendQuizState
+import com.sekhgmainuddin.learnwithfun.presentation.home.courses.CourseViewModel
 import com.sekhgmainuddin.learnwithfun.presentation.quiz.QuizActivity
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.launch
 
 class CourseVideoActivity : BaseActivity() {
 
@@ -44,6 +55,7 @@ class CourseVideoActivity : BaseActivity() {
     private var contentPosition = 0
     private var courseDetailDto: CourseDetailDto? = null
     private var otherVideoList = mutableListOf<ContentDto>()
+    private val viewModel by viewModels<CourseViewModel>()
 
     companion object {
         var player: ExoPlayer? = null
@@ -55,8 +67,11 @@ class CourseVideoActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_course_video)
 
         isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
-        if(!isPortrait){
-            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        if (!isPortrait) {
+            window.setFlags(
+                WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN
+            )
         }
 
         binding.lifecycleOwner = this
@@ -93,6 +108,7 @@ class CourseVideoActivity : BaseActivity() {
             refreshLayoutForContentItem(otherVideoList)
             setUpPlayer()
         }
+        bindObservers()
     }
 
     @OptIn(UnstableApi::class)
@@ -137,7 +153,12 @@ class CourseVideoActivity : BaseActivity() {
                 isPortrait = !isPortrait
             }
             playQuiz?.setOnClickListener {
-                startActivity(Intent(this@CourseVideoActivity, QuizActivity::class.java))
+                val attendQuiz = AttendExamDialogFragment()
+                attendQuiz.arguments = bundleOf(
+                    "course" to courseDetailDto,
+                    "contentPosition" to contentPosition
+                )
+                attendQuiz.show(supportFragmentManager, "")
             }
             downloadNotesButton?.setOnClickListener {
 
@@ -149,6 +170,29 @@ class CourseVideoActivity : BaseActivity() {
         currentContent.value = courseDetailDto?.contents?.get(contentPosition)
         otherVideosListAdapter.submitList(list)
         player?.updateVideoSource()
+    }
+
+    private fun bindObservers() {
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.attendQuiz.collect {
+                    if (it is AttendQuizState.Success) {
+                        delay(1010)
+                        startActivity(
+                            Intent(
+                                this@CourseVideoActivity,
+                                QuizActivity::class.java
+                            ).putExtra(
+                                "content",
+                                courseDetailDto!!.contents[contentPosition]
+                            )
+                                .putExtra("examId", it.examId)
+                                .putExtra("courseId", courseDetailDto!!._id)
+                        )
+                    }
+                }
+            }
+        }
     }
 
     @UnstableApi

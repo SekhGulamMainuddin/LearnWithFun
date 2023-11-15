@@ -155,10 +155,6 @@ class CourseTutorialFragment : BaseFragment() {
         }
     }
 
-    private fun showAttendQuizAlert() {
-
-    }
-
     private fun bindObservers() {
         viewLifecycleOwner.lifecycleScope.launch {
             launch {
@@ -217,7 +213,7 @@ class CourseTutorialFragment : BaseFragment() {
 
     val startVideoOrQuizForResult =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == -1) {
+            if (result.resultCode == -101) {
                 showSnackBar(R.string.course_details_not_found)
             }
             viewModel.getCourseDetails(args.courseId)

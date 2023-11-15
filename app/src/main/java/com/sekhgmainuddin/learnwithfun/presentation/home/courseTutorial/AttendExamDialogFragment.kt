@@ -38,6 +38,9 @@ class AttendExamDialogFragment : DialogFragment() {
         _binding = DataBindingUtil.inflate(
             inflater, R.layout.fragment_attend_exam_dialog, container, false
         )
+        if (arguments != null) {
+            AttendExamDialogFragmentArgs.fromBundle(requireArguments())
+        }
         return _binding!!.root
     }
 
