@@ -3,13 +3,22 @@ package com.sekhgmainuddin.learnwithfun.presentation.courseVideo
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.Window
+import android.view.WindowInsets
+import android.view.WindowInsetsController
+import android.view.WindowManager
 import android.widget.LinearLayout
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.OptIn
 import androidx.core.content.ContextCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.databinding.DataBindingUtil
 import androidx.media3.common.MediaItem
 import androidx.media3.common.util.UnstableApi
@@ -45,6 +54,11 @@ class CourseVideoActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_course_video)
 
+        isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
+        if(!isPortrait){
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
+
         binding.lifecycleOwner = this
         binding.content = currentContent
         registerClickListenersAndAdapters()
@@ -74,6 +88,7 @@ class CourseVideoActivity : BaseActivity() {
 
         if (courseDetailDto == null) {
             showToast(R.string.course_details_not_found)
+            finish()
         } else {
             refreshLayoutForContentItem(otherVideoList)
             setUpPlayer()
