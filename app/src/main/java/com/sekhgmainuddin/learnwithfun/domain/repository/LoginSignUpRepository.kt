@@ -1,11 +1,10 @@
 package com.sekhgmainuddin.learnwithfun.domain.repository
 
-import com.sekhgmainuddin.learnwithfun.data.dto.CreateUserDto
-import com.sekhgmainuddin.learnwithfun.data.dto.GeneralResponseDto
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.CreateUserBodyParams
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.GetOTPBodyParams
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.VerifyEmailBodyParams
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.VerifyOTPBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.CreateUserDto
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.CreateUserBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.GetOTPBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.VerifyEmailBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.VerifyOTPBodyParams
 import retrofit2.Response
 
 interface LoginSignUpRepository {

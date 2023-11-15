@@ -17,13 +17,13 @@ import com.otpview.OTPListener
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.hideKeyboard
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.slideVisibility
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.GetOTPBodyParams
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.VerifyOTPBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.GetOTPBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.VerifyOTPBodyParams
 import com.sekhgmainuddin.learnwithfun.databinding.FragmentLoginBinding
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseFragment
 import com.sekhgmainuddin.learnwithfun.presentation.home.HomeActivity
-import com.sekhgmainuddin.learnwithfun.presentation.login.uiStates.GetOTPState
 import com.sekhgmainuddin.learnwithfun.presentation.login.LoginSignUpViewModel
+import com.sekhgmainuddin.learnwithfun.presentation.login.uiStates.GetOTPState
 import com.sekhgmainuddin.learnwithfun.presentation.login.uiStates.VerifyOTPState
 import kotlinx.coroutines.launch
 

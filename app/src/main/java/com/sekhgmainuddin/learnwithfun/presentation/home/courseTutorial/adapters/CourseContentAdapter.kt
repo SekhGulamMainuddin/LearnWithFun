@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.sekhgmainuddin.learnwithfun.R
-import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.ContentDto
-import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.CourseDetailDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.ContentDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.CourseDetailDto
 import com.sekhgmainuddin.learnwithfun.databinding.ContentNotesOrQuizLayoutBinding
 import com.sekhgmainuddin.learnwithfun.databinding.CourseContentItemBinding
 import np.com.susanthapa.curved_bottom_navigation.getColorRes

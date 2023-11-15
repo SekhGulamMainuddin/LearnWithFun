@@ -30,6 +30,8 @@ import okhttp3.ResponseBody
 import org.json.JSONObject
 import java.io.File
 import java.io.FileOutputStream
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import kotlin.math.abs
 
 object Utils {
@@ -211,15 +213,25 @@ object Utils {
 
     fun ResponseBody.getErrorMessage() = JSONObject(this.string())["message"].toString()
 
-    fun Int.toViewsOrLikesCount(): String {
-        var numberString = ""
-        return if (abs(this / 1000000) > 1) {
-            (this / 1000000).toString() + "m"
-        } else if (abs(this / 1000) > 1) {
-            (this / 1000).toString() + "k"
+    fun getViewsOrLikesCount(count: Int): String {
+        return if (abs(count / 1000000) > 1) {
+            (count / 1000000).toString() + "m"
+        } else if (abs(count / 1000) > 1) {
+            (count / 1000).toString() + "k"
         } else {
-            this.toString()
+            count.toString()
         }
+    }
+
+    fun getCurrentPrice(actualPrice: Int, discount: Int): String {
+        val currentPrice = actualPrice.toDouble() - (actualPrice * (discount.toDouble() / 100.0))
+        val df = DecimalFormat("#.##")
+        df.roundingMode = RoundingMode.CEILING
+        return df.format(currentPrice)
+    }
+
+    fun getStudentsEnrolled(studentsCount: Int): String {
+        return getViewsOrLikesCount(studentsCount)
     }
 
 }

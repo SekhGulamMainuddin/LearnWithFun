@@ -1,23 +1,20 @@
 package com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial
 
-import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import androidx.databinding.DataBindingUtil
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.sekhgmainuddin.learnwithfun.R
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.AttendExamBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.AttendExamBodyParams
 import com.sekhgmainuddin.learnwithfun.databinding.FragmentAttendExamDialogBinding
 import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.uiStates.AttendQuizState
-import com.sekhgmainuddin.learnwithfun.presentation.home.courses.CourseViewModel
-import com.sekhgmainuddin.learnwithfun.presentation.quiz.QuizActivity
+import com.sekhgmainuddin.learnwithfun.presentation.home.searchCourse.CourseViewModel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -27,7 +24,7 @@ class AttendExamDialogFragment : DialogFragment() {
     private val binding: FragmentAttendExamDialogBinding
         get() = _binding!!
 
-    private val viewModel by activityViewModels<CourseViewModel>()
+    private val viewModel by viewModels<CourseViewModel>()
     private val args: AttendExamDialogFragmentArgs by navArgs()
 
     override fun onCreateView(

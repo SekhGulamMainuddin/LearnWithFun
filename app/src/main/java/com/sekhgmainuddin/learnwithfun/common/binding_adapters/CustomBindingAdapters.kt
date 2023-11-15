@@ -1,7 +1,9 @@
 package com.sekhgmainuddin.learnwithfun.common.binding_adapters
 
+import android.graphics.Paint
 import android.graphics.Typeface.BOLD
 import android.graphics.Typeface.ITALIC
+import android.graphics.Typeface.NORMAL
 import android.graphics.drawable.Drawable
 import android.text.Spannable
 import android.text.SpannableString
@@ -21,9 +23,15 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.request.RequestOptions
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.helper.GlideImageLoader
-import com.sekhgmainuddin.learnwithfun.common.utils.Utils.toViewsOrLikesCount
+import com.sekhgmainuddin.learnwithfun.common.utils.Utils.getViewsOrLikesCount
 
-@BindingAdapter("app:imageUrl", "app:progressBar", "app:placeholder", "app:errorImage", requireAll = false)
+@BindingAdapter(
+    "app:imageUrl",
+    "app:progressBar",
+    "app:placeholder",
+    "app:errorImage",
+    requireAll = false
+)
 fun setImageUrl(
     view: ImageView,
     imageUrl: String?,
@@ -62,7 +70,7 @@ fun formatText(
     val spannable = SpannableString(fullText)
     if (nonSpanStyle != null) {
         spannable.setSpan(
-            StyleSpan(if (nonSpanStyle == "bold") BOLD else ITALIC),
+            StyleSpan(if (nonSpanStyle == "bold") BOLD else if (nonSpanStyle == "italic") ITALIC else NORMAL),
             lastMatchingIndex + 1,
             fullText.length - 1,
             Spannable.SPAN_INCLUSIVE_EXCLUSIVE
@@ -107,15 +115,37 @@ fun setLottieAnimation(view: LottieAnimationView, customRawRes: Int, customLoop:
 
 @BindingAdapter("app:makeSelectedAutomatically")
 fun makeSelectedAutomatically(view: TextView, makeSelectedAutomatically: Boolean) {
-    view.isSelected  = makeSelectedAutomatically
+    view.isSelected = makeSelectedAutomatically
 }
 
 @BindingAdapter("app:viewsCount")
 fun setViewsCount(view: TextView, views: Int) {
-    view.text = "${views.toViewsOrLikesCount()} ${view.context.getString(if(views>1) R.string.views else R.string.view)}"
+    view.text =
+        "${getViewsOrLikesCount(views)} ${view.context.getString(if (views > 1) R.string.views else R.string.view)}"
 }
 
 @BindingAdapter("app:likesCount")
 fun setLikesCount(view: TextView, likes: Int) {
-    view.text = "${likes.toViewsOrLikesCount()} ${view.context.getString(if(likes>1) R.string.likes else R.string.like)}"
+    view.text =
+        "${getViewsOrLikesCount(likes)} ${view.context.getString(if (likes > 1) R.string.likes else R.string.like)}"
+}
+
+@BindingAdapter("app:strikeThrough")
+fun setStrikeThrough(view: TextView, strikeThrough: Boolean) {
+    view.paintFlags = view.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+}
+
+@BindingAdapter("app:studentsEnrolled")
+fun setStudentsEnrolled(view: TextView, studentsEnrolled: Int) {
+    val studentOrStudents =
+        view.context.getString(if (studentsEnrolled > 1) R.string.students else R.string.student)
+    view.text =
+        "${getViewsOrLikesCount(studentsEnrolled)} $studentOrStudents ${view.context.getString(R.string.enrolled)}"
+    formatText(
+        view,
+        view.text.toString(),
+        getViewsOrLikesCount(studentsEnrolled),
+        R.color.black,
+        "normal"
+    )
 }

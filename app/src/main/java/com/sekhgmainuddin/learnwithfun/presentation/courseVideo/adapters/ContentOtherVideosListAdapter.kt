@@ -7,10 +7,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sekhgmainuddin.learnwithfun.R
-import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.ContentDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.ContentDto
 import com.sekhgmainuddin.learnwithfun.databinding.OtherVideoContentItemBinding
-import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.CourseContentClickListener
-import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.OnCourseContentClickListener
 
 class ContentOtherVideosListAdapter(private val onCourseContentClickListener: (Int) -> Unit) :
     ListAdapter<ContentDto, ContentOtherVideosListAdapter.OtherVideoContentViewHolder>(

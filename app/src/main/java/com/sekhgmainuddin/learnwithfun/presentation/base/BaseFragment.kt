@@ -55,14 +55,6 @@ open class BaseFragment : Fragment() {
         callback?.hideProgressDialog()
     }
 
-    protected fun showLoadingBar() {
-        callback?.showLoadingDialog()
-    }
-
-    protected fun hideLoadingBar() {
-        callback?.hideLoadingDialog()
-    }
-
     protected fun showKeyboard(view: View) {
         val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager?
         imm?.showSoftInput(view, 0)

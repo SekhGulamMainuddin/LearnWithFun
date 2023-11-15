@@ -5,7 +5,7 @@
     <data>
         <variable
             name="enrolled_course"
-            type="com.sekhgmainuddin.learnwithfun.data.dto.EnrolledCourseDto" />
+            type="com.sekhgmainuddin.learnwithfun.data.remote.dto.EnrolledCourseDto" />
     </data>
 
     <com.google.android.material.card.MaterialCardView

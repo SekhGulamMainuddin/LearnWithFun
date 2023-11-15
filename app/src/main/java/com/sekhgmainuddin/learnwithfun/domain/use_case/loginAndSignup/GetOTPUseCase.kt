@@ -3,7 +3,7 @@ package com.sekhgmainuddin.learnwithfun.domain.use_case.loginAndSignup
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.helper.NetworkResult
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.getErrorMessage
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.GetOTPBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.GetOTPBodyParams
 import com.sekhgmainuddin.learnwithfun.domain.repository.LoginSignUpRepository
 import kotlinx.coroutines.flow.flow
 import java.io.IOException

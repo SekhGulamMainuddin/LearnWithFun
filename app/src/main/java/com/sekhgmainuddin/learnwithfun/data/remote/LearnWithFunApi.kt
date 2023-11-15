@@ -1,17 +1,19 @@
 package com.sekhgmainuddin.learnwithfun.data.remote
 
-import com.sekhgmainuddin.learnwithfun.data.dto.AttendExamDto
-import com.sekhgmainuddin.learnwithfun.data.dto.CreateUserDto
-import com.sekhgmainuddin.learnwithfun.data.dto.PopularCoursesDto
-import com.sekhgmainuddin.learnwithfun.data.dto.UserDetailDto
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.AddCheatFlagBodyParams
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.AddScoreToAttendedQuestionBodyParams
-import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.CourseDetailDto
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.AttendExamBodyParams
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.CreateUserBodyParams
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.GetOTPBodyParams
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.VerifyEmailBodyParams
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.VerifyOTPBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.AttendExamDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.CreateUserDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.PopularCoursesDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.UserDetailDto
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.AddCheatFlagBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.AddScoreToAttendedQuestionBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.CourseDetailDto
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.AttendExamBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.CreateUserBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.GetOTPBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.SearchCoursesAndMentorBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.VerifyEmailBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.VerifyOTPBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.CourseAndUserSearchDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -44,11 +46,14 @@ interface LearnWithFunApi {
     suspend fun getCourseDetails(@Query("id") id: String) : Response<CourseDetailDto>
 
     @POST("exam/attend-exam")
-    suspend fun attendExam(@Body attendExamBodyParams: AttendExamBodyParams) : Response<AttendExamDto>
+    suspend fun attendExam(@Body attendExamBodyParams: AttendExamBodyParams) : Response<com.sekhgmainuddin.learnwithfun.data.remote.dto.AttendExamDto>
 
     @POST("exam/add-cheat-flag")
     suspend fun addCheatFlag(@Body addCheatFlagBodyParams: AddCheatFlagBodyParams) : Response<Unit>
 
     @POST("exam/add-score")
     suspend fun addScoreToAttendedQuestion(@Body addScoreToAttendedQuestionBodyParams: AddScoreToAttendedQuestionBodyParams) : Response<Unit>
+
+    @POST("course/search-courses-mentors")
+    suspend fun getCoursesAndMentorsForQuery(@Body searchCoursesAndMentorBodyParams: SearchCoursesAndMentorBodyParams) : Response<CourseAndUserSearchDto>
 }

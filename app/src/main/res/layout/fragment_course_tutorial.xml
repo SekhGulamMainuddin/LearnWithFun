@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.sekhgmainuddin.learnwithfun.presentation.home.courses.CourseViewModel" />
+            type="com.sekhgmainuddin.learnwithfun.presentation.home.searchCourse.CourseViewModel" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout

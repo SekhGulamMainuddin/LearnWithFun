@@ -4,19 +4,16 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.net.Uri
 import com.sekhgmainuddin.learnwithfun.R
-import com.sekhgmainuddin.learnwithfun.common.Constants.SAVED_USER_DETAILS
 import com.sekhgmainuddin.learnwithfun.common.enums.UserType
 import com.sekhgmainuddin.learnwithfun.common.helper.NetworkResult
 import com.sekhgmainuddin.learnwithfun.common.helper.PrefsHelper
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.getErrorMessage
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.saveAsJPG
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.CreateUserBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.CreateUserBodyParams
 import com.sekhgmainuddin.learnwithfun.domain.repository.LoginSignUpRepository
 import com.sekhgmainuddin.learnwithfun.domain.repository.UploadFileRepository
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.flow
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
 import java.io.IOException
 import javax.inject.Inject
 

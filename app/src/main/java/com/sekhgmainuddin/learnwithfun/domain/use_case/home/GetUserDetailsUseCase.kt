@@ -1,13 +1,11 @@
 package com.sekhgmainuddin.learnwithfun.domain.use_case.home
 
-import android.util.Log
 import com.sekhgmainuddin.learnwithfun.R
-import com.sekhgmainuddin.learnwithfun.common.Constants
 import com.sekhgmainuddin.learnwithfun.common.Constants.SAVED_USER_DETAILS
 import com.sekhgmainuddin.learnwithfun.common.helper.NetworkResult
 import com.sekhgmainuddin.learnwithfun.common.helper.PrefsHelper
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.getErrorMessage
-import com.sekhgmainuddin.learnwithfun.data.dto.UserDetailDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.UserDetailDto
 import com.sekhgmainuddin.learnwithfun.domain.repository.HomeRepository
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.encodeToString

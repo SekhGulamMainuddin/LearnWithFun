@@ -1,6 +1,6 @@
 package com.sekhgmainuddin.learnwithfun.domain.modals
 
-import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.QuizDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.QuizDto
 
 data class Quiz(
     val quiz: QuizDto,

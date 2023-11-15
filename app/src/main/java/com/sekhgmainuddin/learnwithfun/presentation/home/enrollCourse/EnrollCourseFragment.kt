@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -13,7 +13,7 @@ import androidx.navigation.fragment.navArgs
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.databinding.FragmentEnrollCourseBinding
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseFragment
-import com.sekhgmainuddin.learnwithfun.presentation.home.courses.CourseViewModel
+import com.sekhgmainuddin.learnwithfun.presentation.home.searchCourse.CourseViewModel
 import com.sekhgmainuddin.learnwithfun.presentation.home.enrollCourse.uiStates.GetCourseDetailsState
 import kotlinx.coroutines.launch
 
@@ -23,7 +23,7 @@ class EnrollCourseFragment : BaseFragment() {
     private val binding: FragmentEnrollCourseBinding
         get() = _binding!!
 
-    private val viewModel by activityViewModels<CourseViewModel>()
+    private val viewModel by viewModels<CourseViewModel>()
     private val args: EnrollCourseFragmentArgs by navArgs()
 
     override fun onCreateView(

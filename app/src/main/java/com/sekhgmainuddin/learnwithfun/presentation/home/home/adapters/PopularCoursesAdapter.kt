@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sekhgmainuddin.learnwithfun.R
-import com.sekhgmainuddin.learnwithfun.data.dto.PopularCourseDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.PopularCourseDto
 import com.sekhgmainuddin.learnwithfun.databinding.PopularCourseItemBinding
 
 class PopularCoursesAdapter(

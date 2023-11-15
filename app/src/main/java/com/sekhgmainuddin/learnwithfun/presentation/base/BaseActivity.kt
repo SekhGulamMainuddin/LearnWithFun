@@ -18,10 +18,6 @@ open class BaseActivity : AppCompatActivity(), BaseActivityCallback {
     @Inject
     lateinit var progressDialog: Dialog
 
-    @Named("loadingDialog")
-    @Inject
-    lateinit var loadingDialog: Dialog
-
     protected fun showToast(message: String, toastType: Int = Toast.LENGTH_SHORT) {
         Toast.makeText(this@BaseActivity, message, toastType).show()
     }
@@ -36,14 +32,6 @@ open class BaseActivity : AppCompatActivity(), BaseActivityCallback {
 
     override fun hideProgressDialog() {
         progressDialog.dismiss()
-    }
-
-    override fun showLoadingDialog() {
-        loadingDialog.show()
-    }
-
-    override fun hideLoadingDialog() {
-        loadingDialog.dismiss()
     }
 
     protected fun showSnackBar(message: String, snackBarDuration: Int = Snackbar.LENGTH_SHORT) {

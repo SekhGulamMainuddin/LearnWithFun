@@ -1,6 +1,6 @@
 package com.sekhgmainuddin.learnwithfun.presentation.home.enrollCourse.uiStates
 
-import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.CourseDetailDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.CourseDetailDto
 
 sealed class GetCourseDetailsState {
     data object Initial : GetCourseDetailsState()

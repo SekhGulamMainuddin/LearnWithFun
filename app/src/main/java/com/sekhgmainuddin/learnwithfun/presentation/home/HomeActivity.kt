@@ -24,7 +24,8 @@ class HomeActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
 
-        navHostFragment = supportFragmentManager.findFragmentById(R.id.main_fragment_container) as NavHostFragment
+        navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.main_fragment_container) as NavHostFragment
         navController = navHostFragment.navController
 
         val menuItems = arrayOf(
@@ -47,16 +48,12 @@ class HomeActivity : BaseActivity() {
         )
         binding.bottomNavBar.setMenuItems(menuItems, 0)
         binding.bottomNavBar.setupWithNavController(navController)
-    }
-
-    override fun onResume() {
-        super.onResume()
         viewModel.retryUploadingCheatFlags()
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        if(!isChangingConfigurations) {
+        if (!isChangingConfigurations) {
             deleteTempFiles(cacheDir);
         }
     }

@@ -9,9 +9,9 @@ import com.sekhgmainuddin.learnwithfun.common.helper.PrefsHelper
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.saveAsJPG
 import com.sekhgmainuddin.learnwithfun.data.db.LearnWithFunDao
 import com.sekhgmainuddin.learnwithfun.data.db.entities.CheatFlagEntity
-import com.sekhgmainuddin.learnwithfun.data.dto.UserDto
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.AddCheatFlagBodyParams
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.CheatFlag
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.AddCheatFlagBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.CheatFlag
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.UserDto
 import com.sekhgmainuddin.learnwithfun.domain.repository.ExamRepository
 import com.sekhgmainuddin.learnwithfun.domain.repository.UploadFileRepository
 import dagger.hilt.android.qualifiers.ApplicationContext

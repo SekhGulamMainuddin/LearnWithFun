@@ -7,7 +7,7 @@
         <import type="android.view.View"/>
         <variable
             name="content"
-            type="kotlinx.coroutines.flow.MutableStateFlow&lt;com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.ContentDto>" />
+            type="kotlinx.coroutines.flow.MutableStateFlow&lt;com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.ContentDto>" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

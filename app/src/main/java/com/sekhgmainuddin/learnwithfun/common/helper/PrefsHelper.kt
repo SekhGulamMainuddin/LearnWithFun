@@ -3,7 +3,7 @@ package com.sekhgmainuddin.learnwithfun.common.helper
 import android.content.Context
 import android.content.SharedPreferences
 import com.sekhgmainuddin.learnwithfun.common.Constants.LEARN_WITH_FUN_TOKEN
-import com.sekhgmainuddin.learnwithfun.data.dto.UserDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.UserDto
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.serialization.json.Json
 import javax.inject.Inject

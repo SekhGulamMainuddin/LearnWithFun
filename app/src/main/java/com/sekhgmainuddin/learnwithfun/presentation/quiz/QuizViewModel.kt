@@ -7,8 +7,8 @@ import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.enums.CheatingStatus
 import com.sekhgmainuddin.learnwithfun.common.helper.NetworkResult
 import com.sekhgmainuddin.learnwithfun.data.db.entities.CheatFlagEntity
-import com.sekhgmainuddin.learnwithfun.data.dto.bodyParams.AddScoreToAttendedQuestionBodyParams
-import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.ContentDto
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.AddScoreToAttendedQuestionBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.ContentDto
 import com.sekhgmainuddin.learnwithfun.domain.modals.Quiz
 import com.sekhgmainuddin.learnwithfun.domain.use_case.quiz.AddCorrectAnsScoreUseCase
 import com.sekhgmainuddin.learnwithfun.domain.use_case.quiz.TriggerExamViolationUseCase
@@ -53,8 +53,7 @@ class QuizViewModel @Inject constructor(
     fun triggerExamViolation(cheatFlagEntity: CheatFlagEntity) =
         viewModelScope.launch(Dispatchers.IO) {
             cheatingStates.emit(CheatingStatus.valueOf(cheatFlagEntity.flagType))
-//            triggerExamViolationUseCase(cheatFlagEntity)
-            Log.d("CHEATINGs", "triggerExamViolation: ${cheatFlagEntity.flagType}")
+            triggerExamViolationUseCase(cheatFlagEntity)
         }
 
     private fun addScoreToAttendedQuestion(isCorrect: Boolean) =

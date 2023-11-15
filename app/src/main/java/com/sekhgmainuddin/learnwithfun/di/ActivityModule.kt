@@ -24,14 +24,5 @@ object ActivityModule {
             setCancelable(false)
         }
 
-    @Provides
-    @ActivityScoped
-    @Named("loadingDialog")
-    fun providesProgressDialog2(@ActivityContext context: Context) =
-        Dialog(context, android.R.style.Theme_Translucent_NoTitleBar_Fullscreen).apply {
-            setContentView(R.layout.loading_dialog)
-            setCancelable(false)
-        }
-
 
 }

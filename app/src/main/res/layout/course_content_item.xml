@@ -8,7 +8,7 @@
         <import type="com.sekhgmainuddin.learnwithfun.R"/>
         <variable
             name="content"
-            type="com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.ContentDto" />
+            type="com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.ContentDto" />
         <variable
             name="clickHandler"
             type="com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.CourseContentClickListener" />

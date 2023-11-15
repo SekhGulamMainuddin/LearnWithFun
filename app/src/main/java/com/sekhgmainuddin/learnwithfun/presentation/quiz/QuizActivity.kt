@@ -32,7 +32,7 @@ import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.enums.CheatingStatus
 import com.sekhgmainuddin.learnwithfun.common.utils.CameraUtility
 import com.sekhgmainuddin.learnwithfun.data.db.entities.CheatFlagEntity
-import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.ContentDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.ContentDto
 import com.sekhgmainuddin.learnwithfun.databinding.ActivityQuizBinding
 import com.sekhgmainuddin.learnwithfun.databinding.SubmittingQuizLayoutBinding
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseActivity

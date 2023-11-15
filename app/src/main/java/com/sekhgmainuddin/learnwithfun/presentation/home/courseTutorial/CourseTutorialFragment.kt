@@ -2,7 +2,6 @@ package com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -20,7 +19,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.sekhgmainuddin.learnwithfun.R
-import com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.CourseDetailDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.CourseDetailDto
 import com.sekhgmainuddin.learnwithfun.databinding.FragmentCourseTutorialBinding
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseFragment
 import com.sekhgmainuddin.learnwithfun.presentation.courseVideo.CourseVideoActivity
@@ -28,7 +27,7 @@ import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters
 import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.OnCourseContentClickListener
 import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.WeeksAdapter
 import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.uiStates.AttendQuizState
-import com.sekhgmainuddin.learnwithfun.presentation.home.courses.CourseViewModel
+import com.sekhgmainuddin.learnwithfun.presentation.home.searchCourse.CourseViewModel
 import com.sekhgmainuddin.learnwithfun.presentation.home.enrollCourse.uiStates.GetCourseDetailsState
 import com.sekhgmainuddin.learnwithfun.presentation.quiz.QuizActivity
 import kotlinx.coroutines.delay
@@ -40,7 +39,7 @@ class CourseTutorialFragment : BaseFragment() {
     private val binding: FragmentCourseTutorialBinding
         get() = _binding!!
 
-    private val viewModel by activityViewModels<CourseViewModel>()
+    private val viewModel by viewModels<CourseViewModel>()
     private val args: CourseTutorialFragmentArgs by navArgs()
     private lateinit var courseContentAdapter: CourseContentAdapter
     private lateinit var weeksAdapter: WeeksAdapter

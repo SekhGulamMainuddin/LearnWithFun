@@ -1,7 +1,7 @@
 package com.sekhgmainuddin.learnwithfun.domain.repository
 
-import com.sekhgmainuddin.learnwithfun.data.dto.PopularCoursesDto
-import com.sekhgmainuddin.learnwithfun.data.dto.UserDetailDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.PopularCoursesDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.UserDetailDto
 import retrofit2.Response
 
 interface HomeRepository {

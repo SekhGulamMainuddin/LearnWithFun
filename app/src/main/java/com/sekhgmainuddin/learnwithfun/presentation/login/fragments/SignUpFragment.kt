@@ -20,7 +20,6 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.getBitmap
-import com.sekhgmainuddin.learnwithfun.common.utils.Utils.hideKeyboard
 import com.sekhgmainuddin.learnwithfun.databinding.BottomSheetUploadDialogBinding
 import com.sekhgmainuddin.learnwithfun.databinding.FragmentSignUpBinding
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseFragment

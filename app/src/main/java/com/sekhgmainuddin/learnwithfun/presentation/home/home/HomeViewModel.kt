@@ -6,7 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.helper.NetworkResult
 import com.sekhgmainuddin.learnwithfun.data.db.entities.CheatFlagEntity
-import com.sekhgmainuddin.learnwithfun.data.dto.UserDetailDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.UserDetailDto
 import com.sekhgmainuddin.learnwithfun.domain.modals.HomeViewContent
 import com.sekhgmainuddin.learnwithfun.domain.use_case.home.GetAllUploadFailedCheatAlerts
 import com.sekhgmainuddin.learnwithfun.domain.use_case.home.GetPopularCoursesUseCase
@@ -17,8 +17,6 @@ import com.sekhgmainuddin.learnwithfun.presentation.home.home.uiStates.GetUserDe
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.awaitCancellation
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch

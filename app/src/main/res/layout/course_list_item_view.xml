@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.sekhgmainuddin.learnwithfun.common.utils.Utils" />
+
+        <import type="android.view.View" />
+
+        <import type="com.sekhgmainuddin.learnwithfun.R" />
+
+        <variable
+            name="course"
+            type="com.sekhgmainuddin.learnwithfun.data.remote.dto.CourseDtoItem" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="2dp"
+        app:contentPaddingBottom="5dp"
+        app:contentPaddingLeft="10dp"
+        app:contentPaddingRight="10dp"
+        app:contentPaddingTop="10dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/courseThumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="170dp"
+                android:background="@drawable/rounded_corners_ll"
+                android:backgroundTint="@color/black"
+                app:imageUrl="@{course.courseThumbnail ?? ` `}"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:progressBar="@{progressCircular}" />
+
+            <ProgressBar
+                android:id="@+id/progress_circular"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/paris_green"
+                app:layout_constraintBottom_toBottomOf="@id/courseThumbnail"
+                app:layout_constraintEnd_toEndOf="@id/courseThumbnail"
+                app:layout_constraintStart_toStartOf="@id/courseThumbnail"
+                app:layout_constraintTop_toTopOf="@id/courseThumbnail" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_marginStart="5dp"
+                android:background="@drawable/views_and_likes_background"
+                android:fontFamily="@font/shantellsans_regular"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/white"
+                app:layout_constraintStart_toStartOf="@id/courseThumbnail"
+                app:layout_constraintTop_toTopOf="@id/courseThumbnail"
+                app:likesCount="@{course.likesIdList.size()}" />
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/instructorImage"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_margin="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/courseThumbnail"
+                app:layout_constraintStart_toStartOf="@id/courseThumbnail"
+                app:shapeAppearanceOverlay="@style/circularImageView" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="5dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/views_and_likes_background"
+                android:ellipsize="end"
+                android:fontFamily="@font/shantellsans_regular"
+                android:text="@{@string/by(course.instructorName)}"
+                android:textAlignment="viewStart"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="@id/courseThumbnail"
+                app:layout_constraintEnd_toStartOf="@+id/textView"
+                app:layout_constraintStart_toEndOf="@id/instructorImage" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/discount_background"
+                android:drawableEnd="@drawable/discount_icon_24"
+                android:drawablePadding="5dp"
+                android:fontFamily="@font/noto_sans_semi_bold"
+                android:text="@{String.valueOf(course.discount)"
+                android:textColor="@color/science_blue"
+                android:textSize="14sp"
+                android:visibility="@{course.discount>0 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@id/courseThumbnail"
+                app:layout_constraintEnd_toEndOf="@id/courseThumbnail" />
+
+
+            <TextView
+                android:id="@+id/courseTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/noto_sans_semi_bold"
+                android:text="@{course.courseName}"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/courseThumbnail" />
+
+            <TextView
+                android:id="@+id/courseDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:paddingVertical="5dp"
+                android:text="@{course.courseDesc}"
+                android:textColor="@color/grey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/courseTitle" />
+
+            <TextView
+                android:id="@+id/actualPriceTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans_semi_bold"
+                android:paddingEnd="10dp"
+                android:text="@{@string/price(course.price)}"
+                android:textColor="@color/darkGrey"
+                android:textSize="18sp"
+                android:visibility="@{course.discount>0 ? View.VISIBLE : View.GONE}"
+                app:layout_constraintBottom_toBottomOf="@id/currentPriceTag"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/courseDesc"
+                app:strikeThrough="@{true}" />
+
+            <TextView
+                android:id="@+id/currentPriceTag"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/noto_sans_bold"
+                android:paddingEnd="10dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                android:text="500"
+                app:layout_constraintStart_toEndOf="@id/actualPriceTag"
+                app:layout_constraintTop_toBottomOf="@id/courseDesc"/>
+<!--                app:full_text="@{@string/price(Utils.INSTANCE.getCurrentPrice(course.price, course.discount))}"-->
+<!--                app:span_color="@{R.color.gold}"-->
+<!--                app:span_text="@{`\u20B9`}" />-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/darkGrey"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/currentPriceTag"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@id/currentPriceTag"
+                app:studentsEnrolled="@{course.studentsEnrolled.totalCount}"
+                />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/enrollButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:paddingVertical="12dp"
+                android:text="@string/enroll"
+                android:textColor="@color/white"
+                app:cornerRadius="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/exploreButton"
+                app:layout_constraintTop_toBottomOf="@id/currentPriceTag" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/exploreButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="6dp"
+                android:backgroundTint="@color/white"
+                android:paddingVertical="12dp"
+                android:text="@string/explore"
+                android:textColor="@color/science_blue"
+                app:cornerRadius="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/enrollButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/currentPriceTag"
+                app:strokeColor="@color/science_blue"
+                app:strokeWidth="1.5dp" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
+</layout>

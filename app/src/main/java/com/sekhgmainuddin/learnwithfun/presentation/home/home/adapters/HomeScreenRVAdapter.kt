@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sekhgmainuddin.learnwithfun.R
-import com.sekhgmainuddin.learnwithfun.data.dto.EnrolledCourseDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.EnrolledCourseDto
 import com.sekhgmainuddin.learnwithfun.databinding.EnrolledCourseProgressRvBinding
 import com.sekhgmainuddin.learnwithfun.databinding.EnrolledCoursesLabelRvBinding
 import com.sekhgmainuddin.learnwithfun.databinding.PopularCoursesHorizontalRvBinding

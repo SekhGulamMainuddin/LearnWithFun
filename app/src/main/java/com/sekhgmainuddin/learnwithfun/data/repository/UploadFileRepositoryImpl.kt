@@ -1,7 +1,6 @@
 package com.sekhgmainuddin.learnwithfun.data.repository
 
 import android.net.Uri
-import android.util.Log
 import com.google.firebase.storage.StorageReference
 import com.sekhgmainuddin.learnwithfun.domain.repository.UploadFileRepository
 import kotlinx.coroutines.tasks.await

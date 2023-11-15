@@ -58,7 +58,7 @@
 
             <argument
                 android:name="course"
-                app:argType="com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.CourseDetailDto" />
+                app:argType="com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.CourseDetailDto" />
             <argument
                 android:name="contentPosition"
                 app:argType="integer" />
@@ -67,7 +67,7 @@
     </fragment>
     <fragment
         android:id="@+id/coursesFragment"
-        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.courses.CoursesFragment"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.searchCourse.CoursesFragment"
         android:label="CoursesFragment"
         tools:layout="@layout/fragment_courses" />
     <fragment
@@ -84,7 +84,7 @@
 
         <argument
             android:name="course"
-            app:argType="com.sekhgmainuddin.learnwithfun.data.dto.courseDetails.CourseDetailDto" />
+            app:argType="com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.CourseDetailDto" />
         <argument
             android:name="contentPosition"
             app:argType="integer" />
