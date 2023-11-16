@@ -51,6 +51,9 @@ class PopularCoursesAdapter(
         holder.itemView.setOnClickListener {
             courseClickListener.onCourseClicked(currentList[position]._id)
         }
+        holder.binding.openCourseDetailButton.setOnClickListener {
+            courseClickListener.onCourseClicked(currentList[position]._id)
+        }
         holder.binding.executePendingBindings()
     }
 

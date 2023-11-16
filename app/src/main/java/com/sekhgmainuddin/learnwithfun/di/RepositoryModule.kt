@@ -6,11 +6,13 @@ import com.sekhgmainuddin.learnwithfun.data.repository.CourseRepositoryImpl
 import com.sekhgmainuddin.learnwithfun.data.repository.ExamRepositoryImpl
 import com.sekhgmainuddin.learnwithfun.data.repository.HomeRepositoryImpl
 import com.sekhgmainuddin.learnwithfun.data.repository.LoginSignUpRepositoryImpl
+import com.sekhgmainuddin.learnwithfun.data.repository.PaymentRepositoryImpl
 import com.sekhgmainuddin.learnwithfun.data.repository.UploadFileRepositoryImpl
 import com.sekhgmainuddin.learnwithfun.domain.repository.CourseRepository
 import com.sekhgmainuddin.learnwithfun.domain.repository.ExamRepository
 import com.sekhgmainuddin.learnwithfun.domain.repository.HomeRepository
 import com.sekhgmainuddin.learnwithfun.domain.repository.LoginSignUpRepository
+import com.sekhgmainuddin.learnwithfun.domain.repository.PaymentRepository
 import com.sekhgmainuddin.learnwithfun.domain.repository.UploadFileRepository
 import dagger.Module
 import dagger.Provides
@@ -46,5 +48,10 @@ object RepositoryModule {
     @Provides
     fun provideExamRepository(learnWithFunApi: LearnWithFunApi): ExamRepository =
         ExamRepositoryImpl(learnWithFunApi)
+
+    @Singleton
+    @Provides
+    fun providePaymentRepository(learnWithFunApi: LearnWithFunApi): PaymentRepository =
+        PaymentRepositoryImpl(learnWithFunApi)
 
 }

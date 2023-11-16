@@ -1,6 +1,5 @@
 package com.sekhgmainuddin.learnwithfun.presentation.home.searchCourse
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sekhgmainuddin.learnwithfun.R

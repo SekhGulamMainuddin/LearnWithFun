@@ -241,6 +241,7 @@
                     android:text="@string/enroll_now"
                     android:backgroundTint="@color/black"
                     android:padding="16dp"
+                    android:textColor="@color/white"
                     />
 
             </LinearLayout>

@@ -28,7 +28,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/courseThumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="170dp"
@@ -38,7 +38,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:progressBar="@{progressCircular}" />
+                app:progressBar="@{progressCircular}"
+                app:shapeAppearanceOverlay="@style/roundedImageView"
+                />
 
             <ProgressBar
                 android:id="@+id/progress_circular"
@@ -116,7 +118,7 @@
                 android:id="@+id/courseTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/noto_sans_semi_bold"
                 android:text="@{course.courseName}"
                 android:textColor="@color/black"
@@ -195,7 +197,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="6dp"
-                android:backgroundTint="@color/white"
+                android:backgroundTint="@color/fade_blue"
                 android:paddingVertical="12dp"
                 android:text="@string/explore"
                 android:textColor="@color/science_blue"
@@ -204,8 +206,7 @@
                 app:layout_constraintEnd_toStartOf="@id/enrollButton"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/currentPriceTag"
-                app:strokeColor="@color/science_blue"
-                app:strokeWidth="1.5dp" />
+                />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

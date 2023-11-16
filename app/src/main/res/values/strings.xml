@@ -123,5 +123,18 @@
     <string name="student">Student</string>
     <string name="enrolled">Enrolled</string>
     <string name="n_courses_published">%d Courses Published</string>
+    <string name="initiating_payment">Initiating Payment</string>
+    <string name="fetching_payment_token">Fetching Payment Token</string>
+    <string name="starting_payment">Starting Payment</string>
+    <string name="payment_started">Payment Started</string>
+    <string name="verifying_payment">Verifying Payment</string>
+    <string name="failed_to_do_payment">Failed to do the payment</string>
+    <string name="payment_cancelled">Payment Cancelled</string>
+    <string name="course_enrolled_successfully">Course Enrolled Successfully</string>
+    <string name="payment_failed">Payment Failed</string>
+    <string name="failed_to_fetch_payment_token">Failed to fetch Payment Token</string>
+    <string name="payment_done">Payment Done</string>
+    <string name="loading">Loading</string>
+    <string name="payment_token_fetched">Payment Token Fetched</string>
 
 </resources>

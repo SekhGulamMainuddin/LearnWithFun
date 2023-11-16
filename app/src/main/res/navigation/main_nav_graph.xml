@@ -64,12 +64,22 @@
                 app:argType="integer" />
 
         </action>
+        <action
+            android:id="@+id/action_courseTutorialFragment_to_startPayment"
+            app:destination="@id/startPayment" />
     </fragment>
     <fragment
         android:id="@+id/coursesFragment"
         android:name="com.sekhgmainuddin.learnwithfun.presentation.home.searchCourse.CoursesFragment"
         android:label="CoursesFragment"
-        tools:layout="@layout/fragment_courses" />
+        tools:layout="@layout/fragment_courses" >
+        <action
+            android:id="@+id/action_coursesFragment_to_enrollCourseFragment"
+            app:destination="@id/enrollCourseFragment" />
+        <action
+            android:id="@+id/action_coursesFragment_to_startPayment"
+            app:destination="@id/startPayment" />
+    </fragment>
     <fragment
         android:id="@+id/profileFragment"
         android:name="com.sekhgmainuddin.learnwithfun.presentation.home.profile.ProfileFragment"
@@ -88,6 +98,21 @@
         <argument
             android:name="contentPosition"
             app:argType="integer" />
+
+    </dialog>
+
+    <dialog
+        android:id="@+id/startPayment"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.enrollCourse.StartPaymentFragment"
+        android:label="StartPaymentFragment"
+        tools:layout="@layout/fragment_start_payment">
+
+        <argument
+            android:name="courseId"
+            app:argType="string" />
+        <argument
+            android:name="paymentAmount"
+            app:argType="string" />
 
     </dialog>
 

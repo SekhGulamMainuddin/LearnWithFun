@@ -54,6 +54,10 @@ android {
 
 dependencies {
 
+    // Braintree Payment
+    implementation("com.braintreepayments.api:drop-in:6.13.0")
+    implementation("com.braintreepayments.api:data-collector:4.39.0")
+
     // Firebase an ML Kit
     implementation("com.google.firebase:firebase-messaging-ktx:23.3.1")
     implementation("com.google.firebase:firebase-storage-ktx:20.3.0")

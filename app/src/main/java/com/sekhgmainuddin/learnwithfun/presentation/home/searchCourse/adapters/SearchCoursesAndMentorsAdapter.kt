@@ -14,6 +14,7 @@ import com.sekhgmainuddin.learnwithfun.domain.modals.SearchItem
 class SearchCoursesAndMentorsAdapter(
     private val onCourseEnrollClicked: (Int) -> Unit,
     private val onCourseExploreClicked: (Int) -> Unit,
+    private val onMentorClicked: (Int) -> Unit
 ) :
     ListAdapter<SearchItem, RecyclerView.ViewHolder>(CourseItemDiffCallback()) {
 
@@ -133,7 +134,9 @@ class SearchCoursesAndMentorsAdapter(
     inner class MentorViewHolder(private val binding: MentorLayoutSearchBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
-
+            binding.mentorCV.setOnClickListener {
+                onMentorClicked(bindingAdapterPosition)
+            }
         }
 
         fun bind(item: SearchItem) {

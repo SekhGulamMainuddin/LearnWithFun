@@ -73,5 +73,4 @@ class HomeActivity : BaseActivity() {
         }
         return file.delete()
     }
-
 }

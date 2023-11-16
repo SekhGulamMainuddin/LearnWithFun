@@ -25,6 +25,7 @@ import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.helper.GlideImageLoader
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.getCurrentPrice
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.getViewsOrLikesCount
+import com.sekhgmainuddin.learnwithfun.presentation.payment.uiStates.PaymentState
 
 @BindingAdapter(
     "app:imageUrl",
@@ -161,4 +162,83 @@ fun setCurrentPrice(view: TextView, actualPriceOfCourse: Double, givenDiscount: 
         "\u20B9",
         R.color.gold
     )
+}
+
+@BindingAdapter("app:animationForPaymentState")
+fun setAnimationForPaymentState(
+    view: LottieAnimationView,
+    animationForPaymentState: PaymentState?
+) {
+    val animationRes = when (animationForPaymentState) {
+        PaymentState.Initial -> {
+            R.raw.initiating_payment
+        }
+
+        PaymentState.FetchingToken -> {
+            R.raw.initiating_payment
+        }
+
+        PaymentState.DoingPayment -> {
+            R.raw.doing_payment
+        }
+
+        is PaymentState.Error -> {
+            R.raw.payment_failed
+        }
+
+        is PaymentState.PaymentTokenFetched -> {
+            R.raw.doing_payment
+        }
+
+        PaymentState.PaymentVerified -> {
+            R.raw.payment_successful_animation
+        }
+
+        PaymentState.VerifyingPayment -> {
+            R.raw.verifying_your_payment
+        }
+
+        else -> {
+            R.raw.loading_animation
+        }
+    }
+    setLottieAnimation(view, animationRes, true)
+}
+
+@BindingAdapter("app:textForPaymentState")
+fun setTextForPaymentState(view: TextView, textForPaymentState: PaymentState?) {
+    val text = when (textForPaymentState) {
+        PaymentState.Initial -> {
+            R.string.initiating_payment
+        }
+
+        PaymentState.FetchingToken -> {
+            R.string.fetching_payment_token
+        }
+
+        PaymentState.DoingPayment -> {
+            R.string.starting_payment
+        }
+
+        is PaymentState.Error -> {
+            R.string.payment_failed
+        }
+
+        is PaymentState.PaymentTokenFetched -> {
+            R.string.payment_token_fetched
+        }
+
+        PaymentState.PaymentVerified -> {
+            R.string.payment_done
+        }
+
+        PaymentState.VerifyingPayment -> {
+            R.string.verifying_payment
+        }
+
+        else -> {
+            R.string.loading
+        }
+    }
+    view.text = view.context.getString(text)
 }
