@@ -23,6 +23,7 @@ import com.bumptech.glide.Priority
 import com.bumptech.glide.request.RequestOptions
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.helper.GlideImageLoader
+import com.sekhgmainuddin.learnwithfun.common.utils.Utils.getCurrentPrice
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.getViewsOrLikesCount
 
 @BindingAdapter(
@@ -35,7 +36,7 @@ import com.sekhgmainuddin.learnwithfun.common.utils.Utils.getViewsOrLikesCount
 fun setImageUrl(
     view: ImageView,
     imageUrl: String?,
-    progressBar: ProgressBar,
+    progressBar: ProgressBar?,
     placeholder: Int = R.drawable.placeholder_image,
     errorImage: Int = R.drawable.image_error
 ) {
@@ -147,5 +148,17 @@ fun setStudentsEnrolled(view: TextView, studentsEnrolled: Int) {
         getViewsOrLikesCount(studentsEnrolled),
         R.color.black,
         "normal"
+    )
+}
+
+@BindingAdapter("app:actualPriceOfCourse", "app:givenDiscount")
+fun setCurrentPrice(view: TextView, actualPriceOfCourse: Double, givenDiscount: Double) {
+    view.text =
+        view.context.getString(R.string.price, getCurrentPrice(actualPriceOfCourse, givenDiscount))
+    formatText(
+        view,
+        view.text.toString(),
+        "\u20B9",
+        R.color.gold
     )
 }

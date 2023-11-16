@@ -118,8 +118,8 @@
     <string name="search_for_your_favorite_courses">Search for your Favorite Courses</string>
     <string name="enroll">Enroll</string>
     <string name="explore">Explore</string>
-    <string name="discount_off">%d&#37; off</string>
-    <string name="price">\u20B9%d</string>
+    <string name="discount_off">%s%% off</string>
+    <string name="price">\u20B9%s</string>
     <string name="student">Student</string>
     <string name="enrolled">Enrolled</string>
     <string name="n_courses_published">%d Courses Published</string>

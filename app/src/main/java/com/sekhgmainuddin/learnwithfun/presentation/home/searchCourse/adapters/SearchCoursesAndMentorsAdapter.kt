@@ -87,7 +87,7 @@ class SearchCoursesAndMentorsAdapter(
         val item = currentList[position]
         return if (item.user != null) {
             ITEM_MENTOR
-        } else if (item.course!!.discount == 0) {
+        } else if (item.course!!.discount == 0.0) {
             ITEM_WITHOUT_DISCOUNT
         } else {
             ITEM_WITH_DISCOUNT

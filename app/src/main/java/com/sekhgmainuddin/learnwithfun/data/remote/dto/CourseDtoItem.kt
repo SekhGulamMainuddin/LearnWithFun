@@ -8,13 +8,13 @@ data class CourseDtoItem(
     val courseDesc: String,
     val courseName: String,
     val courseThumbnail: String,
-    val discount: Int,
+    val discount: Double,
     val instructorId: String,
     val instructorName: String,
     val instructorProfilePicture: String,
     val lessons: Int,
     val likesIdList: List<String>,
-    val price: Int,
+    val price: Double,
     val studentsEnrolled: StudentsEnrolledDto,
     val tags: List<String>
 )

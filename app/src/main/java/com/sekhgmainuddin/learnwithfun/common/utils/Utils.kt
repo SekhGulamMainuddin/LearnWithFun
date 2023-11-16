@@ -223,8 +223,8 @@ object Utils {
         }
     }
 
-    fun getCurrentPrice(actualPrice: Int, discount: Int): String {
-        val currentPrice = actualPrice.toDouble() - (actualPrice * (discount.toDouble() / 100.0))
+    fun getCurrentPrice(actualPrice: Double, discount: Double): String {
+        val currentPrice = actualPrice - (actualPrice * (discount / 100.0))
         val df = DecimalFormat("#.##")
         df.roundingMode = RoundingMode.CEILING
         return df.format(currentPrice)
