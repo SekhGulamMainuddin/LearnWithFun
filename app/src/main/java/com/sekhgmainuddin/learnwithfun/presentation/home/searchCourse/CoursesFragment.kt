@@ -53,6 +53,7 @@ class CoursesFragment : BaseFragment(), DialogInterface.OnDismissListener {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.viewModel = viewModel
         registerClickListenersAndAdapters()
+        viewModel.getCoursesAndMentors(SearchCoursesAndMentorBodyParams(0, arrayListOf(), " "))
         bindObservers()
     }
 

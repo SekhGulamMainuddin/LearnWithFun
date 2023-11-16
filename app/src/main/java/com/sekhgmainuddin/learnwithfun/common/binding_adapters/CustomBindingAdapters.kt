@@ -147,7 +147,7 @@ fun setStudentsEnrolled(view: TextView, studentsEnrolled: Int) {
         view,
         view.text.toString(),
         getViewsOrLikesCount(studentsEnrolled),
-        R.color.black,
+        view.context.getColor(R.color.black),
         "normal"
     )
 }
@@ -156,12 +156,6 @@ fun setStudentsEnrolled(view: TextView, studentsEnrolled: Int) {
 fun setCurrentPrice(view: TextView, actualPriceOfCourse: Double, givenDiscount: Double) {
     view.text =
         view.context.getString(R.string.price, getCurrentPrice(actualPriceOfCourse, givenDiscount))
-    formatText(
-        view,
-        view.text.toString(),
-        "\u20B9",
-        R.color.gold
-    )
 }
 
 @BindingAdapter("app:animationForPaymentState")

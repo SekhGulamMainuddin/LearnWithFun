@@ -99,7 +99,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/searchViewLayout"
             android:layoutAnimation="@anim/layout_animation"
-            tools:listitem="@layout/course_list_item_view" />
+            tools:listitem="@layout/course_search_item_view" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

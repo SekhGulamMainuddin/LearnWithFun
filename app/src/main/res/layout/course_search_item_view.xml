@@ -34,7 +34,7 @@
                 android:layout_height="170dp"
                 android:background="@drawable/rounded_corners_ll"
                 android:backgroundTint="@color/black"
-                app:imageUrl="@{course.courseThumbnail ?? ` `}"
+                app:imageUrl="@{(course.courseThumbnail!=null &amp;&amp; course.courseThumbnail.length()>0) ? course.courseThumbnail : `empty`}"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -73,7 +73,7 @@
                 app:layout_constraintBottom_toBottomOf="@id/courseThumbnail"
                 app:layout_constraintStart_toStartOf="@id/courseThumbnail"
                 app:shapeAppearanceOverlay="@style/circularImageView"
-                app:imageUrl="@{course.instructorProfilePicture}"
+                app:imageUrl="@{(course.instructorProfilePicture!=null &amp;&amp; course.instructorProfilePicture.length()>0) ? course.instructorProfilePicture : `empty`}"
                 app:progressBar="@{null}"/>
 
             <TextView
@@ -206,6 +206,22 @@
                 app:layout_constraintEnd_toStartOf="@id/enrollButton"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/currentPriceTag"
+                />
+
+            <RatingBar
+                android:id="@+id/ratings"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:max="5"
+                android:numStars="5"
+                android:rating="@{(float)course.ratings}"
+                android:isIndicator="true"
+                android:theme="@style/RatingBar"
+                android:stepSize="0.1"
+                app:layout_constraintEnd_toEndOf="@id/courseThumbnail"
+                app:layout_constraintTop_toTopOf="@id/courseThumbnail"
+                android:layout_margin="10dp"
                 />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

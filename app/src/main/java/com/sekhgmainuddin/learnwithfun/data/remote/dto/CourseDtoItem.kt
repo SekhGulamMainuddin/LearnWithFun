@@ -9,6 +9,7 @@ data class CourseDtoItem(
     val courseName: String,
     val courseThumbnail: String,
     val discount: Double,
+    val ratings: Double,
     val instructorId: String,
     val instructorName: String,
     val instructorProfilePicture: String,

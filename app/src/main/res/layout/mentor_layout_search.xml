@@ -13,7 +13,9 @@
         android:id="@+id/mentorCV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:clickable="true">
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -25,7 +27,7 @@
                 android:id="@+id/profileImage"
                 android:layout_width="55dp"
                 android:layout_height="55dp"
-                app:imageUrl="@{user.profilePicture ?? ` `}"
+                app:imageUrl="@{(user.profilePicture!=null &amp;&amp; user.profilePicture.length()>0) ? user.profilePicture : `empty`}"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

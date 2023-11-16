@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sekhgmainuddin.learnwithfun.R
-import com.sekhgmainuddin.learnwithfun.databinding.CourseListItemViewBinding
+import com.sekhgmainuddin.learnwithfun.databinding.CourseSearchItemViewBinding
 import com.sekhgmainuddin.learnwithfun.databinding.MentorLayoutSearchBinding
 import com.sekhgmainuddin.learnwithfun.domain.modals.SearchItem
 
@@ -40,7 +40,7 @@ class SearchCoursesAndMentorsAdapter(
                     DataBindingUtil.inflate(
                         LayoutInflater.from(
                             parent.context
-                        ), R.layout.course_list_item_view, parent, false
+                        ), R.layout.course_search_item_view, parent, false
                     )
                 )
             }
@@ -50,7 +50,7 @@ class SearchCoursesAndMentorsAdapter(
                     DataBindingUtil.inflate(
                         LayoutInflater.from(
                             parent.context
-                        ), R.layout.course_list_item_view, parent, false
+                        ), R.layout.course_search_item_view, parent, false
                     )
                 )
             }
@@ -95,7 +95,7 @@ class SearchCoursesAndMentorsAdapter(
         }
     }
 
-    inner class CourseListItemViewHolderWithoutDiscount(private val binding: CourseListItemViewBinding) :
+    inner class CourseListItemViewHolderWithoutDiscount(private val binding: CourseSearchItemViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.apply {
@@ -113,7 +113,7 @@ class SearchCoursesAndMentorsAdapter(
         }
     }
 
-    inner class CourseListItemViewHolderWithDiscount(private val binding: CourseListItemViewBinding) :
+    inner class CourseListItemViewHolderWithDiscount(private val binding: CourseSearchItemViewBinding) :
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.apply {
