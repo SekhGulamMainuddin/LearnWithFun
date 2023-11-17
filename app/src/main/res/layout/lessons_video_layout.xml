@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="com.sekhgmainuddin.learnwithfun.R" />
+
+        <variable
+            name="content"
+            type="com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.ContentDto" />
+
+        <variable
+            name="clickHandler"
+            type="com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.CourseContentClickListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:cardBackgroundColor="@color/ghost_white"
+        app:cardCornerRadius="15dp"
+        app:cardElevation="1dp">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/videoCV"
+                android:layout_width="155dp"
+                android:layout_height="100dp"
+                android:layout_weight="1"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                app:cardBackgroundColor="@color/black"
+                app:cardCornerRadius="15dp"
+                app:cardElevation="0dp"
+                android:onClick="@{clickHandler::playVideo}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        app:imageUrl="@{content.thumbnail ?? ` `}"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:placeholder="@{R.drawable.black_drawable}"
+                        app:progressBar="@{progressBar}" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="1dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@android:color/transparent"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/baseline_play_circle_filled_24"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:elevation="4dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="25dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_margin="6dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:drawablePadding="2dp"
+                            android:fontFamily="@font/noto_sans_semi_bold"
+                            android:paddingHorizontal="4dp"
+                            android:paddingVertical="2dp"
+                            android:text="@{content.courseDuration ?? ` `}"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            app:drawableStartCompat="@drawable/baseline_access_time_12" />
+
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/contentTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:ellipsize="marquee"
+                android:fadingEdge="horizontal"
+                android:fontFamily="@font/noto_sans_semi_bold"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:maxLines="1"
+                android:paddingHorizontal="10dp"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:text="@{content.title, default = `Intoduction to Figma`}"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                app:makeSelectedAutomatically="@{true}"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toEndOf="@id/videoCV"
+                app:layout_constraintEnd_toEndOf="parent"
+                />
+
+            <TextView
+                android:id="@+id/contentDesc"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:maxLines="2"
+                android:paddingHorizontal="10dp"
+                android:paddingVertical="5dp"
+                android:text="@{content.desc, default = `ajdashdiyhasoidyhaiosdyhaosidyhoaisyhdoiasdnlaknclo ;oghdoi;qwhjd;oijhd kashd;kashd;.kashd;oiqwyh;eoih;lk jhalsjkdgho`}"
+                android:textColor="@color/grey"
+                android:textSize="12sp"
+                app:layout_constraintTop_toBottomOf="@id/contentTitle"
+                app:layout_constraintStart_toEndOf="@id/videoCV"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/shantellsans_regular"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+                app:layout_constraintStart_toEndOf="@id/videoCV"
+                app:layout_constraintTop_toBottomOf="@id/contentDesc"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:viewsCount="@{content.viewsIdList.size()}" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/shantellsans_regular"
+                android:paddingHorizontal="10dp"
+                android:textColor="@color/black"
+                android:layout_marginEnd="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/contentDesc"
+                app:likesCount="@{content.likesIdList.size()}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:drawablePadding="6dp"
+                android:drawableStart="@drawable/like_icon_16dp"
+                android:drawableTint="@color/science_blue"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.cardview.widget.CardView>
+
+</layout>

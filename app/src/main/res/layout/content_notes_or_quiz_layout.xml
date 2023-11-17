@@ -15,7 +15,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="74dp"
-        android:background="@drawable/gradient_border_ll">
+        android:background="@drawable/gradient_border_ll"
+        >
 
         <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/quizOrNotesAnimation"
@@ -26,7 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:customRawRes="@{(content.quiz!=null &amp;&amp; !content.quiz.isEmpty()) ? R.raw.content_quiz_animation : R.raw.content_notes_animation}"
-            app:customLoop="@{content.notesPdfUrl!=null}"/>
+            app:customLoop="@{false}"/>
 
         <TextView
             android:id="@+id/quizOrNotesTitle"

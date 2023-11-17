@@ -9,8 +9,10 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.sekhgmainuddin.learnwithfun.R
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.CourseDetailDto
 import com.sekhgmainuddin.learnwithfun.databinding.FragmentEnrollCourseBinding
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseFragment
 import com.sekhgmainuddin.learnwithfun.presentation.home.searchCourse.CourseViewModel
@@ -25,6 +27,7 @@ class EnrollCourseFragment : BaseFragment() {
 
     private val viewModel by viewModels<CourseViewModel>()
     private val args: EnrollCourseFragmentArgs by navArgs()
+    private var courseDetails: CourseDetailDto? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -52,6 +55,17 @@ class EnrollCourseFragment : BaseFragment() {
             backButton.setOnClickListener {
                 pressBack()
             }
+            lessonsCV.aboutCourseItemCV.setOnClickListener {
+                if (courseDetails != null) {
+                    findNavController().navigate(
+                        EnrollCourseFragmentDirections.actionEnrollCourseFragmentToLessonsFragment(
+                            courseDetails!!
+                        )
+                    )
+                } else {
+                    showSnackBar(R.string.please_wait_while_we_are_fetching_the_course_details)
+                }
+            }
         }
     }
 
@@ -63,7 +77,7 @@ class EnrollCourseFragment : BaseFragment() {
                     when (it) {
                         GetCourseDetailsState.Initial -> {}
                         is GetCourseDetailsState.Success -> {
-
+                            courseDetails = it.courseDetailDto
                         }
 
                         GetCourseDetailsState.Loading -> showProgressBar()

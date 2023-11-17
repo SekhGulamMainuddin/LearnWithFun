@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
-
+        <variable
+            name="label"
+            type="String" />
     </data>
 
     <TextView
@@ -12,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginBottom="15dp"
-        android:text="@string/courses_in_progress"
+        android:text="@{label==null?@string/courses_in_progress:label}"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="bold"/>

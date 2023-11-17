@@ -136,5 +136,8 @@
     <string name="payment_done">Payment Done</string>
     <string name="loading">Loading</string>
     <string name="payment_token_fetched">Payment Token Fetched</string>
+    <string name="please_wait_while_we_are_fetching_the_course_details">Please wait while we are fetching the course details</string>
+    <string name="videos">Videos</string>
+    <string name="please_enroll_first">Please enroll for the course first</string>
 
 </resources>

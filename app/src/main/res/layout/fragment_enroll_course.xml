@@ -203,6 +203,7 @@
                     android:baselineAligned="false">
 
                     <include
+                        android:id="@+id/lessonsCV"
                         android:layout_height="wrap_content"
                         android:layout_width="0dp"
                         android:layout_weight="1"

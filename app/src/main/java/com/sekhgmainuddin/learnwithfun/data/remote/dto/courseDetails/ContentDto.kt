@@ -11,7 +11,7 @@ data class ContentDto(
     val notesPdfUrl: String?,
     val quiz: List<QuizDto>?,
     val thumbnail: String?,
-    val title: String,
+    var title: String,
     val url: String?,
     val viewsIdList: List<String>,
     val weekNumber: Int,

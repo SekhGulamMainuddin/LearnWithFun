@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.data.remote.dto.EnrolledCourseDto
 import com.sekhgmainuddin.learnwithfun.databinding.EnrolledCourseProgressRvBinding
-import com.sekhgmainuddin.learnwithfun.databinding.EnrolledCoursesLabelRvBinding
+import com.sekhgmainuddin.learnwithfun.databinding.LabelTvBinding
 import com.sekhgmainuddin.learnwithfun.databinding.PopularCoursesHorizontalRvBinding
 import com.sekhgmainuddin.learnwithfun.domain.modals.HomeViewContent
 
@@ -57,7 +57,7 @@ class HomeScreenRVAdapter(
                 LabelViewHolder(
                     DataBindingUtil.inflate(
                         LayoutInflater.from(parent.context),
-                        R.layout.enrolled_courses_label_rv,
+                        R.layout.label_tv,
                         parent,
                         false
                     )
@@ -143,7 +143,7 @@ class HomeScreenRVAdapter(
         }
     }
 
-    private inner class LabelViewHolder(binding: EnrolledCoursesLabelRvBinding) :
+    private inner class LabelViewHolder(binding: LabelTvBinding) :
         RecyclerView.ViewHolder(binding.root)
 
     private inner class EnrolledProgressViewHolder(

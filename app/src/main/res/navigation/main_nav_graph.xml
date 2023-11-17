@@ -43,6 +43,9 @@
         <argument
             android:name="courseId"
             app:argType="string" />
+        <action
+            android:id="@+id/action_enrollCourseFragment_to_lessonsFragment"
+            app:destination="@id/lessonsFragment" />
     </fragment>
     <fragment
         android:id="@+id/courseTutorialFragment"
@@ -115,5 +118,14 @@
             app:argType="string" />
 
     </dialog>
+    <fragment
+        android:id="@+id/lessonsFragment"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.lessonsFragment.LessonsFragment"
+        android:label="LessonsFragment"
+        tools:layout="@layout/fragment_lessons">
+        <argument
+            android:name="courseDetails"
+            app:argType="com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.CourseDetailDto" />
+    </fragment>
 
 </navigation>
