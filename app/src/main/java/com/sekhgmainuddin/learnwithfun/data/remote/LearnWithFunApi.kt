@@ -16,6 +16,7 @@ import com.sekhgmainuddin.learnwithfun.data.remote.dto.PaymentTokenDto
 import com.sekhgmainuddin.learnwithfun.data.remote.dto.PopularCoursesDto
 import com.sekhgmainuddin.learnwithfun.data.remote.dto.UserDetailDto
 import com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.CourseDetailDto
+import com.sekhgmainuddin.learnwithfun.data.remote.dto.quizStats.QuizStatsDto
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -64,4 +65,7 @@ interface LearnWithFunApi {
 
     @POST("payment/verify-payment")
     suspend fun verifyPayment(@Body verifyPaymentBodyParams: VerifyPaymentBodyParams): Response<Unit>
+
+    @GET("exam/exam-stats")
+    suspend fun getQuizStats() : Response<QuizStatsDto>
 }

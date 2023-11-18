@@ -106,6 +106,8 @@
     <string name="view">View</string>
     <string name="likes">Likes</string>
     <string name="like">Like</string>
+    <string name="course_coverage">%d/%d</string>
+    <string name="set_phone_number">+%d %d</string>
     <string name="select_an_option_to_proceed">Select an option to proceed</string>
     <string name="submitting_your_answer">Submitting your answer</string>
     <string name="quiz_submitted_successfully">Quiz Submitted Successfully</string>
@@ -139,5 +141,13 @@
     <string name="please_wait_while_we_are_fetching_the_course_details">Please wait while we are fetching the course details</string>
     <string name="videos">Videos</string>
     <string name="please_enroll_first">Please enroll for the course first</string>
+    <string name="profile_page">Profile Page</string>
+    <string name="enrolled_courses">Enrolled Courses</string>
+    <string name="quiz_stats">Quiz Stats</string>
+    <string name="activity">Activity</string>
+    <string name="notifications">Notifications</string>
+    <string name="quiz_overall_performance">Quiz Overall Performance</string>
+    <string name="quiz_attended">Quiz Attended</string>
+
 
 </resources>

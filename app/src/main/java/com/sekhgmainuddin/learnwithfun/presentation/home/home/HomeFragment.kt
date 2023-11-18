@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavArgument
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.sekhgmainuddin.learnwithfun.R
@@ -27,7 +28,7 @@ class HomeFragment : BaseFragment() {
     private var _binding: FragmentHomeBinding? = null
     private val binding: FragmentHomeBinding
         get() = _binding!!
-    private val viewModel by viewModels<HomeViewModel>()
+    private val viewModel by activityViewModels<HomeViewModel>()
     private lateinit var homeScreenRVAdapter: HomeScreenRVAdapter
 
     override fun onCreateView(
@@ -61,9 +62,11 @@ class HomeFragment : BaseFragment() {
             }
             searchViewLayout.setOnClickListener {
                 findNavController().navigate(
-                    R.id.action_homeFragment_to_coursesFragment,
-                    bundleOf("calledFromHome" to true)
+                    HomeFragmentDirections.actionHomeFragmentToCoursesFragment()
                 )
+            }
+            notificationIcon.setOnClickListener {
+                findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToNotificationsFragment())
             }
         }
     }

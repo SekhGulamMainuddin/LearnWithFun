@@ -27,13 +27,13 @@
         <action
             android:id="@+id/action_homeFragment_to_coursesFragment"
             app:destination="@id/coursesFragment" >
-            <argument
-                android:name="calledFromHome"
-                app:argType="boolean"/>
         </action>
         <action
             android:id="@+id/action_homeFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
     </fragment>
     <fragment
         android:id="@+id/enrollCourseFragment"
@@ -76,6 +76,7 @@
         android:name="com.sekhgmainuddin.learnwithfun.presentation.home.searchCourse.CoursesFragment"
         android:label="CoursesFragment"
         tools:layout="@layout/fragment_courses" >
+
         <action
             android:id="@+id/action_coursesFragment_to_enrollCourseFragment"
             app:destination="@id/enrollCourseFragment" />
@@ -87,7 +88,14 @@
         android:id="@+id/profileFragment"
         android:name="com.sekhgmainuddin.learnwithfun.presentation.home.profile.ProfileFragment"
         android:label="ProfileFragment"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_profileFragment_to_courseTutorialFragment"
+            app:destination="@id/courseTutorialFragment" />
+        <action
+            android:id="@+id/action_profileFragment_to_notificationsFragment"
+            app:destination="@id/notificationsFragment" />
+    </fragment>
 
     <dialog
         android:id="@+id/attendExamDialog"
@@ -127,5 +135,10 @@
             android:name="courseDetails"
             app:argType="com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.CourseDetailDto" />
     </fragment>
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.sekhgmainuddin.learnwithfun.presentation.home.notification.NotificationsFragment"
+        android:label="NotificationsFragment"
+        tools:layout="@layout/fragment_notifications"/>
 
 </navigation>

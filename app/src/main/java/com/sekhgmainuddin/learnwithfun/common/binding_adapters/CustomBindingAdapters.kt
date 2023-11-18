@@ -1,5 +1,9 @@
 package com.sekhgmainuddin.learnwithfun.common.binding_adapters
 
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Typeface.BOLD
 import android.graphics.Typeface.ITALIC
@@ -21,11 +25,15 @@ import com.airbnb.lottie.LottieDrawable
 import com.bumptech.glide.Glide
 import com.bumptech.glide.Priority
 import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.helper.GlideImageLoader
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.getCurrentPrice
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.getViewsOrLikesCount
 import com.sekhgmainuddin.learnwithfun.presentation.payment.uiStates.PaymentState
+import kotlin.random.Random
+
 
 @BindingAdapter(
     "app:imageUrl",
@@ -235,4 +243,34 @@ fun setTextForPaymentState(view: TextView, textForPaymentState: PaymentState?) {
         }
     }
     view.text = view.context.getString(text)
+}
+
+@BindingAdapter("app:progressText")
+fun setProgressText(view: TextView, progressText: Int) {
+    if (progressText != 0) {
+        val valueAnimator = ValueAnimator.ofInt(0, progressText)
+        valueAnimator.duration = 1000
+        valueAnimator.addUpdateListener {
+            view.text = it.animatedValue.toString()
+        }
+        valueAnimator.start()
+    }
+}
+
+@BindingAdapter("app:animatedProgress", "app:animationDuration", requireAll = false)
+fun setAnimatedProgress(
+    view: CircularProgressIndicator,
+    animatedProgress: Int,
+    animationDuration: Long = 1000
+) {
+    if (animatedProgress != 0) {
+        ObjectAnimator.ofInt(view, "progress", animatedProgress)
+            .setDuration(animationDuration)
+            .start()
+    }
+}
+
+@BindingAdapter("app:customBackgroundTint")
+fun setCustomBackgroundTint(view: FloatingActionButton, color: Int) {
+    view.backgroundTintList = ColorStateList.valueOf(view.context.getColor(color))
 }

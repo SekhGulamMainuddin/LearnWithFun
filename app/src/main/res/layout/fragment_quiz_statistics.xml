@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <import type="android.view.View"/>
+        <import
+            alias="State"
+            type="com.sekhgmainuddin.learnwithfun.presentation.home.profile.uiStates.QuizStatsState" />
+
+        <variable
+            name="viewModel"
+            type="com.sekhgmainuddin.learnwithfun.presentation.home.profile.ProfileViewModel" />
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".presentation.home.profile.innerFragments.QuizStatisticsFragment">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent">
+            <androidx.appcompat.widget.Toolbar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:contentInsetStart="0dp"
+                android:background="@android:color/transparent"
+                app:layout_scrollFlags="scroll|enterAlwaysCollapsed">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/quizOverallScorePB"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="25dp"
+                        android:indeterminate="false"
+                        app:animatedProgress="@{viewModel.quizStats.overallPercentage}"
+                        app:animationDuration="@{1000}"
+                        app:indicatorColor="@color/science_blue"
+                        app:indicatorSize="100dp"
+                        android:visibility="@{viewModel.quizStatsState instanceof State.Loading? View.GONE : View.VISIBLE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:trackColor="@color/pale_aqua"
+                        app:trackCornerRadius="20dp"
+                        app:trackThickness="10dp" />
+
+                    <TextView
+                        android:id="@+id/quizStatsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/noto_sans_semi_bold"
+                        android:textColor="@color/science_blue"
+                        android:textSize="24sp"
+                        android:visibility="@{viewModel.quizStatsState instanceof State.Loading? View.GONE : View.VISIBLE}"
+                        app:layout_constraintBottom_toBottomOf="@id/quizOverallScorePB"
+                        app:layout_constraintEnd_toEndOf="@id/quizOverallScorePB"
+                        app:layout_constraintStart_toStartOf="@id/quizOverallScorePB"
+                        app:layout_constraintTop_toTopOf="@id/quizOverallScorePB"
+                        app:progressText="@{viewModel.quizStats.overallPercentage}" />
+
+                    <TextView
+                        android:id="@+id/quizOverallPerformanceTV"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/shantellsans_regular"
+                        android:paddingHorizontal="20dp"
+                        android:text="@string/quiz_overall_performance"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        android:visibility="@{viewModel.quizStatsState instanceof State.Loading? View.GONE : View.VISIBLE}"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/quizOverallScorePB" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.appcompat.widget.Toolbar>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/statsRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingVertical="15dp"
+            android:visibility="@{viewModel.quizStatsState instanceof State.Loading? View.GONE : View.VISIBLE}"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/quizOverallPerformanceTV"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+        <ProgressBar
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="@{viewModel.quizStatsState instanceof State.Loading? View.VISIBLE : View.GONE}"
+            android:layout_gravity="center"
+            />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+</layout>
