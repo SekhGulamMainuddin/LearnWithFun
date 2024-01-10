@@ -1,6 +1,5 @@
 package com.sekhgmainuddin.learnwithfun.presentation.quiz
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sekhgmainuddin.learnwithfun.R
@@ -8,8 +7,10 @@ import com.sekhgmainuddin.learnwithfun.common.enums.CheatingStatus
 import com.sekhgmainuddin.learnwithfun.common.helper.NetworkResult
 import com.sekhgmainuddin.learnwithfun.data.db.entities.CheatFlagEntity
 import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.AddScoreToAttendedQuestionBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.UpdateActivityBodyParams
 import com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.ContentDto
 import com.sekhgmainuddin.learnwithfun.domain.modals.Quiz
+import com.sekhgmainuddin.learnwithfun.domain.use_case.activity.UpdateUserActivityUseCase
 import com.sekhgmainuddin.learnwithfun.domain.use_case.quiz.AddCorrectAnsScoreUseCase
 import com.sekhgmainuddin.learnwithfun.domain.use_case.quiz.TriggerExamViolationUseCase
 import com.sekhgmainuddin.learnwithfun.presentation.quiz.uiStates.QuizState
@@ -23,7 +24,8 @@ import javax.inject.Inject
 @HiltViewModel
 class QuizViewModel @Inject constructor(
     private val addCorrectAnsScoreUseCase: AddCorrectAnsScoreUseCase,
-    private val triggerExamViolationUseCase: TriggerExamViolationUseCase
+    private val triggerExamViolationUseCase: TriggerExamViolationUseCase,
+    private val updateUserActivityUseCase: UpdateUserActivityUseCase
 ) : ViewModel() {
 
     val currentQuiz = MutableStateFlow<Quiz?>(null)
@@ -112,6 +114,10 @@ class QuizViewModel @Inject constructor(
         } else {
             quizStates.value = QuizState.Error(messageRes = R.string.this_is_the_first_question)
         }
+    }
+
+    fun updateUserActivity(body: UpdateActivityBodyParams) = viewModelScope.launch {
+        updateUserActivityUseCase(body)
     }
 
 }

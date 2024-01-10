@@ -14,5 +14,8 @@ data class UserDto(
     val name: String,
     val phone: PhoneDto,
     val profilePicture: String?,
-    val userType: String
+    val userType: String,
+    val activity: HashMap<String, Long>,
+    val quizActivity: HashMap<String, Long>,
+    val videoActivity: HashMap<String, Long>,
 ) : Parcelable

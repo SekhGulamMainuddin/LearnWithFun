@@ -59,7 +59,8 @@ class QuizStatisticsFragment : BaseFragment() {
             quizStatsAdapter = QuizStatsAdapter {
                 findNavController().navigate(
                     ProfileFragmentDirections.actionProfileFragmentToCourseTutorialFragment(
-                        list[it].courseId
+                        list[it].courseId,
+                        list[it].totalQuizAttended
                     )
                 )
             }

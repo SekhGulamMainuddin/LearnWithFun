@@ -49,7 +49,7 @@ class EnrolledCourseFragment : BaseFragment() {
     }
 
     private fun registerClickListenersAndAdapters() {
-        enrolledCoursesAdapter = EnrolledCoursesAdapter {
+        enrolledCoursesAdapter = EnrolledCoursesAdapter(requireContext()) {
             findNavController().navigate(
                 ProfileFragmentDirections.actionProfileFragmentToCourseTutorialFragment(
                     it

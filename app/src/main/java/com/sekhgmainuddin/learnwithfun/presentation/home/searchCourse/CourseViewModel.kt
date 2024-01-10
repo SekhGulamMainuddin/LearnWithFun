@@ -6,8 +6,10 @@ import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.helper.NetworkResult
 import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.AttendExamBodyParams
 import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.SearchCoursesAndMentorBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.UpdateActivityBodyParams
 import com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.CourseDetailDto
 import com.sekhgmainuddin.learnwithfun.domain.modals.SearchItem
+import com.sekhgmainuddin.learnwithfun.domain.use_case.activity.UpdateUserActivityUseCase
 import com.sekhgmainuddin.learnwithfun.domain.use_case.enrollCourse.GetCourseDetailsUseCase
 import com.sekhgmainuddin.learnwithfun.domain.use_case.quiz.AttendQuizUseCase
 import com.sekhgmainuddin.learnwithfun.domain.use_case.searchCourse.SearchCourseAndMentorUseCase
@@ -25,7 +27,8 @@ import javax.inject.Inject
 class CourseViewModel @Inject constructor(
     private val getCourseDetailsUseCase: GetCourseDetailsUseCase,
     private val attendQuizUseCase: AttendQuizUseCase,
-    private val searchCourseAndMentorUseCase: SearchCourseAndMentorUseCase
+    private val searchCourseAndMentorUseCase: SearchCourseAndMentorUseCase,
+    private val updateUserActivityUseCase: UpdateUserActivityUseCase
 ) : ViewModel() {
 
     private var _courseDetails =
@@ -126,5 +129,9 @@ class CourseViewModel @Inject constructor(
                 }
             }
         }
+
+    fun updateUserActivity(body: UpdateActivityBodyParams) = viewModelScope.launch {
+        updateUserActivityUseCase(body)
+    }
 
 }

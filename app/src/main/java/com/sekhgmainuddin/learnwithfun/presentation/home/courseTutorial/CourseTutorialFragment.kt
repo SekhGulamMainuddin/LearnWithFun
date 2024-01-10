@@ -2,6 +2,7 @@ package com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,7 +47,7 @@ class CourseTutorialFragment : BaseFragment() {
     private val weekList = arrayListOf<Pair<String, Boolean>>()
     private var courseDetailDto: CourseDetailDto? = null
     private var previousVisibleItem = -1
-
+    private var requestedRefresh = false
     private var previousClickedItem = 0
 
     override fun onCreateView(
@@ -77,6 +78,7 @@ class CourseTutorialFragment : BaseFragment() {
                 this@CourseTutorialFragment.viewModel.getCourseDetails(args.courseId)
             }
             swipeRefreshLayout.setOnRefreshListener {
+                requestedRefresh = true
                 this@CourseTutorialFragment.viewModel.getCourseDetails(args.courseId)
             }
             backButton.setOnClickListener {
@@ -174,6 +176,19 @@ class CourseTutorialFragment : BaseFragment() {
                                 courseContentAdapter.updateCourseDetails(it.courseDetailDto)
                                 courseContentAdapter.submitList(it.courseDetailDto.contents)
                                 binding.swipeRefreshLayout.isRefreshing = false
+                                val quizPosition = args.defaultScrollPosition-1
+                                var scrollPosition = 0
+                                if (quizPosition>=0 && !requestedRefresh){
+                                    for (i in 0..it.courseDetailDto.contents.size) {
+                                        if(!it.courseDetailDto.contents[i].quiz.isNullOrEmpty()) {
+                                            if(i > quizPosition) {
+                                                scrollPosition = i
+                                                break
+                                            }
+                                        }
+                                    }
+                                    binding.courseContentRecyclerView.smoothScrollToPosition(scrollPosition)
+                                }
                             }
 
                             GetCourseDetailsState.Loading -> showProgressBar()

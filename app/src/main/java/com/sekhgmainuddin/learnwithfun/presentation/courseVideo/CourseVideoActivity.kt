@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.content.res.Configuration
+import android.icu.text.SimpleDateFormat
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -24,6 +25,7 @@ import androidx.media3.exoplayer.ExoPlayer
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.Constants.CURRENT_VIDEO_START
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.UpdateActivityBodyParams
 import com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.ContentDto
 import com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.CourseDetailDto
 import com.sekhgmainuddin.learnwithfun.databinding.ActivityCourseVideoBinding
@@ -36,6 +38,7 @@ import com.sekhgmainuddin.learnwithfun.presentation.quiz.QuizActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
+import java.util.Date
 
 class CourseVideoActivity : BaseActivity() {
 
@@ -48,6 +51,7 @@ class CourseVideoActivity : BaseActivity() {
     private var courseDetailDto: CourseDetailDto? = null
     private var otherVideoList = mutableListOf<ContentDto>()
     private val viewModel by viewModels<CourseViewModel>()
+    private var startTime: Long = 0
 
     companion object {
         var player: ExoPlayer? = null
@@ -57,7 +61,7 @@ class CourseVideoActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_course_video)
-
+        startTime = System.currentTimeMillis()
         isPortrait = resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT
         if (!isPortrait) {
             window.setFlags(
@@ -232,6 +236,22 @@ class CourseVideoActivity : BaseActivity() {
     override fun onPause() {
         super.onPause()
         player?.pause()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (startTime != 0L) {
+            val currentTime = System.currentTimeMillis()
+            viewModel.updateUserActivity(
+                UpdateActivityBodyParams(
+                    "Video",
+                    SimpleDateFormat("dd/MM/yyyy").format(
+                        Date(currentTime)
+                    ),
+                    currentTime - startTime
+                )
+            )
+        }
     }
 
     override fun onDestroy() {

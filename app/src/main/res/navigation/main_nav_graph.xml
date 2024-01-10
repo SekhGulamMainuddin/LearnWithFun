@@ -55,6 +55,10 @@
         <argument
             android:name="courseId"
             app:argType="string" />
+        <argument
+            android:name="defaultScrollPosition"
+            app:argType="integer"
+            android:defaultValue="0"/>
         <action
             android:id="@+id/action_courseTutorialFragment_to_attendExamDialog"
             app:destination="@id/attendExamDialog" >

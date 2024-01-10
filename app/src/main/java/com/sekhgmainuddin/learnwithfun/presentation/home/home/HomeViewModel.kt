@@ -6,8 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.helper.NetworkResult
 import com.sekhgmainuddin.learnwithfun.data.db.entities.CheatFlagEntity
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.UpdateActivityBodyParams
 import com.sekhgmainuddin.learnwithfun.data.remote.dto.UserDetailDto
 import com.sekhgmainuddin.learnwithfun.domain.modals.HomeViewContent
+import com.sekhgmainuddin.learnwithfun.domain.use_case.activity.RetryUpdateActivityUseCase
+import com.sekhgmainuddin.learnwithfun.domain.use_case.activity.UpdateUserActivityUseCase
 import com.sekhgmainuddin.learnwithfun.domain.use_case.home.GetAllUploadFailedCheatAlerts
 import com.sekhgmainuddin.learnwithfun.domain.use_case.home.GetPopularCoursesUseCase
 import com.sekhgmainuddin.learnwithfun.domain.use_case.home.GetUserDetailsUseCase
@@ -30,7 +33,9 @@ class HomeViewModel @Inject constructor(
     private val getUserDetailsUseCase: GetUserDetailsUseCase,
     private val getPopularCoursesUseCase: GetPopularCoursesUseCase,
     private val getAllUploadFailedCheatAlerts: GetAllUploadFailedCheatAlerts,
-    private val triggerExamViolationUseCase: TriggerExamViolationUseCase
+    private val triggerExamViolationUseCase: TriggerExamViolationUseCase,
+    private val updateUserActivityUseCase: UpdateUserActivityUseCase,
+    private val retryUpdateActivityUseCase: RetryUpdateActivityUseCase
 ) : ViewModel() {
 
     private var _userDetails = MutableStateFlow<GetUserDetailsState>(GetUserDetailsState.Initial)
@@ -146,5 +151,12 @@ class HomeViewModel @Inject constructor(
         isRetryRunning = false
     }
 
+    fun updateUserActivity(body: UpdateActivityBodyParams) = viewModelScope.launch(Dispatchers.IO) {
+        updateUserActivityUseCase(body)
+    }
+
+    fun retryUpdateActivity() = viewModelScope.launch(Dispatchers.IO) {
+        retryUpdateActivityUseCase()
+    }
 
 }

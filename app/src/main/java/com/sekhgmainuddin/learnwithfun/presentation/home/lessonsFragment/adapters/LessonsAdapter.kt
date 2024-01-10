@@ -111,9 +111,14 @@ class LessonsAdapter(
     private inner class LabelTVViewHolder(private val binding: LabelTvBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        var px = TypedValue.applyDimension(
+        var dp10Px = TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             10F,
+            context.resources.displayMetrics
+        ).toInt()
+        var dp20Px = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            20F,
             context.resources.displayMetrics
         ).toInt()
 
@@ -122,7 +127,7 @@ class LessonsAdapter(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
                 ConstraintLayout.LayoutParams.WRAP_CONTENT
             );
-            params.setMargins(20, 20, 0,10)
+            params.setMargins(dp20Px, dp20Px, 0,dp10Px)
             binding.labelCourseTV.layoutParams = params
         }
 

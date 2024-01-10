@@ -1,16 +1,19 @@
 package com.sekhgmainuddin.learnwithfun.presentation.home
 
+import android.icu.text.SimpleDateFormat
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import com.sekhgmainuddin.learnwithfun.R
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.UpdateActivityBodyParams
 import com.sekhgmainuddin.learnwithfun.databinding.ActivityHomeBinding
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseActivity
 import com.sekhgmainuddin.learnwithfun.presentation.home.home.HomeViewModel
 import np.com.susanthapa.curved_bottom_navigation.CbnMenuItem
 import java.io.File
+import java.util.Date
 
 
 class HomeActivity : BaseActivity() {
@@ -19,11 +22,12 @@ class HomeActivity : BaseActivity() {
     private lateinit var navHostFragment: NavHostFragment
     private lateinit var navController: NavController
     private val viewModel by viewModels<HomeViewModel>()
+    private var startTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_home)
-
+        startTime = System.currentTimeMillis()
         navHostFragment =
             supportFragmentManager.findFragmentById(R.id.main_fragment_container) as NavHostFragment
         navController = navHostFragment.navController
@@ -49,6 +53,28 @@ class HomeActivity : BaseActivity() {
         binding.bottomNavBar.setMenuItems(menuItems, 0)
         binding.bottomNavBar.setupWithNavController(navController)
         viewModel.retryUploadingCheatFlags()
+        viewModel.retryUpdateActivity()
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        startTime = System.currentTimeMillis()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (startTime != 0L) {
+            val currentTime = System.currentTimeMillis()
+            viewModel.updateUserActivity(
+                UpdateActivityBodyParams(
+                    "Activity",
+                    SimpleDateFormat("dd/MM/yyyy").format(
+                        Date(currentTime)
+                    ),
+                    currentTime - startTime
+                )
+            )
+        }
     }
 
     override fun onDestroy() {

@@ -2,19 +2,12 @@ package com.sekhgmainuddin.learnwithfun.presentation.home.profile
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.databinding.DataBindingUtil
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
-import android.widget.TextView
-import androidx.core.util.TypedValueCompat.dpToPx
-import androidx.fragment.app.Fragment
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
-import com.google.android.material.tabs.TabLayout
-import com.google.android.material.tabs.TabLayoutMediator
+import androidx.viewpager2.widget.ViewPager2.OnPageChangeCallback
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.databinding.FragmentProfileBinding
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseFragment
@@ -72,15 +65,30 @@ class ProfileFragment : BaseFragment() {
         )
         binding.profileViewPager.adapter = profileViewPagerAdapter
 
-        val tabs = arrayListOf(
+        val tabsLabel = arrayListOf(
             getString(R.string.enrolled_courses),
             getString(R.string.quiz_stats),
             getString(R.string.activity)
         )
-
-        TabLayoutMediator(binding.profileTabLayout, binding.profileViewPager) { tab, position ->
-            tab.text = tabs[position]
-        }.attach()
+        val tabButton = arrayListOf(
+            binding.coursesButton,
+            binding.quizStatsButton,
+            binding.activityButton
+        )
+        tabButton.forEachIndexed { i, it->
+            it.setOnClickListener {
+                binding.profileViewPager.setCurrentItem(i, true)
+            }
+        }
+        binding.profileViewPager.registerOnPageChangeCallback(object : OnPageChangeCallback() {
+            override fun onPageSelected(position: Int) {
+                super.onPageSelected(position)
+                binding.viewPagerLabel.text = tabsLabel[position]
+                tabButton.forEachIndexed { i, it->
+                    it.isSelected = i == position
+                }
+            }
+        })
     }
 
     override fun onDestroyView() {

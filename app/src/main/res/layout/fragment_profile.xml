@@ -142,33 +142,79 @@
             app:layout_constraintTop_toTopOf="@id/notificationIcon"
             app:tint="@color/orange" />
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/profileTabLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:tabTextAppearance="@style/CustomTextAppearanceTab"
-            app:layout_constraintTop_toBottomOf="@id/profileImage"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:background="@android:color/transparent"
-            android:layout_marginTop="20dp"
-            app:tabIndicatorHeight="4dp"
-            app:tabIndicatorColor="@color/interdimensional_blue"
-            app:tabBackground="@android:color/transparent"
-            app:tabTextColor="@color/black"
-            app:tabSelectedTextColor="@color/science_blue"
-            app:tabMode="scrollable"
-            android:paddingHorizontal="20dp"/>
-
         <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/profileViewPager"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/profileTabLayout"
+            android:orientation="vertical"
+            app:layout_constraintTop_toTopOf="@id/side_nav"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toEndOf="@id/side_nav"
             app:layout_constraintEnd_toEndOf="parent"
             />
+
+        <TextView
+            android:id="@+id/viewPagerLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="@id/profileViewPager"
+            app:layout_constraintEnd_toEndOf="@id/profileViewPager"
+            app:layout_constraintTop_toTopOf="@id/profileViewPager"
+            app:layout_constraintBottom_toTopOf="@id/profileViewPager"
+            android:fontFamily="@font/shantellsans_regular"
+            android:textColor="@color/black"
+            android:paddingHorizontal="10dp"
+            android:background="@drawable/rounded_corners_ll"
+            android:text="@string/enrolled_courses"
+            />
+
+        <LinearLayout
+            android:id="@+id/side_nav"
+            android:layout_width="50dp"
+            android:layout_height="0dp"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/profileImage"
+            app:layout_constraintBottom_toBottomOf="parent">
+
+            <ImageButton
+                android:id="@+id/coursesButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:src="@drawable/courses_button"
+                android:scaleType="fitCenter"
+                android:padding="10dp"
+                android:foreground="?attr/selectableItemBackground"
+                />
+
+            <ImageButton
+                android:id="@+id/quizStatsButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:src="@drawable/quiz_stats_button"
+                android:scaleType="fitCenter"
+                android:padding="10dp"
+                android:foreground="?attr/selectableItemBackground"
+                />
+
+            <ImageButton
+                android:id="@+id/activityButton"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@android:color/transparent"
+                android:src="@drawable/activity_button"
+                android:scaleType="fitCenter"
+                android:padding="10dp"
+                android:foreground="?attr/selectableItemBackground"
+                />
+
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

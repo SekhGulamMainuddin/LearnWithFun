@@ -2,6 +2,7 @@ package com.sekhgmainuddin.learnwithfun.presentation.quiz
 
 import android.Manifest
 import android.app.Dialog
+import android.icu.text.SimpleDateFormat
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -32,6 +33,7 @@ import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.enums.CheatingStatus
 import com.sekhgmainuddin.learnwithfun.common.utils.CameraUtility
 import com.sekhgmainuddin.learnwithfun.data.db.entities.CheatFlagEntity
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.UpdateActivityBodyParams
 import com.sekhgmainuddin.learnwithfun.data.remote.dto.courseDetails.ContentDto
 import com.sekhgmainuddin.learnwithfun.databinding.ActivityQuizBinding
 import com.sekhgmainuddin.learnwithfun.databinding.SubmittingQuizLayoutBinding
@@ -44,6 +46,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import pub.devrel.easypermissions.AppSettingsDialog
 import pub.devrel.easypermissions.EasyPermissions
+import java.util.Date
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -61,11 +64,12 @@ class QuizActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
     private lateinit var cheatingAlertDialog: MaterialAlertDialogBuilder
     private var isCheatDialogShowing = false
     private var cheatingAttempts = 0
+    private var startTime: Long = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_quiz)
-
+        startTime = System.currentTimeMillis()
         contentDetailDto = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             intent.getParcelableExtra("content", ContentDto::class.java)
         } else {
@@ -190,7 +194,9 @@ class QuizActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
                 viewModel.cheatingStates.collectLatest {
                     cheatingAttempts++
                     if (it != CheatingStatus.NO_CHEATING && cheatingAttempts != 3) {
-                        cheatingAlertDialog.setTitle(it.name.replace('_', ' ').lowercase().replaceFirstChar(Char::uppercase))
+                        cheatingAlertDialog.setTitle(
+                            it.name.replace('_', ' ').lowercase().replaceFirstChar(Char::uppercase)
+                        )
                         if (!isCheatDialogShowing) {
                             isCheatDialogShowing = true
                             cheatingAlertDialog.show()
@@ -211,6 +217,22 @@ class QuizActivity : BaseActivity(), EasyPermissions.PermissionCallbacks {
                     CheatingStatus.EXAM_WINDOW_CHANGED_DURING_TEST.name,
                     null,
                     null
+                )
+            )
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        if (startTime != 0L) {
+            val currentTime = System.currentTimeMillis()
+            viewModel.updateUserActivity(
+                UpdateActivityBodyParams(
+                    "Quiz",
+                    SimpleDateFormat("dd/MM/yyyy").format(
+                        Date(currentTime)
+                    ),
+                    currentTime - startTime
                 )
             )
         }

@@ -6,6 +6,7 @@ import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.AttendExamBodyPara
 import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.CreateUserBodyParams
 import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.GetOTPBodyParams
 import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.SearchCoursesAndMentorBodyParams
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.UpdateActivityBodyParams
 import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.VerifyEmailBodyParams
 import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.VerifyOTPBodyParams
 import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.VerifyPaymentBodyParams
@@ -68,4 +69,7 @@ interface LearnWithFunApi {
 
     @GET("exam/exam-stats")
     suspend fun getQuizStats() : Response<QuizStatsDto>
+
+    @POST("user/update-activity")
+    suspend fun updateActivity(@Body updateActivityBodyParams: UpdateActivityBodyParams)
 }

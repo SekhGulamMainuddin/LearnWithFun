@@ -1,6 +1,7 @@
 package com.sekhgmainuddin.learnwithfun.data.repository
 
 import com.sekhgmainuddin.learnwithfun.data.remote.LearnWithFunApi
+import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.UpdateActivityBodyParams
 import com.sekhgmainuddin.learnwithfun.data.remote.dto.PopularCoursesDto
 import com.sekhgmainuddin.learnwithfun.data.remote.dto.UserDetailDto
 import com.sekhgmainuddin.learnwithfun.domain.repository.HomeRepository
@@ -18,5 +19,9 @@ class HomeRepositoryImpl @Inject constructor(
 
     override suspend fun getPopularCourses(): Response<PopularCoursesDto> {
         return api.getPopularCourses()
+    }
+
+    override suspend fun updateActivity(updateActivityBodyParams: UpdateActivityBodyParams) {
+        api.updateActivity(updateActivityBodyParams)
     }
 }

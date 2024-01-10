@@ -148,6 +148,7 @@
     <string name="notifications">Notifications</string>
     <string name="quiz_overall_performance">Quiz Overall Performance</string>
     <string name="quiz_attended">Quiz Attended</string>
+    <string name="courses">Courses</string>
 
 
 </resources>
