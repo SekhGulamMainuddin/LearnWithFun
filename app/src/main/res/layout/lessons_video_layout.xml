@@ -5,6 +5,7 @@
     <data>
 
         <import type="com.sekhgmainuddin.learnwithfun.R" />
+        <import type="com.sekhgmainuddin.learnwithfun.common.utils.Utils" alias="utils"/>
 
         <variable
             name="content"
@@ -96,7 +97,7 @@
                             android:fontFamily="@font/noto_sans_semi_bold"
                             android:paddingHorizontal="4dp"
                             android:paddingVertical="2dp"
-                            android:text="@{content.courseDuration ?? ` `}"
+                            android:text="@{utils.INSTANCE.getHrsMinutesAndSecondsString(content.contentDuration)}"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="12sp"

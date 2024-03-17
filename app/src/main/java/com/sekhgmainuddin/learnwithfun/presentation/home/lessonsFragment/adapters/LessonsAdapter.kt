@@ -127,7 +127,7 @@ class LessonsAdapter(
                 ConstraintLayout.LayoutParams.WRAP_CONTENT,
                 ConstraintLayout.LayoutParams.WRAP_CONTENT
             );
-            params.setMargins(dp20Px, dp20Px, 0,dp10Px)
+            params.setMargins(dp20Px, dp20Px, 0, dp10Px)
             binding.labelCourseTV.layoutParams = params
         }
 

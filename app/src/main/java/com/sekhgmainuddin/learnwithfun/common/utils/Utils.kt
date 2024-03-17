@@ -32,6 +32,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.math.RoundingMode
 import java.text.DecimalFormat
+import java.util.concurrent.TimeUnit
 import kotlin.math.abs
 
 object Utils {
@@ -72,6 +73,13 @@ object Utils {
         } else {
             (diff / YEAR_MILLIS).toString() + " years ago"
         }
+    }
+
+    fun getHrsMinutesAndSecondsString(milliseconds: Long): String {
+        val hours = TimeUnit.MILLISECONDS.toHours(milliseconds)
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(milliseconds - (hours * 3600))
+        val seconds = TimeUnit.MILLISECONDS.toHours(milliseconds - (hours * 3600) - (minutes * 60))
+        return "${if (hours.toInt() != 0) "${hours}h" else ""} ${if (minutes.toInt() != 0) "${minutes}m" else ""} ${if (seconds.toInt() != 0) "${seconds}s" else ""} "
     }
 
     fun View.slideVisibility(

@@ -15,5 +15,5 @@ data class ContentDto(
     val url: String?,
     val viewsIdList: List<String>,
     val weekNumber: Int,
-    val courseDuration: String?
+    val contentDuration: Long
 ) : Parcelable

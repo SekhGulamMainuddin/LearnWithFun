@@ -1,5 +1,6 @@
 package com.sekhgmainuddin.learnwithfun.domain.use_case.loginAndSignup
 
+import android.util.Log
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.common.helper.NetworkResult
 import com.sekhgmainuddin.learnwithfun.common.utils.Utils.getErrorMessage
@@ -29,6 +30,7 @@ class GetOTPUseCase @Inject constructor(
         } catch (_: IOException) {
             emit(NetworkResult.Error(strResMessage = R.string.no_internet_please_check_your_internet_connection))
         } catch (e: Exception) {
+            Log.d("getOTPException", "invoke: $e")
             emit(NetworkResult.Error(strResMessage = R.string.default_error_message))
         }
     }

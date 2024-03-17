@@ -25,10 +25,10 @@ import retrofit2.http.POST
 import retrofit2.http.Query
 
 interface LearnWithFunApi {
-    @POST("get-otp")
+    @POST("auth/get-otp")
     suspend fun getOTP(@Body getOTP: GetOTPBodyParams): Response<Unit>
 
-    @POST("verify-otp")
+    @POST("auth/verify-otp")
     suspend fun verifyOTP(@Body verifyOTPBodyParams: VerifyOTPBodyParams): Response<HashMap<String, Any>>
 
     @POST("user")
