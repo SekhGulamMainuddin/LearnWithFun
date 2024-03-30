@@ -2,12 +2,12 @@ package com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.databinding.DataBindingUtil
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.sekhgmainuddin.learnwithfun.R
@@ -24,7 +24,7 @@ class AttendExamDialogFragment : DialogFragment() {
     private val binding: FragmentAttendExamDialogBinding
         get() = _binding!!
 
-    private val viewModel by viewModels<CourseViewModel>()
+    private val viewModel by activityViewModels<CourseViewModel>()
     private val args: AttendExamDialogFragmentArgs by navArgs()
 
     override fun onCreateView(

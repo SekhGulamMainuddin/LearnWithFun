@@ -2,7 +2,6 @@ package com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +9,7 @@ import android.widget.LinearLayout
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
@@ -28,8 +27,8 @@ import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters
 import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.OnCourseContentClickListener
 import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.adapters.WeeksAdapter
 import com.sekhgmainuddin.learnwithfun.presentation.home.courseTutorial.uiStates.AttendQuizState
-import com.sekhgmainuddin.learnwithfun.presentation.home.searchCourse.CourseViewModel
 import com.sekhgmainuddin.learnwithfun.presentation.home.enrollCourse.uiStates.GetCourseDetailsState
+import com.sekhgmainuddin.learnwithfun.presentation.home.searchCourse.CourseViewModel
 import com.sekhgmainuddin.learnwithfun.presentation.quiz.QuizActivity
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -40,7 +39,7 @@ class CourseTutorialFragment : BaseFragment() {
     private val binding: FragmentCourseTutorialBinding
         get() = _binding!!
 
-    private val viewModel by viewModels<CourseViewModel>()
+    private val viewModel by activityViewModels<CourseViewModel>()
     private val args: CourseTutorialFragmentArgs by navArgs()
     private lateinit var courseContentAdapter: CourseContentAdapter
     private lateinit var weeksAdapter: WeeksAdapter

@@ -2,9 +2,11 @@ package com.sekhgmainuddin.learnwithfun.di
 
 import android.content.Context
 import androidx.room.Room
+import com.chuckerteam.chucker.api.ChuckerCollector
+import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.sekhgmainuddin.learnwithfun.common.TEMP.BASE_URL
+import com.sekhgmainuddin.learnwithfun.common.TEMP_CONSTANTS.BASE_URL
 import com.sekhgmainuddin.learnwithfun.common.helper.PrefsHelper
 import com.sekhgmainuddin.learnwithfun.data.db.LearnWithFunDb
 import com.sekhgmainuddin.learnwithfun.data.remote.ApiInterceptor
@@ -52,8 +54,16 @@ object ApplicationModule {
 
     @Singleton
     @Provides
-    fun providerOkHttpClient(interceptor: ApiInterceptor) =
-        OkHttpClient().newBuilder().addInterceptor(interceptor).build()
+    fun providerOkHttpClient(interceptor: ApiInterceptor, @ApplicationContext context: Context) =
+        OkHttpClient().newBuilder().addInterceptor(interceptor)
+            .addInterceptor(
+                ChuckerInterceptor.Builder(context)
+                    .collector(ChuckerCollector(context))
+                    .maxContentLength(250000L)
+                    .redactHeaders(emptySet())
+                    .alwaysReadResponseBody(false)
+                    .build()
+            ).build()
 
     @Singleton
     @Provides

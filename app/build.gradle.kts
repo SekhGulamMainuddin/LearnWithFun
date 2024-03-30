@@ -53,6 +53,9 @@ android {
 }
 
 dependencies {
+    // Chucker
+    debugImplementation("com.github.chuckerteam.chucker:library:4.0.0")
+    releaseImplementation("com.github.chuckerteam.chucker:library-no-op:3.5.2")
 
     // Braintree Payment
     implementation("com.braintreepayments.api:drop-in:6.13.0")

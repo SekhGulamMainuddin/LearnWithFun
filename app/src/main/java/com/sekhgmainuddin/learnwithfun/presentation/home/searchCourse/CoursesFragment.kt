@@ -1,28 +1,24 @@
 package com.sekhgmainuddin.learnwithfun.presentation.home.searchCourse
 
 import android.content.DialogInterface
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.appcompat.widget.SearchView
 import androidx.databinding.DataBindingUtil
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DividerItemDecoration
 import com.sekhgmainuddin.learnwithfun.R
 import com.sekhgmainuddin.learnwithfun.data.remote.bodyParams.SearchCoursesAndMentorBodyParams
 import com.sekhgmainuddin.learnwithfun.databinding.FragmentCoursesBinding
 import com.sekhgmainuddin.learnwithfun.domain.modals.SearchItem
-import com.sekhgmainuddin.learnwithfun.presentation.payment.PaymentActivity
 import com.sekhgmainuddin.learnwithfun.presentation.base.BaseFragment
 import com.sekhgmainuddin.learnwithfun.presentation.home.searchCourse.adapters.SearchCoursesAndMentorsAdapter
 import com.sekhgmainuddin.learnwithfun.presentation.home.searchCourse.uiStates.CoursesState
@@ -34,7 +30,7 @@ class CoursesFragment : BaseFragment(), DialogInterface.OnDismissListener {
     private val binding: FragmentCoursesBinding
         get() = _binding!!
 
-    private val viewModel by viewModels<CourseViewModel>()
+    private val viewModel by activityViewModels<CourseViewModel>()
     private lateinit var searchCourseAndMentorAdapter: SearchCoursesAndMentorsAdapter
     private val list = ArrayList<SearchItem>()
 

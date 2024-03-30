@@ -14,4 +14,4 @@
 .cxx
 local.properties
 app/google-services.json
-app/src/main/java/com/sekhgmainuddin/learnwithfun/common/TEMP.kt
+app/src/main/java/com/sekhgmainuddin/learnwithfun/common/TEMP_CONSTANTS.kt

@@ -34,11 +34,14 @@ interface LearnWithFunApi {
     @POST("user")
     suspend fun createUser(@Body createUserBodyParams: CreateUserBodyParams): Response<CreateUserDto>
 
-    @GET("send-mail")
+    @GET("user/send-mail")
     suspend fun sendMail(@Query("email") email: String): Response<Unit>
 
-    @POST("verify-mail")
+    @POST("user/verify-mail")
     suspend fun verifyMail(@Body verifyEmailBodyParams: VerifyEmailBodyParams): Response<Unit>
+
+    @POST("user/update-activity")
+    suspend fun updateActivity(@Body updateActivityBodyParams: UpdateActivityBodyParams)
 
     @GET("user")
     suspend fun getUserDetails(): Response<UserDetailDto>
@@ -49,6 +52,10 @@ interface LearnWithFunApi {
     @GET("course/")
     suspend fun getCourseDetails(@Query("id") id: String): Response<CourseDetailDto>
 
+    @POST("course/search-courses-mentors")
+    suspend fun getCoursesAndMentorsForQuery(@Body searchCoursesAndMentorBodyParams: SearchCoursesAndMentorBodyParams): Response<CourseAndUserSearchDto>
+
+
     @POST("exam/attend-exam")
     suspend fun attendExam(@Body attendExamBodyParams: AttendExamBodyParams): Response<AttendExamDto>
 
@@ -58,18 +65,12 @@ interface LearnWithFunApi {
     @POST("exam/add-score")
     suspend fun addScoreToAttendedQuestion(@Body addScoreToAttendedQuestionBodyParams: AddScoreToAttendedQuestionBodyParams): Response<Unit>
 
-    @POST("course/search-courses-mentors")
-    suspend fun getCoursesAndMentorsForQuery(@Body searchCoursesAndMentorBodyParams: SearchCoursesAndMentorBodyParams): Response<CourseAndUserSearchDto>
+    @GET("exam/exam-stats")
+    suspend fun getQuizStats() : Response<QuizStatsDto>
 
     @GET("payment/token")
     suspend fun getPaymentToken(): Response<PaymentTokenDto>
 
     @POST("payment/verify-payment")
     suspend fun verifyPayment(@Body verifyPaymentBodyParams: VerifyPaymentBodyParams): Response<Unit>
-
-    @GET("exam/exam-stats")
-    suspend fun getQuizStats() : Response<QuizStatsDto>
-
-    @POST("user/update-activity")
-    suspend fun updateActivity(@Body updateActivityBodyParams: UpdateActivityBodyParams)
 }

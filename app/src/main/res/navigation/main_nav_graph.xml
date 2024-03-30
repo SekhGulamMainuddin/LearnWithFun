@@ -46,6 +46,9 @@
         <action
             android:id="@+id/action_enrollCourseFragment_to_lessonsFragment"
             app:destination="@id/lessonsFragment" />
+        <action
+            android:id="@+id/action_enrollCourseFragment_to_startPayment"
+            app:destination="@id/startPayment" />
     </fragment>
     <fragment
         android:id="@+id/courseTutorialFragment"
